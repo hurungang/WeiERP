@@ -18,10 +18,15 @@ export default class OrderPage extends React.Component<OrderProps,{}>{
 	  dispatch(OrderActions.LOAD_ORDER_LIST());
   }
   
+  handleOrderRowClick(event){
+	  let order:Order = event.currentTarget.dataset.row;
+	  let {dispatch} = this.props;
+	  dispatch(OrderActions.SHOW_ORDER(order));
+  }
+  
   render(){
 	  let {state} = this.props;
-	  let {id} = this.props.params;
-	  let {orderList,error,isOrderProceeding} = state.orderState;
+	  let {currentOrder,orderList,error,isOrderProceeding} = state.orderState;
 	  if(isOrderProceeding){
 		  return (
 				  <div className="col-md-12 col-sm-12 col-xs-12">
@@ -36,12 +41,12 @@ export default class OrderPage extends React.Component<OrderProps,{}>{
 				  	<h3>{error.errorDetail}</h3>
 				  </div>
 		  );
-	  }else if(orderList){
-
+	  }else{
+		  if(orderList){
 		    return (
 		    		
 		    		<div className="col-md-12 col-sm-12 col-xs-12">
-		    			<h1>Order ID:{id}</h1>
+		    			<h1>Order ID:{currentOrder.id}</h1>
 			            <div className="x_panel">
 			              <div className="x_title">
 			                <h2>Table design <small>Custom design</small></h2>
@@ -68,13 +73,20 @@ export default class OrderPage extends React.Component<OrderProps,{}>{
 			                <p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p>
 			
 			                <div className="table-responsive">
-			                	<Table dataList={orderList}/>
+			                	<Table dataList={orderList} idColumn="id" showLink={true} clickCallBack={this.handleOrderRowClick}/>
 			                </div>
 			              </div>
 			            </div>	
 			          </div>
 		    );
-	  }else{
-		  return null;
+		  }
+		  if(currentOrder){
+			  return(
+	    		<div className="col-md-12 col-sm-12 col-xs-12">
+	    			<h1>Order ID:{currentOrder.id}</h1>
+	    		</div>
+	    	)
+		  }
 	  }
+	  return null;
 }}

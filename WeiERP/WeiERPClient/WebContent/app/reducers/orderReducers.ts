@@ -7,7 +7,8 @@ import {
 	GENERAL_ERROR, 
 	LOAD_ORDER_LIST_RECEIVED,
 	ORDER_PROCEEDING,
-	ORDER_PROCEEDING_END
+	ORDER_PROCEEDING_END,
+	SHOW_ORDER,
 } from '../actions/orderActions'
 
 const initialState : OrderState = {
@@ -37,6 +38,11 @@ let orderReducer : Reducer<OrderState> = (state : OrderState = initialState, act
 	}else if(isType(action, ORDER_PROCEEDING_END)){
 		newState = (<any>Object).assign({},state,{
 			isOrderProceeding: false,
+		});
+	}else if(isType(action, SHOW_ORDER)){
+		let currentOrder:Order = action.payload;
+		newState = (<any>Object).assign({},state,{
+			currentOrder: currentOrder,
 		});
 	}
   return newState;
