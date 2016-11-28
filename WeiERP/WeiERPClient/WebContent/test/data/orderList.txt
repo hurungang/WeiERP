@@ -1,0 +1,6 @@
+{
+	header: {id:"ID",consigneeName:"Consignee Name",consigneeAddress:"Consignee Address"},
+  	data:	[
+	  {id:1,consigneeName:"Harry",consigneeAddress:"Melbourne"},
+	  {id:1,consigneeName:"Tom",consigneeAddress:"Sydney"}]
+}

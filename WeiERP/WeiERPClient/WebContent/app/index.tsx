@@ -5,13 +5,13 @@ import App from './components/app'
 import reducers from './reducers/index';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk'
-import createLogger from 'redux-logger'
+//import createLogger from 'redux-logger'
 import {Router, Route, IndexRoute, hashHistory} from 'react-router';
 import Dashboard from './components/dashboard/dashboard'
 import OrderPage from './components/order/order'
 
-const loggerMiddleware = createLogger();
-const appStore = createStore(reducers,applyMiddleWare(thunkMiddleware,loggerMiddleware));
+//const loggerMiddleware = createLogger();
+const appStore = createStore(reducers,applyMiddleware(thunkMiddleware));
 
 ReactDOM.render(
   <Provider store={appStore}>

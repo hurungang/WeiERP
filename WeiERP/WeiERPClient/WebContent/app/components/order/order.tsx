@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {State} from '../../reducers/reducerTypes';
 import {Link} from 'react-router'
-import {Order, DataList} from '../../models/modelTypes'
+import {Order, DataList,Error} from '../../models/modelTypes'
 import Table from '../elements/table'
 import * as OrderActions from '../../actions/orderActions'
 
@@ -20,21 +20,23 @@ export default class OrderPage extends React.Component<OrderProps,{}>{
   
   render(){
 	  let {state} = this.props;
-	  let {error} = state;
 	  let {id} = this.props.params;
-	  let orderList:DataList<Order> = {
-			  header: {id:"ID",consigneeName:"Consignee Name",consigneeAddress:"Consignee Address"},
-			  data:	[
-				  {id:1,consigneeName:"Harry",consigneeAddress:"Melbourne"},
-				  {id:1,consigneeName:"Tom",consigneeAddress:"Sydney"}]
-	  };
-	  if(error){
+	  let {orderList,error,isOrderProceeding} = state.orderState;
+	  if(isOrderProceeding){
+		  return (
+				  <div className="col-md-12 col-sm-12 col-xs-12">
+				  	<div className="loader">Loading...</div>
+				  </div>
+		  );
+	  }
+	  else if(error){
 		  return (
 				  <div className="col-md-12 col-sm-12 col-xs-12">
 				  	<h1>Error: {error.errorCode}</h1>
 				  	<h3>{error.errorDetail}</h3>
+				  </div>
 		  );
-	  }else{
+	  }else if(orderList){
 
 		    return (
 		    		
@@ -72,5 +74,7 @@ export default class OrderPage extends React.Component<OrderProps,{}>{
 			            </div>	
 			          </div>
 		    );
+	  }else{
+		  return null;
 	  }
 }}

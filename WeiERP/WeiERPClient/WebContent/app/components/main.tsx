@@ -14,7 +14,21 @@ interface MainProps {
 
 export default class Main extends React.Component<MainProps,{}>{
   
-  render(){
+	renderPageBody(){
+	  let {state,dispatch,params} = this.props;
+	  let {isAppProceeding} = state.appState;
+	  if(isAppProceeding){
+	    return <div className="right_col loader" role="main">Loading ... </div>
+	  }else{
+	    return (
+	    <div className="right_col" role="main">
+        	{React.cloneElement(this.props.pageBody,{dispatch:dispatch, state:state, params:params})}
+    	</div>
+    	)
+	  }
+	}
+	
+	render(){
 	  let {state,dispatch,params} = this.props;
 	  let {user,isSmallMenuMode} = state.appState;
 	  let smallMenuCSSIndicator = isSmallMenuMode?"nav-sm":"nav-md";
@@ -29,9 +43,7 @@ export default class Main extends React.Component<MainProps,{}>{
 		        {/*top navigation -->*/}
 		        
 		        {/*<!-- page content*/}
-		        <div className="right_col" role="main">
-		        	{React.cloneElement(this.props.pageBody,{dispatch:dispatch, state:state, params:params})}
-	        	</div>
+		        	{this.renderPageBody()}
 		        {/*page content -->*/}
 		
 		        {/*<!-- footer content*/}
@@ -40,4 +52,5 @@ export default class Main extends React.Component<MainProps,{}>{
 		        
 		      </div>
 			  );
-}}
+	}
+}

@@ -15,7 +15,7 @@ export default class TopNavigation extends React.Component<TopNavigationProps,{}
 	
   render(){
 	  let {state} = this.props;
-	  let {user} = state;
+	  let {user} = state.appState;
     return (
     		<div className="top_nav">
 	          <div className="nav_menu">
