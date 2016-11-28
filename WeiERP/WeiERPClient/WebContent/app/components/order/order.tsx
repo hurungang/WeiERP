@@ -46,7 +46,6 @@ export default class OrderPage extends React.Component<OrderProps,{}>{
 		    return (
 		    		
 		    		<div className="col-md-12 col-sm-12 col-xs-12">
-		    			<h1>Order ID:{currentOrder.id}</h1>
 			            <div className="x_panel">
 			              <div className="x_title">
 			                <h2>Table design <small>Custom design</small></h2>
