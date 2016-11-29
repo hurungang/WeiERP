@@ -3,30 +3,42 @@ import {State} from '../../reducers/reducerTypes';
 import {Link} from 'react-router'
 import {Order, DataList,Error} from '../../models/modelTypes'
 import Table from '../elements/table'
+import Invoice from '../order/invoice'
 import * as OrderActions from '../../actions/orderActions'
 
-export interface OrderProps {
+export interface OrderPageProps {
 	state: State;
 	dispatch: any;
 	params: any;
 }
 
-export default class OrderPage extends React.Component<OrderProps,{}>{
+export default class OrderPage extends React.Component<OrderPageProps,{}>{
 	
   componentWillMount(){
-	  let {dispatch} = this.props;
-	  dispatch(OrderActions.LOAD_ORDER_LIST());
+	  let {dispatch,params} = this.props;
+	  dispatch(OrderActions.LOAD_ORDER_LIST(params.id));
+
   }
   
-  handleOrderRowClick(event){
-	  let order:Order = event.currentTarget.dataset.row;
+  handleOrderRowClick(rowData){
+	  let order:Order = rowData;
 	  let {dispatch} = this.props;
 	  dispatch(OrderActions.SHOW_ORDER(order));
   }
   
+  renderOrderDetail(){
+	  let {state} = this.props;
+	  let {currentOrder} = state.orderState;
+	  if(currentOrder){
+		  return(
+    			<Invoice order={currentOrder}/>
+    	)
+	  }
+  }
+  
   render(){
 	  let {state} = this.props;
-	  let {currentOrder,orderList,error,isOrderProceeding} = state.orderState;
+	  let {orderList,error,isOrderProceeding} = state.orderState;
 	  if(isOrderProceeding){
 		  return (
 				  <div className="col-md-12 col-sm-12 col-xs-12">
@@ -44,8 +56,9 @@ export default class OrderPage extends React.Component<OrderProps,{}>{
 	  }else{
 		  if(orderList){
 		    return (
-		    		
-		    		<div className="col-md-12 col-sm-12 col-xs-12">
+
+		    		<div className="row">
+		    		  <div className="col-md-12 col-sm-12 col-xs-12">
 			            <div className="x_panel">
 			              <div className="x_title">
 			                <h2>Table design <small>Custom design</small></h2>
@@ -72,19 +85,16 @@ export default class OrderPage extends React.Component<OrderProps,{}>{
 			                <p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p>
 			
 			                <div className="table-responsive">
-			                	<Table dataList={orderList} idColumn="id" showLink={true} clickCallBack={this.handleOrderRowClick}/>
+			                	<Table dataList={orderList} idColumn="id" clickCallBack={this.handleOrderRowClick.bind(this)}/>
 			                </div>
 			              </div>
-			            </div>	
+			            </div>
 			          </div>
+			            {/* show selected order detail(invoice)*/}
+				        {this.renderOrderDetail()}
+			            {/* show selected order detail(invoice)*/}
+			        </div>
 		    );
-		  }
-		  if(currentOrder){
-			  return(
-	    		<div className="col-md-12 col-sm-12 col-xs-12">
-	    			<h1>Order ID:{currentOrder.id}</h1>
-	    		</div>
-	    	)
 		  }
 	  }
 	  return null;

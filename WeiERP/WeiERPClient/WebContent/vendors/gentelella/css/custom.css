@@ -3983,11 +3983,11 @@ ul.notifications {
   border: 1px solid #e5e5e5; }
 
 /** /Dropzone.js **/
-.menuItemTransition-enter {
+.menuItemTransition-enter, .pageBodyTransition-enter {
   opacity: 0.01;
 }
 
-.menuItemTransition-enter.menuItemTransition-enter-active {
+.menuItemTransition-enter.menuItemTransition-enter-active, .pageBodyTransition-enter.pageBodyTransition-enter-active  {
   opacity: 1;
   transition: opacity 500ms ease-in;
   -moz-transition-property: opacity 500ms ease-in;
@@ -3995,11 +3995,11 @@ ul.notifications {
   -o-transition-property:opacity 500ms ease-in;
 }
 
-.menuItemTransition-leave {
+.menuItemTransition-leave,.pageBodyTransition-leave {
   opacity: 1;
 }
 
-.menuItemTransition-leave.menuItemTransition-leave-active {
+.menuItemTransition-leave.menuItemTransition-leave-active,.pageBodyTransition-leave.pageBodyTransition-leave-active {
   opacity: 0.01;
   transition: opacity 300ms ease-in;
   -moz-transition-property: opacity 300ms ease-in;
@@ -4064,4 +4064,8 @@ ul.notifications {
   40% {
     box-shadow: 0 2.5em 0 0;
   }
+}
+
+.cell{
+	cursor:cell;
 }

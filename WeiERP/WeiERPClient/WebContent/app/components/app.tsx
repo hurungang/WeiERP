@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import Login from './login'
 import Main from './main'
 import {State} from '../reducers/reducerTypes'
+import * as appActions from '../actions/appActions'
 
 interface AppProps { 
 	children: React.ReactElement<any>;
@@ -13,9 +14,17 @@ interface AppProps {
 }
 
 class App extends React.Component<AppProps,{}>{
+	
+  componentWillMount(){
+	  let {state,dispatch} = this.props;
+	  //todo: skip login for development, should be removed later
+	  let testUser = {name:'Harry Hu'};
+	  dispatch(appActions.APP_LOGIN(testUser));
+  }
   
   render(){
 	  let {state,dispatch} = this.props;
+	  
 	  let {user} = state.appState;
 	  if(user!=null){
 		  return (

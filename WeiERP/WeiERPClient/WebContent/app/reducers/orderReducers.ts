@@ -9,6 +9,7 @@ import {
 	ORDER_PROCEEDING,
 	ORDER_PROCEEDING_END,
 	SHOW_ORDER,
+	SHOW_ORDER_BY_ID,
 } from '../actions/orderActions'
 
 const initialState : OrderState = {
@@ -22,26 +23,33 @@ let orderReducer : Reducer<OrderState> = (state : OrderState = initialState, act
 	if(isType(action, GENERAL_ERROR)){
 		//
 		let error:Error = action.payload;
-		newState = (<any>Object).assign({},state,{
+		newState = Object.assign({},state,{
 			error: error,
 		});
 	}else if(isType(action, LOAD_ORDER_LIST_RECEIVED)){
 		//
 		let orderList:DataList<Order> = action.payload;
-		newState = (<any>Object).assign({},state,{
+		newState = Object.assign({},state,{
 			orderList: orderList,
 		});
 	}else if(isType(action, ORDER_PROCEEDING)){
-		newState = (<any>Object).assign({},state,{
+		newState = Object.assign({},state,{
 			isOrderProceeding: true,
 		});
 	}else if(isType(action, ORDER_PROCEEDING_END)){
-		newState = (<any>Object).assign({},state,{
+		newState = Object.assign({},state,{
 			isOrderProceeding: false,
 		});
 	}else if(isType(action, SHOW_ORDER)){
 		let currentOrder:Order = action.payload;
-		newState = (<any>Object).assign({},state,{
+		newState = Object.assign({},state,{
+			currentOrder: currentOrder,
+		});
+	}else if(isType(action, SHOW_ORDER_BY_ID)){
+		let orderList:DataList<Order> = action.payload.orderList;
+		let id:number = action.payload.id;
+		let currentOrder:Order = orderList.data.find(element=>element.id==id);
+		newState = Object.assign({},state,{
 			currentOrder: currentOrder,
 		});
 	}

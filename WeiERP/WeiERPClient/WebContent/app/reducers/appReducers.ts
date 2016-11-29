@@ -20,20 +20,20 @@ let appReducer : Reducer<AppState> = (state : AppState = initialState, action:Ac
 	if(isType(action, APP_TOGGLE_MENU)){
 		let {isSmallMenuMode} = state;
 		isSmallMenuMode = isSmallMenuMode?false:true;
-		newState = (<any>Object).assign({},state,{
+		newState = Object.assign({},state,{
 			isSmallMenuMode: isSmallMenuMode,
 		});
 	}else if(isType(action, APP_LOGIN)){
 		let user = action.payload;
-		newState = (<any>Object).assign({},state,{
+		newState = Object.assign({},state,{
 			user: user,
 		});
 	}else if(isType(action, APP_PROCEEDING)){
-		newState = (<any>Object).assign({},state,{
+		newState = Object.assign({},state,{
 			isAppProceeding: true,
 		});
 	}else if(isType(action, APP_PROCEEDING_END)){
-		newState = (<any>Object).assign({},state,{
+		newState = Object.assign({},state,{
 			isAppProceeding: false,
 		});
 	}

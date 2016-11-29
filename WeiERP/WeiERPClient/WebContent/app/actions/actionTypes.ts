@@ -12,7 +12,7 @@ export interface IActionCreator<P> {
 }
 
 export function actionCreator<P>(type: string): IActionCreator<P> {
-  return (<any>Object).assign(
+  return Object.assign(
     (payload: P) => ({type, payload}),
     {type}
   );

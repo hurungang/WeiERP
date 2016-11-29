@@ -28,3 +28,7 @@ export interface Error {
 	errorCode: string;
 	errorDetail?: string;
 }
+
+interface Array<T> {
+    find(predicate: (search: T) => boolean) : T;
+}

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import {State} from '../reducers/reducerTypes';
 import Footer from './layout/footer';
 import LeftColumn from './layout/leftColumn';
@@ -43,7 +44,12 @@ export default class Main extends React.Component<MainProps,{}>{
 		        {/*top navigation -->*/}
 		        
 		        {/*<!-- page content*/}
+		        <ReactCSSTransitionGroup
+	            transitionName="pageBodyTransition"
+	                transitionEnterTimeout={500}
+	                transitionLeaveTimeout={300}>
 		        	{this.renderPageBody()}
+		        </ReactCSSTransitionGroup>
 		        {/*page content -->*/}
 		
 		        {/*<!-- footer content*/}
