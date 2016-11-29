@@ -35,14 +35,14 @@ export default class SidebarMenuItem extends React.Component<SidebarMenuItemProp
     		{menus.map((subMenu)=>{
     			let activeIndicator = (subMenu.id==this.state.activeMenuId)?"current-page":"";
 	    			return 	(
-    					<li key={`smi_li_${subMenu.id}`} className={activeIndicator}>
-    						<Link to={subMenu.link} key={`smi_a_${subMenu.id}`} onClick={this.handleMenuClick.bind(this)} data-id={subMenu.id}>{subMenu.text}
-    							<span key={`smi_span_${subMenu.id}`} className="fa fa-chevron-down"></span>
+    					<li className={activeIndicator}>
+    						<Link to={subMenu.link} onClick={this.handleMenuClick.bind(this)} data-id={subMenu.id}>{subMenu.text}
+    							<span className="fa fa-chevron-down"></span>
     						</Link>
     				    	<ReactCSSTransitionGroup
     			            transitionName="menuItemTransition"
     			                transitionEnterTimeout={500}
-    			                transitionLeaveTimeout={300} key={`smi_rctg_${menu.id}`}>
+    			                transitionLeaveTimeout={300}>
     						{this.showSubMenu(subMenu)}
     				        </ReactCSSTransitionGroup>
     					</li>

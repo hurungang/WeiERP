@@ -3,6 +3,7 @@ import * as axios from 'axios';
 import {IActionCreator, actionCreator,
 	} from './actionTypes';
 import {DataList, Order, Error} from '../models/modelTypes';
+import {Status} from '../models/enums';
 
 export const LOAD_ORDER_LIST = (id:number)=>{
 	return dispatch => {
@@ -13,8 +14,77 @@ export const LOAD_ORDER_LIST = (id:number)=>{
 			let orderList = {
 				header: {id:"ID",consigneeName:"Consignee Name",consigneeAddress:"Consignee Address"},
 			  	data:	[
-				  {id:12345,consigneeName:"Harry",consigneeAddress:"1/13-15 Franklin Rd, Doncaster East 3109, Melbourne, Australia"},
-				  {id:23456,consigneeName:"Tom",consigneeAddress:"Sydney"}]
+				  Object.assign(new Order(),{
+              id:12345,
+              consigneeName:"Harry",
+              consigneeAddress:"1/13-15 Franklin Rd, Doncaster East 3109, Melbourne, Australia",
+              consigneePhone:"13333331223",
+              senderName: "Aodaily@Melbourne",
+              senderAddress: "313 La trobe St, Melbourne CBD 3000, Melbourne",
+              senderPhone:"03041111111",
+              createTime: new Date(),
+              orderItems: [
+                {
+                    id: 33333,
+                    product: {
+                      id: 44444,
+                      productName: "Ashelay Defending Test Product",
+                      productSummary: "El snort testosterone trophy driving gloves handsome gerry Richardson helvetica tousled street art master testosterone trophy driving gloves handsome gerry Richardson",
+                      productPrice: 64.5,
+                    },
+                    productQuantity: 3,
+                    productCost: 55,
+                    productOrderPrice: 121
+                }
+              ],
+              tax: 51.2,
+              shipping: 0,
+              paid: 0,
+              paidTime: new Date(),
+              status: Status.Pending,
+          }),
+				  Object.assign(new Order(),{
+
+              id:54321,
+              consigneeName:"Tim Pang",
+              consigneeAddress:"32 Londeontle Crescent, Ferntree Gully 3109, Melbourne, Australia",
+              consigneePhone:"13333331223",
+              senderName: "Aodaily@Melbourne",
+              senderAddress: "313 La trobe St, Melbourne CBD 3000, Melbourne",
+              senderPhone:"03041111111",
+              createTime: new Date(),
+              orderItems: [
+                {
+                    id: 33333,
+                    product: {
+                      id: 44444,
+                      productName: "Ashelay Defending Test Product",
+                      productSummary: "El snort testosterone trophy driving gloves handsome gerry Richardson helvetica tousled street art master testosterone trophy driving gloves handsome gerry Richardson",
+                      productPrice: 64.5,
+                    },
+                    productQuantity: 3,
+                    productCost: 55,
+                    productOrderPrice: 121
+                },
+                {
+                    id: 66666,
+                    product: {
+                      id: 77777,
+                      productName: "Need for Speed IV",
+                      productSummary: "Wes Anderson umami biodiesel",
+                      productPrice: 64.5,
+                    },
+                    productQuantity: 3,
+                    productCost: 55,
+                    productOrderPrice: 121
+                }
+              ],
+              tax: 151.2,
+              shipping: 10.0,
+              paid: 0,
+              paidTime: new Date(),
+              status: Status.Pending,
+        })]
 			}
 			 setTimeout(() => {
 					dispatch(LOAD_ORDER_LIST_RECEIVED(orderList));

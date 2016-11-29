@@ -39,17 +39,17 @@ export default class SidebarMenu extends React.Component<SidebarMenuProps,Sideba
     		{menu.subMenus.map(subMenu=>{
 		            return (
 			            <div className="menu_section" key={`sm_div_${subMenu.id}`}>
-			              <h3 key={`sm_h3_${subMenu.id}`}>{subMenu.text}</h3>
-			              <ul key={`sm_ul_${subMenu.id}`} className="nav side-menu">
+			              <h3>{subMenu.text}</h3>
+			              <ul className="nav side-menu">
 			      		  {/*display first level menu sections */}
 			              {subMenu.subMenus.map(l1Menu=>{
 			      			let activeIndicator = (l1Menu.id==this.state.activeMenuId)?"active":"";
 			      			activeIndicator = isSmallMenuMode&&activeIndicator=="active"?"active-sm":activeIndicator;
 			                    return (
-				                    <li key={`sm_li_${l1Menu.id}`} className={activeIndicator}>
-				                    	<a key={`sm_a_${l1Menu.id}`} onClick={this.handleMenuClick.bind(this)} data-id={l1Menu.id}>
-				                    		<i key={`sm_i_${l1Menu.id}`} className={`fa ${l1Menu.icon}`}></i> {l1Menu.text} 
-				                    		<span key={`sm_span_${l1Menu.id}`} className="fa fa-chevron-down"></span>
+				                    <li  key={`sm_li_${l1Menu.id}`} className={activeIndicator}>
+				                    	<a onClick={this.handleMenuClick.bind(this)} data-id={l1Menu.id}>
+				                    		<i className={`fa ${l1Menu.icon}`}></i> {l1Menu.text} 
+				                    		<span className="fa fa-chevron-down"></span>
 				                    	</a>
 				            	    <ReactCSSTransitionGroup
 				        	            transitionName="menuItemTransition"

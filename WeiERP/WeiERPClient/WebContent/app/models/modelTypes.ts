@@ -1,3 +1,4 @@
+import {Status} from './enums'
 
 export interface User { 
 	id?: number; 
@@ -13,11 +14,59 @@ export interface Menu {
 	subMenus?: Menu[];
 }
 
-export interface Order {
-	id?: number;
-	consigneeName: string;
-	consigneeAddress: string;
+
+export class Order {
+  id?: number;
+  senderName: string;
+  senderAddress: string;
+  senderPhone:string;
+  consigneeName: string;
+  consigneeAddress: string;
+  consigneePhone:string;
+  createTime: Date;
+  orderItems: OrderItem[];
+  tax: number;
+  shipping: number;
+  paid: number;
+  paidTime: Date;
+  status: Status;
+  constructor(){
+    
+  }
+  
+  getSubtotal = function():number{
+    let subtotal:number = 0;
+    this.orderItems.map((orderItem:OrderItem)=>{
+      subtotal += orderItem.productOrderPrice*orderItem.productQuantity;
+    });
+    return subtotal;
+  }
+  
+  getTotal = function():number {
+    let total:number = this.getSubtotal();
+    total += this.tax + this.shipping;
+    return total;
+  }
 }
+
+export interface OrderItem {
+  id?: number;
+  product: Product;
+  productQuantity: number;
+  productCost: number;
+  productOrderPrice: number;
+}
+
+export interface Product {
+  id?: number;
+  productName: string;
+  productSN?: string;
+  productSummary: string;
+  productDetail?: string;
+  productPrice: number;
+  productUnit?: string;
+}
+
 
 export interface DataList<T> {
 	header: any;
@@ -27,8 +76,4 @@ export interface DataList<T> {
 export interface Error {
 	errorCode: string;
 	errorDetail?: string;
-}
-
-interface Array<T> {
-    find(predicate: (search: T) => boolean) : T;
 }

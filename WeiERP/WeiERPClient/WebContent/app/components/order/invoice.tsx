@@ -27,7 +27,7 @@ export default class Invoice extends React.Component<InvoiceProps,{}>{
                       <div className="col-xs-12 invoice-header">
                         <h1>
                                         <i className="fa fa-globe"></i> Invoice.
-                                        <small className="pull-right">Date: 16/08/2016</small>
+                                        <small className="pull-right">Date: {order.createTime.toUTCString()}</small>
                                     </h1>
                       </div>
                       {/*<!-- /.col -->*/}
@@ -36,29 +36,29 @@ export default class Invoice extends React.Component<InvoiceProps,{}>{
                     <div className="row invoice-info">
                       <div className="col-sm-4 invoice-col">
                         From
-                        <address>
-                                        <strong>Iron Admin, Inc.</strong>
-                                        <br/>795 Freedom Ave, Suite 600
-                                        <br/>New York, CA 94107
-                                        <br/>Phone: 1 (804) 123-9876
-                                        <br/>Email: ironadmin.com
+                        <br/><strong>{order.senderName}</strong>
+                        <br/><span>{order.senderPhone}</span>
+                        <br/><address>
+                          {order.senderAddress}
                                     </address>
                       </div>
                       {/*<!-- /.col -->*/}
                       <div className="col-sm-4 invoice-col">
                         To
-                        <address>
+                        <br/><strong>{order.consigneeName}</strong>
+                        <br/><span>{order.consigneePhone}</span>
+                        <br/><address>
                         	{order.consigneeAddress}
                                     </address>
                       </div>
                       {/*<!-- /.col -->*/}
                       <div className="col-sm-4 invoice-col">
-                        <b>Invoice #007612</b>
+                        <b>Invoice #INV{order.id}</b>
                         <br/>
                         <br/>
                         <b>Order ID:</b> {order.id}
                         <br/>
-                        <b>Payment Due:</b> 2/22/2014
+                        <b>Payment Due:</b> {order.paidTime.toDateString()}
                         <br/>
                         <b>Account:</b> 968-34567
                       </div>
@@ -80,35 +80,17 @@ export default class Invoice extends React.Component<InvoiceProps,{}>{
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td>1</td>
-                              <td>Call of Duty</td>
-                              <td>455-981-221</td>
-                              <td>El snort testosterone trophy driving gloves handsome gerry Richardson helvetica tousled street art master testosterone trophy driving gloves handsome gerry Richardson
-                              </td>
-                              <td>$64.50</td>
+                          {order.orderItems.map((orderItem,index)=>{
+                            return (
+                            <tr key={`tr_${index}`}>
+                              <td>{orderItem.productQuantity}</td>
+                              <td>{orderItem.product.productName}</td>
+                              <td>{orderItem.product.id}</td>
+                              <td>{orderItem.product.productSummary}</td>
+                              <td>${orderItem.productOrderPrice}</td>
                             </tr>
-                            <tr>
-                              <td>1</td>
-                              <td>Need for Speed IV</td>
-                              <td>247-925-726</td>
-                              <td>Wes Anderson umami biodiesel</td>
-                              <td>$50.00</td>
-                            </tr>
-                            <tr>
-                              <td>1</td>
-                              <td>Monsters DVD</td>
-                              <td>735-845-642</td>
-                              <td>Terry Richardson helvetica tousled street art master, El snort testosterone trophy driving gloves handsome letterpress erry Richardson helvetica tousled</td>
-                              <td>$10.70</td>
-                            </tr>
-                            <tr>
-                              <td>1</td>
-                              <td>Grown Ups Blue Ray</td>
-                              <td>422-568-642</td>
-                              <td>Tousled lomo letterpress erry Richardson helvetica tousled street art master helvetica tousled street art master, El snort testosterone</td>
-                              <td>$25.99</td>
-                            </tr>
+                            )
+                           })}
                           </tbody>
                         </table>
                       </div>
@@ -136,19 +118,19 @@ export default class Invoice extends React.Component<InvoiceProps,{}>{
                             <tbody>
                               <tr>
                                 <th>Subtotal:</th>
-                                <td>$250.30</td>
+                                <td>${order.getSubtotal()}</td>
                               </tr>
                               <tr>
                                 <th>Tax (9.3%)</th>
-                                <td>$10.34</td>
+                                <td>${order.tax}</td>
                               </tr>
                               <tr>
                                 <th>Shipping:</th>
-                                <td>$5.80</td>
+                                <td>${order.shipping}</td>
                               </tr>
                               <tr>
                                 <th>Total:</th>
-                                <td>$265.24</td>
+                                <td>${order.getTotal()}</td>
                               </tr>
                             </tbody>
                           </table>
