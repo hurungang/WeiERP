@@ -17,7 +17,7 @@ ReactDOM.render(
   <Provider store={appStore}>
   	<Router history={hashHistory}>
   		<Route path="/" component={App}>
-			<IndexRoute component={Dashboard}/>
+			  <IndexRoute component={Dashboard}/>
   			<Route path="/order" component={OrderPage}/>
   			<Route path="/order/:id" component={OrderPage}/>
   		</Route>

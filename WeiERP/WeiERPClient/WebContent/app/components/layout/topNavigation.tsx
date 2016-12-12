@@ -12,7 +12,11 @@ export default class TopNavigation extends React.Component<TopNavigationProps,{}
 		let {dispatch} = this.props;
 		dispatch(appActions.APP_TOGGLE_MENU());
 	}
-	
+	handleLanguageChange(event,language){
+    
+    let {dispatch} = this.props;
+    dispatch(appActions.APP_CHANGE_LANGUAGE(language));
+  }
   render(){
 	  let {state} = this.props;
 	  let {user} = state.appState;
@@ -32,6 +36,8 @@ export default class TopNavigation extends React.Component<TopNavigationProps,{}
 	                  </a>
 	                  <ul className="dropdown-menu dropdown-usermenu pull-right">
 	                    <li><a href="javascript:;"> Profile</a></li>
+                      <li><a onClick={this.handleLanguageChange.bind(this,null,"English")}> English</a></li>
+                      <li><a onClick={this.handleLanguageChange.bind(this,null,"Chinese")}> Chinese</a></li>
 	                    <li>
 	                      <a href="javascript:;">
 	                        <span className="badge bg-red pull-right">50%</span>

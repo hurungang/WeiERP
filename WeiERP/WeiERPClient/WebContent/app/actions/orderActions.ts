@@ -89,7 +89,7 @@ export const LOAD_ORDER_LIST = (id:number)=>{
 			 setTimeout(() => {
 					dispatch(LOAD_ORDER_LIST_RECEIVED(orderList));
 					if(id){
-						dispatch(SHOW_ORDER_BY_ID({orderList,id}));
+						dispatch(SHOW_ORDER_BY_ID(id));
 					}
 					dispatch(ORDER_PROCEEDING_END());
 				  }, 1000)
@@ -104,5 +104,6 @@ export const ORDER_PROCEEDING = actionCreator<void>('ORDER_PROCEEDING');
 export const ORDER_PROCEEDING_END = actionCreator<void>('ORDER_PROCEEDING_END');
 export const LOAD_ORDER_LIST_RECEIVED = actionCreator<DataList<Order>>('LOAD_ORDER_LIST_RECEIVED');
 export const SHOW_ORDER = actionCreator<Order>('SHOW_ORDER');
-export const SHOW_ORDER_BY_ID = actionCreator<{orderList:DataList<Order>,id:number}>('SHOW_ORDER_BY_ID');
+export const SHOW_ORDER_BY_ID = actionCreator<number>('SHOW_ORDER_BY_ID');
 export const GENERAL_ERROR = actionCreator<Error>('GENERAL_ERROR');
+export const ADD_ORDER = actionCreator<Order>('ADD_ORDER');

@@ -12,13 +12,13 @@ import {
 	SHOW_ORDER_BY_ID,
 } from '../actions/orderActions'
 
-const initialState : OrderState = {
+export const INITIAL_ORDER_STATE : OrderState = {
 	currentOrder:null,
 	orderList: null,
 	isOrderProceeding: false,
 }
 
-let orderReducer : Reducer<OrderState> = (state : OrderState = initialState, action:Action<any>) => {
+let orderReducer : Reducer<OrderState> = (state : OrderState = INITIAL_ORDER_STATE, action:Action<any>) => {
 	let newState:OrderState = state;
 	if(isType(action, GENERAL_ERROR)){
 		//
@@ -46,8 +46,8 @@ let orderReducer : Reducer<OrderState> = (state : OrderState = initialState, act
 			currentOrder: currentOrder,
 		});
 	}else if(isType(action, SHOW_ORDER_BY_ID)){
-		let orderList:DataList<Order> = action.payload.orderList;
-		let id:number = action.payload.id;
+    let orderList:DataList<Order> = state.orderList;
+		let id:number = action.payload;
 		let currentOrder:Order = orderList.data.find(element=>element.id==id);
 		newState = Object.assign({},state,{
 			currentOrder: currentOrder,

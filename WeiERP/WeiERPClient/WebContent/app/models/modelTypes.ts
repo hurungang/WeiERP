@@ -1,6 +1,15 @@
 import {Status} from './enums'
 
-export interface User { 
+export interface Localization {
+  applicationName: string;
+}
+
+export interface Config {
+  runtime: {mode:string;api:any};
+  localization: any;
+}
+
+export class User { 
 	id?: number; 
 	name: string;
 	password?: string;
@@ -73,7 +82,7 @@ export interface DataList<T> {
 	data: T[];
 }
 
-export interface Error {
+export class Error {
 	errorCode: string;
 	errorDetail?: string;
 }
