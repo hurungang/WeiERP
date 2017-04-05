@@ -1,0 +1,33 @@
+{
+  "name": "weierpserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node app.ts",
+    "debug": "ts-node --inspect app.ts",
+    "debug:watch": "nodemon -e js,ts,jsx,tsx,ini -w ./ --exec npm run debug",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2",
+    "express-logging": "^1.1.1",
+    "express-winston": "^2.3.0",
+    "logops": "^1.0.7",
+    "mongoose": "^4.9.2",
+    "winston": "^2.3.1",
+    "winston-daily-rotate-file": "^1.4.6"
+  },
+  "devDependencies": {
+    "@types/node": "^7.0.12",
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.0",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-stage-2": "^6.22.0",
+    "body-parser": "^1.17.1",
+    "nodemon": "^1.11.0",
+    "ts-node": "^3.0.2"
+  }
+}

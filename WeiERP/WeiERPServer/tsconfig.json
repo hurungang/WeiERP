@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "noImplicitAny": false,
+        "module": "commonjs",
+        "lib": [ "es6","dom"],
+        "target": "es5",
+        "allowJs": false,
+        "outDir": "../WekaClient/node_modules/WekaServer",
+    	"declaration": true
+    },
+    "files": [
+        "./app.ts"
+    ],
+    "compileOnSave": true
+}
