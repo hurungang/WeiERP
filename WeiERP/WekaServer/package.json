@@ -12,10 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/mongoose": "^4.7.9",
     "express": "^4.15.2",
-    "express-logging": "^1.1.1",
     "express-winston": "^2.3.0",
-    "logops": "^1.0.7",
     "mongoose": "^4.9.2",
     "winston": "^2.3.1",
     "winston-daily-rotate-file": "^1.4.6"

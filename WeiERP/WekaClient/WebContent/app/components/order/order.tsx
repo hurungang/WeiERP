@@ -87,7 +87,7 @@ export default class OrderPage extends React.Component<OrderPageProps,{}>{
 			                <p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p>
 			
 			                <div className="table-responsive">
-			                	<Table dataList={orderList} idColumn="id" clickCallBack={this.handleOrderRowClick.bind(this)}/>
+			                	<Table dataList={orderList} header={{}} idColumn="id" clickCallBack={this.handleOrderRowClick.bind(this)}/>
 			                </div>
 			              </div>
 			            </div>

@@ -60,7 +60,7 @@ export default class OrderController extends Controller implements IController {
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
         /* start of business logic */
-        OrderDAO.findById(req.params.id)
+        OrderDAO.findById(req.params.id).populate("orderItems.product").exec()
           .then((order: IOrderModel) => {
             result.payload = order;
             this.handleResult(res,next,result);

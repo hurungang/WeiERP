@@ -1,5 +1,6 @@
 import { Status } from './enums'
 import { plainToClass } from "class-transformer"
+import { IOrderModel, IOrderItemModel, IProductModel } from 'WekaServer/model/orderModel'
 
 export interface Localization {
   applicationName: string;
@@ -25,21 +26,8 @@ export interface Menu {
 }
 
 
-export class Order {
-  id?: number;
-  senderName: string;
-  senderAddress: string;
-  senderPhone: string;
-  consigneeName: string;
-  consigneeAddress: string;
-  consigneePhone: string;
-  createTime: Date;
-  orderItems: OrderItem[];
-  tax: number;
-  shipping: number;
-  paid: number;
-  paidTime: Date;
-  status: Status;
+export class Order implements IOrderModel{
+  
   constructor() {
 
   }
@@ -56,31 +44,28 @@ export class Order {
     let total: number = this.getSubtotal();
     total += this.tax + this.shipping;
     return total;
-  }
-}
+  }
+  _id: String;  consigneeName: String;  consigneeAddress: String;  consigneePhone: String;  senderName: String;  senderAddress: String;  senderPhone: String;  createTime: Date;  tax: Number;  shipping: Number;  paid: Number;  paidTime: Date;  status: String;}
 
-export interface OrderItem {
-  id?: number;
+export class OrderItem implements IOrderItemModel{
+  
   product: Product;
   productQuantity: number;
   productCost: number;
-  productOrderPrice: number;
+  productOrderPrice: number;
+  _id: String;
+  
 }
 
-export interface Product {
-  id?: number;
-  productName: string;
-  productSN?: string;
-  productSummary: string;
-  productDetail?: string;
+export class Product implements IProductModel {
+  productName: String;
+  productSN?: String;
+  productSummary: String;
+  productDetail: String;
   productPrice: number;
-  productUnit?: string;
-}
-
-
-export interface IDataList<T> {
-  header: any;
-  data: T[];
+  productUnit: String;
+  
+  _id: String;
 }
 
 export class Error {
@@ -88,8 +73,7 @@ export class Error {
   errorDetail?: string;
 }
 
-export class DataList<T> implements IDataList<T>{
-  header: any;
+export class DataList<T>{
   data: T[];
   constructor(prototype: {new(): T; },data) {
     this.data = plainToClass(prototype, data);

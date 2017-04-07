@@ -1,15 +1,14 @@
 {
-    "compilerOptions": {
-        "outDir": "./dist/",
-        "sourceMap": true,
-        "noImplicitAny": false,
-        "module": "commonjs",
-        "lib": [ "es6","dom"],
-        "target": "es5",
-        "jsx": "react"
-//        "baseUrl": ".",
-//	    "paths": {
-//	      "Weka/model/*": ["../../WeiERPServer/model/*"]
-	    }
-    }
+	"compilerOptions": {
+		"outDir": "./dist/",
+		"sourceMap": true,
+		"noImplicitAny": false,
+		"module": "commonjs",
+		"lib": [
+			"es6",
+			"dom"
+		],
+		"target": "es5",
+		"jsx": "react"
+	}
 }

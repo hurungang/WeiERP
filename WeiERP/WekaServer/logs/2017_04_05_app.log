@@ -13,3 +13,68 @@
 {"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-05T02:14:49.453Z"}
 {"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-05T02:14:49.461Z"}
 {"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-05T02:14:49.487Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-05T04:34:00.400Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-05T04:34:00.401Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-05T04:34:00.403Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-05T04:34:00.412Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-05T04:34:00.431Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-05T04:36:45.690Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-05T04:36:45.692Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-05T04:36:45.693Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-05T04:36:45.703Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-05T04:36:45.724Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-05T04:37:57.009Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-05T04:37:57.010Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-05T04:37:57.011Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-05T04:37:57.020Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-05T04:37:57.039Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-05T04:38:53.041Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-05T04:38:53.045Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-05T04:38:53.046Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-05T04:38:53.055Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-05T04:38:53.080Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-05T04:39:09.208Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-05T04:39:09.211Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-05T04:39:09.209Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-05T04:39:09.220Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-05T04:39:09.242Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-05T05:00:48.662Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-05T05:00:48.664Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-05T05:00:48.665Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-05T05:00:48.675Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-05T05:00:48.700Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-05T05:11:19.464Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-05T05:11:19.466Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-05T05:11:19.468Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-05T05:11:19.476Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-05T05:11:19.500Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-05T05:15:09.760Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-05T05:15:09.761Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-05T05:15:09.762Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-05T05:15:09.771Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-05T05:15:09.788Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-05T05:39:04.804Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-05T05:39:04.810Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-05T05:39:04.812Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-05T05:39:04.819Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-05T05:39:04.839Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-05T05:39:50.178Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-05T05:39:50.179Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-05T05:39:50.181Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-05T05:39:50.189Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-05T05:39:50.207Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-05T06:01:07.589Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-05T06:01:07.591Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-05T06:01:07.592Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-05T06:01:07.600Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-05T06:01:07.617Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-05T06:31:59.077Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-05T06:31:59.080Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-05T06:31:59.082Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-05T06:31:59.092Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-05T06:31:59.115Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-05T06:40:29.434Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-05T06:40:29.435Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-05T06:40:29.437Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-05T06:40:29.445Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-05T06:40:29.464Z"}

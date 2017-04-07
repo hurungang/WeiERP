@@ -5,4 +5,5 @@ export class APIResult {
   statusCode?: HTTPStatusCode = HTTPStatusCode.OK;
   errorMessage?: String;
   payload: any;
+  formatError(){};
 }

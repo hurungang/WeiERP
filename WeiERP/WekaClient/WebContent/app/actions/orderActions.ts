@@ -8,8 +8,6 @@ import { Status } from '../models/enums';
 import { APIResult } from 'WekaServer/model/models'
 import { plainToClass } from "class-transformer"
 
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'true';
-
 export const LOAD_ORDER_LIST = (id: number) => {
   return dispatch => {
     dispatch(ORDER_PROCEEDING());
@@ -17,9 +15,8 @@ export const LOAD_ORDER_LIST = (id: number) => {
     request
       .then(response => {
       let result: APIResult = response.data as APIResult;
-        
-      console.log(plainToClass(Order, result.payload));
       let orderList:DataList<Order> = new DataList<Order>(Order,result.payload);
+        
       dispatch(LOAD_ORDER_LIST_RECEIVED(orderList));
       if (id) {
         dispatch(SHOW_ORDER_BY_ID(id));
