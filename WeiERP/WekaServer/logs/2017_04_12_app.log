@@ -1,0 +1,401 @@
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:19:09.990Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:19:09.992Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:19:09.993Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:19:09.994Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:19:09.995Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:19:10.011Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:19:09.993Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:19:10.041Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:22:19.273Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:22:19.275Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:22:19.277Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:22:19.278Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:22:19.278Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:22:19.289Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:22:19.277Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:22:19.312Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:23:37.780Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:23:37.782Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:23:37.784Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:23:37.786Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:23:37.787Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:23:37.795Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:23:37.786Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:23:37.826Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:23:48.824Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:23:48.825Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:23:48.827Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:23:48.828Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:23:48.828Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:23:48.838Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:23:48.827Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:23:48.858Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:28:04.086Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:28:04.087Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:28:04.088Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:28:04.089Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:28:04.090Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:28:04.098Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:28:04.089Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:28:04.118Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:28:27.730Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:28:27.731Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:28:27.733Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:28:27.733Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:28:27.734Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:28:27.741Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:28:27.733Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:28:27.759Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:29:42.735Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:29:42.736Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:29:42.738Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:29:42.739Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:29:42.739Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:29:42.748Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:29:42.738Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:29:42.771Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:30:22.096Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:30:22.098Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:30:22.100Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:30:22.101Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:30:22.102Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:30:22.113Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:30:22.100Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:30:22.143Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:31:29.795Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:31:29.797Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:31:29.798Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:31:29.800Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:31:29.800Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:31:29.808Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:31:29.798Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:31:29.836Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:31:41.609Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:31:41.611Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:31:41.612Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:31:41.614Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:31:41.615Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:31:41.623Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:31:41.613Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:31:41.642Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:32:05.667Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:32:05.668Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:32:05.669Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:32:05.671Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:32:05.672Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:32:05.680Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:32:05.670Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:32:05.698Z"}
+{"level":"info","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T01:32:06.971Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:37:35.084Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:37:35.085Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:37:35.086Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:37:35.088Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:37:35.089Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:37:35.098Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:37:35.087Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:37:35.118Z"}
+{"level":"info","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T01:37:41.118Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:37:52.141Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:37:52.143Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:37:52.144Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:37:52.146Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:37:52.146Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:37:52.156Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:37:52.145Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:37:52.177Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:38:58.860Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:38:58.862Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:38:58.864Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:38:58.865Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:38:58.865Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:38:58.874Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:38:58.864Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:38:58.893Z"}
+{"level":"info","message":"Mongoose default connection to DB :Weka Database disconnected","label":"Database","timestamp":"2017-04-12T01:40:25.483Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:41:52.086Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:41:52.088Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:41:52.091Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:41:52.094Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:41:52.095Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:41:52.103Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:41:52.093Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:41:52.126Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:43:42.744Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:43:42.746Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:43:42.747Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:43:42.749Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:43:42.750Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:43:42.761Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:43:42.749Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:43:42.814Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:43:47.049Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:43:47.050Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:43:47.052Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:43:47.051Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:43:47.053Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:43:47.063Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:43:47.052Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:43:47.091Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:44:33.387Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:44:33.389Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:44:33.390Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:44:33.391Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:44:33.391Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:44:33.399Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:44:33.391Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:44:33.426Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:45:31.083Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:45:31.085Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:45:31.086Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:45:31.089Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:45:31.090Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:45:31.097Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:45:31.089Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:45:31.125Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:46:08.952Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:46:08.953Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:46:08.957Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:46:08.956Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:46:08.957Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:46:08.969Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:46:08.956Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:46:08.988Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T01:46:27.871Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:49:08.736Z"}
+{"level":"info","message":"OrderController constructed","label":"OrderController","timestamp":"2017-04-12T01:49:08.737Z"}
+{"level":"info","message":"register order router","label":"OrderRouter","timestamp":"2017-04-12T01:49:08.739Z"}
+{"level":"info","message":"ChatController constructed","label":"ChatController","timestamp":"2017-04-12T01:49:08.746Z"}
+{"level":"info","message":"register chat router","label":"ChatRouter","timestamp":"2017-04-12T01:49:08.746Z"}
+{"level":"info","message":"Weka listening on port 3000!","label":"Server","timestamp":"2017-04-12T01:49:08.754Z"}
+{"level":"info","message":"Controller constructed","label":"Controller","timestamp":"2017-04-12T01:49:08.743Z"}
+{"level":"info","message":"Connected to DB Weka Database","label":"Database","timestamp":"2017-04-12T01:49:08.779Z"}
+{"level":"info","message":"Mongoose default connection to DB :Weka Database disconnected","label":"Database","timestamp":"2017-04-12T01:49:11.949Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T01:57:10.409Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:00:29.347Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:00:29.361Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:15:29.517Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:15:29.530Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:16:14.373Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:16:14.389Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:19:10.711Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:19:10.720Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:19:59.537Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:19:59.543Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:22:02.208Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:22:02.214Z"}
+{"level":"debug","message":"Message section:0","label":"MessageAnalyst","timestamp":"2017-04-12T02:22:50.684Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:22:50.686Z"}
+{"level":"debug","message":"Message section:0","label":"MessageAnalyst","timestamp":"2017-04-12T02:22:50.690Z"}
+{"level":"debug","message":"Message sections:test","label":"MessageAnalyst","timestamp":"2017-04-12T02:24:15.472Z"}
+{"level":"debug","message":"Message section:0","label":"MessageAnalyst","timestamp":"2017-04-12T02:24:15.474Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:24:15.474Z"}
+{"level":"debug","message":"Message sections:test,test2","label":"MessageAnalyst","timestamp":"2017-04-12T02:24:15.478Z"}
+{"level":"debug","message":"Message sections:test","label":"MessageAnalyst","timestamp":"2017-04-12T02:24:30.848Z"}
+{"level":"debug","message":"Message section:0","label":"MessageAnalyst","timestamp":"2017-04-12T02:24:30.850Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:24:30.851Z"}
+{"level":"debug","message":"Message sections:test,test2","label":"MessageAnalyst","timestamp":"2017-04-12T02:24:30.854Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:26:39.686Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:26:39.691Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:27:03.561Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:27:03.566Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:27:03.568Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:27:11.098Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:27:11.102Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:27:11.104Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:28:54.403Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:28:54.409Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:28:54.421Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:28:54.427Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:29:04.297Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:29:04.302Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:29:04.315Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:29:04.316Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:29:25.229Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:29:25.234Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:29:25.236Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:29:25.237Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:35:46.586Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:35:46.591Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:35:46.593Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:35:46.594Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T02:35:46.595Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:30:02.446Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:30:02.452Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:30:02.453Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:30:02.454Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:32:50.556Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:32:50.561Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:32:50.563Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:32:50.564Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:32:50.568Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:33:29.742Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:33:29.747Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:33:29.749Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:33:29.750Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:33:29.751Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:34:25.720Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:34:25.725Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:34:25.726Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:34:25.727Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:34:25.728Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:36:58.252Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:36:58.257Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:36:58.259Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:36:58.260Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:36:58.262Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:37:31.681Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:37:31.687Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:37:31.688Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:37:31.689Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:37:31.690Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:38:05.049Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:38:05.054Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:38:05.056Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:38:05.058Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:38:05.059Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:38:20.146Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:38:20.152Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:38:20.154Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:38:20.154Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:38:20.160Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:49:32.844Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:49:32.849Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:49:32.851Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:49:32.852Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:49:32.853Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:49:49.412Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:49:49.420Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:49:49.422Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:49:49.423Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:49:49.424Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:57:17.813Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:57:17.819Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:57:17.820Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:57:17.823Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:57:17.825Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:10.601Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:10.608Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:10.610Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:10.611Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:10.612Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:39.665Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:39.671Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:39.673Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:39.673Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:39.674Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:44.342Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:44.347Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:44.349Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:44.350Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:44.351Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:59.140Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:59.145Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:59.146Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:59.147Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:58:59.149Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:59:57.358Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:59:57.364Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:59:57.369Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:59:57.371Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T04:59:57.372Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:08:05.159Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:08:05.181Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:08:05.183Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:08:05.184Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:08:05.185Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:09:04.088Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:09:04.093Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:09:04.095Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:09:04.096Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:09:04.100Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:10:30.744Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:10:30.748Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:10:30.750Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:10:30.752Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:10:30.753Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:10:40.761Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:10:40.767Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:10:40.769Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:10:40.770Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:10:40.771Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:11:09.871Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:11:09.876Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:11:09.879Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:11:09.885Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T05:11:09.886Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:09:14.811Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:09:14.822Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:09:14.825Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:09:14.827Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:09:14.828Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:27:00.916Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:27:00.925Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:27:00.926Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:27:00.927Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:27:00.928Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:30:18.301Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:30:18.306Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:30:18.310Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:30:18.311Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:30:18.312Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:47:49.087Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:47:49.093Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:47:49.095Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:47:49.096Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:47:49.097Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:48:33.389Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:48:33.399Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:48:33.401Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:48:33.402Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:48:33.402Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:56:33.290Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:56:33.298Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:56:33.300Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:56:33.301Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:56:33.302Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:56:47.632Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:56:47.642Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:56:47.644Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:56:47.645Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T06:56:47.646Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:08:17.654Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:08:17.659Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:08:17.661Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:08:17.667Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:08:17.668Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:13:11.678Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:13:11.684Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:13:11.685Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:13:11.686Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:13:11.688Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:14:20.166Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:14:20.177Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:14:20.179Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:14:20.180Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:14:20.181Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:31:15.812Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:31:15.818Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:31:15.820Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:31:15.821Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T07:31:15.822Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:38:42.309Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:38:42.315Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:38:42.317Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:38:42.318Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:38:42.320Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:46:49.231Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:46:49.236Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:46:49.240Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:46:49.242Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:46:49.243Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:49:51.204Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:49:51.213Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:49:51.215Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:49:51.216Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:49:51.219Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:50:48.487Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:50:48.496Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:50:48.498Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:50:48.499Z"}
+{"level":"debug","message":"MessageAnalyst constructed","label":"MessageAnalyst","timestamp":"2017-04-12T23:50:48.501Z"}

@@ -14,13 +14,14 @@ export default class Logger {
           prettyPrint: true,
           timestamp: true,
           label: label,
+          level: commonConfiguration.ENV === 'development' ? 'debug' : 'info'
         }),
         new winston.transports.DailyRotateFile({
           filename: commonConfiguration.LOG_FILE,
           datePattern: commonConfiguration.DATE_PATTERN,
           prepend: true,
           label: label,
-          level: process.env.ENV === 'development' ? 'debug' : 'info'
+          level: commonConfiguration.ENV === 'development' ? 'debug' : 'info'
         })
       ]
     });

@@ -22,6 +22,7 @@ let orderSchema: mongoose.Schema = new mongoose.Schema({
     paid : Number,
     paidTime : Date,
     status : String,
+    rawMessage : String,
     orderItems : [orderItemSchema]
 });
 
@@ -48,6 +49,7 @@ export interface IOrder
     paid : Number,
     paidTime : Date,
     status : String,
+    rawMessage : String,
     orderItems : IOrderItem[]
 }
 

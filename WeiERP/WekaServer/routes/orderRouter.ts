@@ -4,7 +4,7 @@ import Logger from '../server/logger';
 
 const logger = new Logger("OrderRouter");
 
-export default class OrderRouter {
+export default class OrderRouter{
 
   constructor() {
     let router = express.Router();

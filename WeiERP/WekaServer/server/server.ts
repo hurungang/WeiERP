@@ -1,11 +1,13 @@
 import * as express from "express";
 import * as cors from "cors"
 import * as bodyParser from "body-parser";
+import * as xmlBodyParser from "express-xml-bodyparser";
 import * as winston from "winston";
 import * as expressWinston from "express-winston";
 import * as commonConfiguration from '../config/commonConfig';
 import Database from './database';
 import OrderRouter from '../routes/orderRouter'
+import ChatRouter from '../routes/chatRouter'
 import Logger from './logger'
 
 
@@ -66,6 +68,7 @@ export default class Server {
       ]
     });
     this.app.use(expresslogger);
+    this.app.use(xmlBodyParser());
     this.app.use(bodyParser.json()); // for parsing application/json
     this.app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
     //allow cross domain
@@ -80,6 +83,7 @@ export default class Server {
     });
     let router = express.Router();
     router.use("/order",new OrderRouter());
+    router.use("/chat",new ChatRouter());
     this.app.use(router);
       
   }

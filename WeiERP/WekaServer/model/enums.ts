@@ -3,3 +3,12 @@ export const enum HTTPStatusCode{
   BadRequest=400,
   InternalServerError=500,
 }
+
+export const enum MessageSectionCategory{
+  Name,
+  Address,
+  Mobile,
+  CommodityName,
+  Quantity,
+  Other
+}
