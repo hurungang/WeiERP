@@ -13,21 +13,20 @@ export default class StringSimilarityUtil {
   }
 
   static ld(str1: string, str2: string): number {
-    let d[][]; // 矩阵
+    let d=[][]; // 矩阵
     let n = str1.length;
     let m = str2.length;
     let i; // 遍历str1的
     let j; // 遍历str2的
     let ch1; // str1的
     let ch2; // str2的
-    int temp; // 记录相同字符,在某个矩阵位置值的增量,不是0就是1
+    let temp; // 记录相同字符,在某个矩阵位置值的增量,不是0就是1
     if (n == 0) {
       return m;
     }
     if (m == 0) {
       return n;
     }
-    d = [][];
     for (i = 0; i <= n; i++) { // 初始化第一列
       d[i][0] = i;
     }
@@ -45,15 +44,15 @@ export default class StringSimilarityUtil {
           temp = 1;
         }
         // 左边+1,上边+1, 左上角+temp取最小
-        d[i][j] = min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + temp);
+        d[i][j] = StringSimilarityUtil.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + temp);
       }
     }
     return d[n][m];
   }
 
   static sim(str1: string, str2: string): number {
-    let ld = ld(str1, str2);
-    return 1 - (double) ld / Math.max(str1.length(), str2.length());
+    let ld = StringSimilarityUtil.ld(str1, str2);
+    return 1 - (ld / Math.max(str1.length, str2.length));
   }
 
 }

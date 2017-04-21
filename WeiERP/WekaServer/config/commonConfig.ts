@@ -15,7 +15,7 @@ export class MESSAGE_ANALYST_CONFIG {
   static REGEX_NUMBER = /([0-9])/g;
   static REGEX_CHINESE = /[\u4e00-\u9fff\uf900-\ufaff]/g;
   static REGEX_SYMBOL = /[$-/:-?{-~!"^_`\[\]|\u3002|\uff1f|\uff01|\uff0c|\u3001|\uff1b|\uff1a|\u201c|\u201d|\u2018|\u2019|\uff08|\uff09|\u300a|\u300b|\u3008|\u3009|\u3010|\u3011|\u300e|\u300f|\u300c|\u300d|\ufe43|\ufe44|\u3014|\u3015|\u2026|\u2014|\uff5e|\ufe4f|\uffe5]/g;
-  static PATTERNS: TextPattern[] = [{
+  static ORDER_PATTERNS: TextPattern[] = [{
     category: MessageSectionCategory.Name,
     countEnglish:   {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
     countNumber:    {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
@@ -25,6 +25,7 @@ export class MESSAGE_ANALYST_CONFIG {
     keywordsWeight: 10,
     required: true,
     priority: 1,
+    multiple: false,
   },{
     category: MessageSectionCategory.Address,
     countEnglish:   {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
@@ -35,6 +36,7 @@ export class MESSAGE_ANALYST_CONFIG {
     keywordsWeight: 20,
     required: true,
     priority: 1,
+    multiple: false,
   },{
     category: MessageSectionCategory.CommodityName,
     countEnglish:   {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
@@ -45,6 +47,7 @@ export class MESSAGE_ANALYST_CONFIG {
     keywordsWeight: 20,
     required: true,
     priority: 1,
+    multiple: true,
   },{
     category: MessageSectionCategory.Mobile,
     countEnglish:   {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
@@ -55,6 +58,7 @@ export class MESSAGE_ANALYST_CONFIG {
     keywordsWeight: 0,
     required: true,
     priority: 1,
+    multiple: true,
   },{
     category: MessageSectionCategory.Quantity,
     countEnglish:   {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
@@ -65,11 +69,12 @@ export class MESSAGE_ANALYST_CONFIG {
     keywordsWeight: 10,
     required: true,
     priority: 1,
+    multiple: true,
   },
   ]
   
-  static getPattern(category:MessageSectionCategory):TextPattern{
-    for(let pattern of MESSAGE_ANALYST_CONFIG.PATTERNS){
+  static getOrderPattern(category:MessageSectionCategory):TextPattern{
+    for(let pattern of MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS){
       if(pattern.category == category){
         return pattern;
       }

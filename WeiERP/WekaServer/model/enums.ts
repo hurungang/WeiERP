@@ -1,14 +1,24 @@
-export const enum HTTPStatusCode{
+export enum HTTPStatusCode{
   OK=200,
   BadRequest=400,
   InternalServerError=500,
 }
 
-export const enum MessageSectionCategory{
+export enum MessageSectionCategory{
   Name,
   Address,
   Mobile,
   CommodityName,
   Quantity,
   Other
+}
+
+
+export enum ErrorCode{
+  MessageMissingRequired,
+  MessageMultipleValue,
+}
+
+export enum StatusCode{
+  Created,
 }

@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { APIResult } from '../model/models';
-import { IOrderModel, OrderDAO } from '../model/orderModel';
+import { IOrderModel, OrderDAO } from '../model/schemas';
 import { IController, Controller } from './controller';
 import Logger from '../server/logger';
 
