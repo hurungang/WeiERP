@@ -11,10 +11,9 @@ import {APP_TOGGLE_MENU,
   APP_PROCEEDING_END,
   APP_CHANGE_LANGUAGE,
 } from '../actions/appActions'
-import {Config} from '../models/modelTypes';
 import {Reducer,AppState} from './reducerTypes';
+import config from '../configs/config'
 
-const config:Config = (<any>window).config;
 const defaultLanguage = config.localization.defaultLanguage;
 
 export const INITIAL_APP_STATE : AppState = Object.assign(new AppState(),{
@@ -22,8 +21,7 @@ export const INITIAL_APP_STATE : AppState = Object.assign(new AppState(),{
 	isSmallMenuMode:false,
 	error: null,
 	isAppProceeding: false,
-  config: config,
-  language : "English",
+  language : config.getLanguage(defaultLanguage),
 });
 
 let appReducer : Reducer<AppState> = (state : AppState = INITIAL_APP_STATE, action:Action<any>) => {
@@ -31,26 +29,27 @@ let appReducer : Reducer<AppState> = (state : AppState = INITIAL_APP_STATE, acti
 	if(isType(action, APP_TOGGLE_MENU)){
 		let {isSmallMenuMode} = state;
 		isSmallMenuMode = isSmallMenuMode?false:true;
-		newState = Object.assign({},state,{
+		newState = Object.assign(new AppState(),state,{
 			isSmallMenuMode: isSmallMenuMode,
 		});
 	}else if(isType(action, APP_LOGIN)){
 		let user = action.payload;
-		newState = Object.assign({},state,{
+		newState = Object.assign(new AppState(),state,{
 			user: user,
 		});
 	}else if(isType(action, APP_PROCEEDING)){
-		newState = Object.assign({},state,{
+		newState = Object.assign(new AppState(),state,{
 			isAppProceeding: true,
 		});
 	}else if(isType(action, APP_PROCEEDING_END)){
-		newState = Object.assign({},state,{
+		newState = Object.assign(new AppState(),state,{
 			isAppProceeding: false,
 		});
 	}else if(isType(action, APP_CHANGE_LANGUAGE)){
-    let language = action.payload;
-    newState = Object.assign({},state,{
-      language: language,
+    let languageName = action.payload;
+		let language = config.getLanguage(languageName);
+    newState = Object.assign(new AppState(),state,{
+      language: language
     });
   }
   return newState;

@@ -8186,13 +8186,13 @@
 	var app_1 = __webpack_require__(505);
 	var index_1 = __webpack_require__(591);
 	var redux_1 = __webpack_require__(482);
-	var redux_thunk_1 = __webpack_require__(614);
-	var redux_logger_1 = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"redux-logger\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var redux_thunk_1 = __webpack_require__(628);
+	//import createLogger from 'redux-logger'
 	var react_router_1 = __webpack_require__(528);
-	var dashboard_1 = __webpack_require__(615);
-	var order_1 = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./components/order/order\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-	var loggerMiddleware = redux_logger_1.default();
-	var appStore = redux_1.createStore(index_1.default, applyMiddleWare(redux_thunk_1.default, loggerMiddleware));
+	var dashboard_1 = __webpack_require__(629);
+	var order_1 = __webpack_require__(630);
+	//const loggerMiddleware = createLogger();
+	var appStore = redux_1.createStore(index_1.default, redux_1.applyMiddleware(redux_thunk_1.default));
 	ReactDOM.render(React.createElement(react_redux_1.Provider, { store: appStore }, React.createElement(react_router_1.Router, { history: react_router_1.hashHistory }, React.createElement(react_router_1.Route, { path: "/", component: app_1.default }, React.createElement(react_router_1.IndexRoute, { component: dashboard_1.default }), React.createElement(react_router_1.Route, { path: "/order", component: order_1.default }), React.createElement(react_router_1.Route, { path: "/order/:id", component: order_1.default })))), document.querySelector('#container'));
 
 /***/ },
@@ -31150,9 +31150,10 @@
 
 	"use strict";
 	
-	var __extends = this && this.__extends || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() {
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
 	        this.constructor = d;
 	    }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -31161,20 +31162,29 @@
 	var react_redux_1 = __webpack_require__(475);
 	var login_1 = __webpack_require__(506);
 	var main_1 = __webpack_require__(509);
+	var appActions = __webpack_require__(507);
 	var App = function (_super) {
 	    __extends(App, _super);
 	    function App() {
-	        _super.apply(this, arguments);
+	        return _super !== null && _super.apply(this, arguments) || this;
 	    }
+	    App.prototype.componentWillMount = function () {
+	        var _a = this.props,
+	            state = _a.state,
+	            dispatch = _a.dispatch;
+	        //todo: skip login for development, should be removed later
+	        var testUser = { name: 'Harry Hu' };
+	        dispatch(appActions.APP_LOGIN(testUser));
+	    };
 	    App.prototype.render = function () {
 	        var _a = this.props,
-	            appState = _a.appState,
+	            state = _a.state,
 	            dispatch = _a.dispatch;
-	        var user = appState.user;
+	        var user = state.appState.user;
 	        if (user != null) {
-	            return React.createElement(main_1.default, { state: appState, dispatch: dispatch, pageBody: this.props.children, params: this.props.params });
+	            return React.createElement(main_1.default, { state: state, dispatch: dispatch, pageBody: this.props.children, params: this.props.params });
 	        } else {
-	            return React.createElement(login_1.default, { state: appState, dispatch: dispatch });
+	            return React.createElement(login_1.default, { state: state, dispatch: dispatch });
 	        }
 	    };
 	    return App;
@@ -31198,9 +31208,10 @@
 
 	"use strict";
 	
-	var __extends = this && this.__extends || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() {
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
 	        this.constructor = d;
 	    }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -31210,7 +31221,7 @@
 	var Login = function (_super) {
 	    __extends(Login, _super);
 	    function Login() {
-	        _super.apply(this, arguments);
+	        return _super !== null && _super.apply(this, arguments) || this;
 	    }
 	    Login.prototype.handleLogin = function (event) {
 	        var dispatch = this.props.dispatch;
@@ -31219,7 +31230,7 @@
 	        dispatch(appActions.APP_LOGIN(user));
 	    };
 	    Login.prototype.render = function () {
-	        return React.createElement("div", { className: "login" }, React.createElement("a", { className: "hiddenanchor", id: "signup" }), React.createElement("a", { className: "hiddenanchor", id: "signin" }), React.createElement("div", { className: "login_wrapper" }, React.createElement("div", { className: "animate form login_form" }, React.createElement("section", { className: "login_content" }, React.createElement("form", null, React.createElement("h1", null, "Login Form"), React.createElement("div", null, React.createElement("input", { type: "text", className: "form-control", placeholder: "Username", defaultValue: "Harry Hu", ref: "name", required: true })), React.createElement("div", null, React.createElement("input", { type: "password", className: "form-control", placeholder: "Password", ref: "password", required: true })), React.createElement("div", null, React.createElement("a", { className: "btn btn-default submit", onClick: this.handleLogin.bind(this) }, "Log in"), React.createElement("a", { className: "reset_pass", href: "#" }, "Lost your password?")), React.createElement("div", { className: "clearfix" }), React.createElement("div", { className: "separator" }, React.createElement("p", { className: "change_link" }, "New to site?", React.createElement("a", { href: "#signup", className: "to_register" }, " Create Account ")), React.createElement("div", { className: "clearfix" }), React.createElement("br", null), React.createElement("div", null, React.createElement("h1", null, React.createElement("i", { className: "fa fa-paw" }), " Gentelella Alela!"), React.createElement("p", null, "�2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms")))))), React.createElement("div", { id: "register", className: "animate form registration_form" }, React.createElement("section", { className: "login_content" }, React.createElement("form", null, React.createElement("h1", null, "Create Account"), React.createElement("div", null, React.createElement("input", { type: "text", className: "form-control", placeholder: "Username", required: false })), React.createElement("div", null, React.createElement("input", { type: "email", className: "form-control", placeholder: "Email", required: false })), React.createElement("div", null, React.createElement("input", { type: "password", className: "form-control", placeholder: "Password", required: false })), React.createElement("div", null, React.createElement("a", { className: "btn btn-default submit", href: "index.html" }, "Submit")), React.createElement("div", { className: "clearfix" }), React.createElement("div", { className: "separator" }, React.createElement("p", { className: "change_link" }, "Already a member ?", React.createElement("a", { href: "#signin", className: "to_register" }, " Log in ")), React.createElement("div", { className: "clearfix" }), React.createElement("br", null), React.createElement("div", null, React.createElement("h1", null, React.createElement("i", { className: "fa fa-paw" }), " Gentelella Alela!"), React.createElement("p", null, "�2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms"))))))));
+	        return React.createElement("div", { className: "login" }, React.createElement("a", { className: "hiddenanchor", id: "signup" }), React.createElement("a", { className: "hiddenanchor", id: "signin" }), React.createElement("div", { className: "login_wrapper" }, React.createElement("div", { className: "animate form login_form" }, React.createElement("section", { className: "login_content" }, React.createElement("form", null, React.createElement("h1", null, "Login Form"), React.createElement("div", null, React.createElement("input", { type: "text", className: "form-control", placeholder: "Username", defaultValue: "Harry Hu", ref: "name", required: true })), React.createElement("div", null, React.createElement("input", { type: "password", className: "form-control", placeholder: "Password", ref: "password", required: true })), React.createElement("div", null, React.createElement("a", { className: "btn btn-default submit", onClick: this.handleLogin.bind(this) }, "Log in"), React.createElement("a", { className: "reset_pass", href: "#" }, "Lost your password?")), React.createElement("div", { className: "clearfix" }), React.createElement("div", { className: "separator" }, React.createElement("p", { className: "change_link" }, "New to site?", React.createElement("a", { href: "#signup", className: "to_register" }, " Create Account ")), React.createElement("div", { className: "clearfix" }), React.createElement("br", null), React.createElement("div", null, React.createElement("h1", null, React.createElement("i", { className: "fa fa-paw" }), " Gentelella Alela!"), React.createElement("p", null, "\uFFFD2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms")))))), React.createElement("div", { id: "register", className: "animate form registration_form" }, React.createElement("section", { className: "login_content" }, React.createElement("form", null, React.createElement("h1", null, "Create Account"), React.createElement("div", null, React.createElement("input", { type: "text", className: "form-control", placeholder: "Username", required: false })), React.createElement("div", null, React.createElement("input", { type: "email", className: "form-control", placeholder: "Email", required: false })), React.createElement("div", null, React.createElement("input", { type: "password", className: "form-control", placeholder: "Password", required: false })), React.createElement("div", null, React.createElement("a", { className: "btn btn-default submit", href: "index.html" }, "Submit")), React.createElement("div", { className: "clearfix" }), React.createElement("div", { className: "separator" }, React.createElement("p", { className: "change_link" }, "Already a member ?", React.createElement("a", { href: "#signin", className: "to_register" }, " Log in ")), React.createElement("div", { className: "clearfix" }), React.createElement("br", null), React.createElement("div", null, React.createElement("h1", null, React.createElement("i", { className: "fa fa-paw" }), " Gentelella Alela!"), React.createElement("p", null, "\uFFFD2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms"))))))));
 	    };
 	    return Login;
 	}(React.Component);
@@ -31235,6 +31246,9 @@
 	var actionTypes_1 = __webpack_require__(508);
 	exports.APP_TOGGLE_MENU = actionTypes_1.actionCreator('APP_TOGGLE_MENU');
 	exports.APP_LOGIN = actionTypes_1.actionCreator('APP_LOGIN');
+	exports.APP_PROCEEDING = actionTypes_1.actionCreator('APP_PROCEEDING');
+	exports.APP_PROCEEDING_END = actionTypes_1.actionCreator('APP_PROCEEDING_END');
+	exports.APP_CHANGE_LANGUAGE = actionTypes_1.actionCreator('APP_CHANGE_LANGUAGE');
 
 /***/ },
 /* 508 */
@@ -31259,22 +31273,36 @@
 
 	"use strict";
 	
-	var __extends = this && this.__extends || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() {
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
 	        this.constructor = d;
 	    }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(299);
-	var footer_1 = __webpack_require__(510);
-	var leftColumn_1 = __webpack_require__(511);
+	var ReactCSSTransitionGroup = __webpack_require__(510);
+	var footer_1 = __webpack_require__(523);
+	var leftColumn_1 = __webpack_require__(524);
 	var topNavigation_1 = __webpack_require__(590);
 	var Main = function (_super) {
 	    __extends(Main, _super);
 	    function Main() {
-	        _super.apply(this, arguments);
+	        return _super !== null && _super.apply(this, arguments) || this;
 	    }
+	    Main.prototype.renderPageBody = function () {
+	        var _a = this.props,
+	            state = _a.state,
+	            dispatch = _a.dispatch,
+	            params = _a.params;
+	        var isAppProceeding = state.appState.isAppProceeding;
+	        if (isAppProceeding) {
+	            return React.createElement("div", { className: "right_col loader", role: "main" }, "Loading ... ");
+	        } else {
+	            return React.createElement("div", { className: "right_col", role: "main" }, React.cloneElement(this.props.pageBody, { dispatch: dispatch, state: state, params: params }));
+	        }
+	    };
 	    Main.prototype.render = function () {
 	        var _a = this.props,
 	            state = _a.state,
@@ -31283,8 +31311,9 @@
 	        var _b = state.appState,
 	            user = _b.user,
 	            isSmallMenuMode = _b.isSmallMenuMode;
+	        var appText = state.appState.getText();
 	        var smallMenuCSSIndicator = isSmallMenuMode ? "nav-sm" : "nav-md";
-	        return React.createElement("div", { className: "main_container " + smallMenuCSSIndicator }, React.createElement(leftColumn_1.default, { user: user, isSmallMenuMode: isSmallMenuMode, navTitle: "Vedaleon Admin" }), React.createElement(topNavigation_1.default, { state: state, dispatch: dispatch }), React.createElement("div", { className: "right_col", role: "main" }, React.cloneElement(this.props.pageBody, { dispatch: dispatch, state: state, params: params })), React.createElement(footer_1.default, { footerText: "Powered by Vedaleon technology" }));
+	        return React.createElement("div", { className: "main_container " + smallMenuCSSIndicator }, React.createElement(leftColumn_1.default, { user: user, isSmallMenuMode: isSmallMenuMode, navTitle: appText.applicationName }), React.createElement(topNavigation_1.default, { state: state, dispatch: dispatch }), React.createElement(ReactCSSTransitionGroup, { transitionName: "pageBodyTransition", transitionEnterTimeout: 500, transitionLeaveTimeout: 300 }, this.renderPageBody()), React.createElement(footer_1.default, { footerText: "Powered by Vedaleon technology" }));
 	    };
 	    return Main;
 	}(React.Component);
@@ -31295,174 +31324,10 @@
 /* 510 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
-	
-	var __extends = this && this.__extends || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() {
-	        this.constructor = d;
-	    }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(299);
-	var Footer = function (_super) {
-	    __extends(Footer, _super);
-	    function Footer() {
-	        _super.apply(this, arguments);
-	    }
-	    Footer.prototype.render = function () {
-	        var footerText = this.props.footerText;
-	        return React.createElement("footer", null, React.createElement("div", { className: "pull-right" }, footerText), React.createElement("div", { className: "clearfix" }));
-	    };
-	    return Footer;
-	}(React.Component);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Footer;
+	module.exports = __webpack_require__(511);
 
 /***/ },
 /* 511 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var __extends = this && this.__extends || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() {
-	        this.constructor = d;
-	    }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(299);
-	var profile_1 = __webpack_require__(512);
-	var sidebarMenu_1 = __webpack_require__(513);
-	var menuFooter_1 = __webpack_require__(589);
-	var LeftColumn = function (_super) {
-	    __extends(LeftColumn, _super);
-	    function LeftColumn() {
-	        _super.apply(this, arguments);
-	    }
-	    LeftColumn.prototype.render = function () {
-	        var _a = this.props,
-	            user = _a.user,
-	            navTitle = _a.navTitle;
-	        var menu = {
-	            id: 1, text: "Root", link: "", icon: "", subMenus: [{
-	                id: 2, text: "General", link: "", icon: "", subMenus: [{
-	                    id: 3, text: "Dashboard", link: "", icon: "fa-home", subMenus: [{
-	                        id: 4, text: "menu 3", link: "", icon: "", subMenus: [{
-	                            id: 6, text: "menu 6", link: "", icon: ""
-	                        }]
-	                    }]
-	                }, {
-	                    id: 4, text: "Order Management", link: "", icon: "fa-edit", subMenus: [{
-	                        id: 5, text: "Order", link: "order", icon: ""
-	                    }]
-	                }]
-	            }, {
-	                id: 10, text: "menu 10", link: "", icon: "", subMenus: [{
-	                    id: 11, text: "menu 11", link: "", icon: "fa-table", subMenus: [{
-	                        id: 12, text: "menu 12", link: "", icon: ""
-	                    }]
-	                }]
-	            }]
-	        };
-	        var isSmallMenuMode = this.props.isSmallMenuMode;
-	        return React.createElement("div", { className: "col-md-3 left_col" }, React.createElement("div", { className: "left_col scroll-view" }, React.createElement("div", { className: "navbar nav_title" }, React.createElement("a", { href: "/", className: "site_title" }, React.createElement("i", { className: "fa fa-paw" }), " ", React.createElement("span", null, navTitle))), React.createElement("div", { className: "clearfix" }), React.createElement(profile_1.default, { user: user }), React.createElement(sidebarMenu_1.default, { isSmallMenuMode: isSmallMenuMode, menu: menu }), React.createElement(menuFooter_1.default, null)));
-	    };
-	    return LeftColumn;
-	}(React.Component);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = LeftColumn;
-
-/***/ },
-/* 512 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var __extends = this && this.__extends || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() {
-	        this.constructor = d;
-	    }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(299);
-	var Profile = function (_super) {
-	    __extends(Profile, _super);
-	    function Profile() {
-	        _super.apply(this, arguments);
-	    }
-	    Profile.prototype.render = function () {
-	        var user = this.props.user;
-	        return React.createElement("div", { className: "profile" }, React.createElement("div", { className: "profile_pic" }, React.createElement("img", { src: "images/img.jpg", alt: "...", className: "img-circle profile_img" })), React.createElement("div", { className: "profile_info" }, React.createElement("span", null, "Welcome,"), React.createElement("h2", null, user.name)));
-	    };
-	    return Profile;
-	}(React.Component);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Profile;
-
-/***/ },
-/* 513 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var __extends = this && this.__extends || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() {
-	        this.constructor = d;
-	    }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(299);
-	var ReactCSSTransitionGroup = __webpack_require__(514);
-	var sidebarMenuItem_1 = __webpack_require__(527);
-	var SidebarMenu = function (_super) {
-	    __extends(SidebarMenu, _super);
-	    function SidebarMenu(props, state) {
-	        _super.call(this);
-	        this.state = {
-	            activeMenuId: null
-	        };
-	    }
-	    SidebarMenu.prototype.handleMenuClick = function (event) {
-	        if (this.state.activeMenuId != Number(event.currentTarget.dataset.id)) {
-	            this.setState({ activeMenuId: Number(event.currentTarget.dataset.id) });
-	        } else {
-	            this.setState({ activeMenuId: null });
-	        }
-	    };
-	    SidebarMenu.prototype.showSubMenu = function (menu) {
-	        return menu.id == this.state.activeMenuId ? React.createElement(sidebarMenuItem_1.default, { key: "sm_smi_" + menu.id, menu: menu }) : null;
-	    };
-	    SidebarMenu.prototype.render = function () {
-	        var _this = this;
-	        var _a = this.props,
-	            menu = _a.menu,
-	            isSmallMenuMode = _a.isSmallMenuMode;
-	        var activeMenuId = this.state.activeMenuId;
-	        return React.createElement("div", { id: "sidebar-menu", className: "main_menu_side hidden-print main_menu" }, menu.subMenus.map(function (subMenu) {
-	            return React.createElement("div", { className: "menu_section", key: "sm_div_" + subMenu.id }, React.createElement("h3", { key: "sm_h3_" + subMenu.id }, subMenu.text), React.createElement("ul", { key: "sm_ul_" + subMenu.id, className: "nav side-menu" }, subMenu.subMenus.map(function (l1Menu) {
-	                var activeIndicator = l1Menu.id == _this.state.activeMenuId ? "active" : "";
-	                activeIndicator = isSmallMenuMode && activeIndicator == "active" ? "active-sm" : activeIndicator;
-	                return React.createElement("li", { key: "sm_li_" + l1Menu.id, className: activeIndicator }, React.createElement("a", { key: "sm_a_" + l1Menu.id, onClick: _this.handleMenuClick.bind(_this), "data-id": l1Menu.id }, React.createElement("i", { key: "sm_i_" + l1Menu.id, className: "fa " + l1Menu.icon }), " ", l1Menu.text, React.createElement("span", { key: "sm_span_" + l1Menu.id, className: "fa fa-chevron-down" })), React.createElement(ReactCSSTransitionGroup, { transitionName: "menuItemTransition", transitionEnterTimeout: 500, transitionLeaveTimeout: 300 }, _this.showSubMenu(l1Menu)));
-	            })));
-	        }));
-	    };
-	    return SidebarMenu;
-	}(React.Component);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = SidebarMenu;
-
-/***/ },
-/* 514 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(515);
-
-/***/ },
-/* 515 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31487,8 +31352,8 @@
 	
 	var React = __webpack_require__(300);
 	
-	var ReactTransitionGroup = __webpack_require__(516);
-	var ReactCSSTransitionGroupChild = __webpack_require__(524);
+	var ReactTransitionGroup = __webpack_require__(512);
+	var ReactCSSTransitionGroupChild = __webpack_require__(520);
 	
 	function createTransitionTimeoutPropValidator(transitionType) {
 	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
@@ -31571,7 +31436,7 @@
 	module.exports = ReactCSSTransitionGroup;
 
 /***/ },
-/* 516 */
+/* 512 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31595,8 +31460,8 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var React = __webpack_require__(300);
-	var ReactAddonsDOMDependencies = __webpack_require__(517);
-	var ReactTransitionChildMapping = __webpack_require__(522);
+	var ReactAddonsDOMDependencies = __webpack_require__(513);
+	var ReactTransitionChildMapping = __webpack_require__(518);
 	
 	var emptyFunction = __webpack_require__(309);
 	
@@ -31826,7 +31691,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(294)))
 
 /***/ },
-/* 517 */
+/* 513 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31853,8 +31718,8 @@
 	};
 	
 	if (process.env.NODE_ENV !== 'production') {
-	  var ReactPerf = __webpack_require__(518);
-	  var ReactTestUtils = __webpack_require__(519);
+	  var ReactPerf = __webpack_require__(514);
+	  var ReactTestUtils = __webpack_require__(515);
 	
 	  exports.getReactPerf = function () {
 	    return ReactPerf;
@@ -31867,7 +31732,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(294)))
 
 /***/ },
-/* 518 */
+/* 514 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -32373,7 +32238,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(294)))
 
 /***/ },
-/* 519 */
+/* 515 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -32391,7 +32256,7 @@
 	var _prodInvariant = __webpack_require__(332),
 	    _assign = __webpack_require__(301);
 	
-	var EventConstants = __webpack_require__(520);
+	var EventConstants = __webpack_require__(516);
 	var EventPluginHub = __webpack_require__(339);
 	var EventPluginRegistry = __webpack_require__(340);
 	var EventPropagators = __webpack_require__(338);
@@ -32402,7 +32267,7 @@
 	var ReactInstanceMap = __webpack_require__(413);
 	var ReactUpdates = __webpack_require__(353);
 	var SyntheticEvent = __webpack_require__(350);
-	var ReactShallowRenderer = __webpack_require__(521);
+	var ReactShallowRenderer = __webpack_require__(517);
 	
 	var findDOMNode = __webpack_require__(469);
 	var invariant = __webpack_require__(305);
@@ -32790,7 +32655,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(294)))
 
 /***/ },
-/* 520 */
+/* 516 */
 /***/ function(module, exports) {
 
 	/**
@@ -32886,7 +32751,7 @@
 	module.exports = EventConstants;
 
 /***/ },
-/* 521 */
+/* 517 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -33026,7 +32891,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(294)))
 
 /***/ },
-/* 522 */
+/* 518 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -33041,7 +32906,7 @@
 	
 	'use strict';
 	
-	var flattenChildren = __webpack_require__(523);
+	var flattenChildren = __webpack_require__(519);
 	
 	var ReactTransitionChildMapping = {
 	  /**
@@ -33134,7 +32999,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(294)))
 
 /***/ },
-/* 523 */
+/* 519 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -33215,7 +33080,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(294)))
 
 /***/ },
-/* 524 */
+/* 520 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33231,10 +33096,10 @@
 	'use strict';
 	
 	var React = __webpack_require__(300);
-	var ReactAddonsDOMDependencies = __webpack_require__(517);
+	var ReactAddonsDOMDependencies = __webpack_require__(513);
 	
-	var CSSCore = __webpack_require__(525);
-	var ReactTransitionEvents = __webpack_require__(526);
+	var CSSCore = __webpack_require__(521);
+	var ReactTransitionEvents = __webpack_require__(522);
 	
 	var onlyChild = __webpack_require__(328);
 	
@@ -33386,7 +33251,7 @@
 	module.exports = ReactCSSTransitionGroupChild;
 
 /***/ },
-/* 525 */
+/* 521 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -33513,7 +33378,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(294)))
 
 /***/ },
-/* 526 */
+/* 522 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33590,28 +33455,199 @@
 	module.exports = ReactTransitionEvents;
 
 /***/ },
-/* 527 */
+/* 523 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var __extends = this && this.__extends || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() {
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
 	        this.constructor = d;
 	    }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(299);
-	var ReactCSSTransitionGroup = __webpack_require__(514);
+	var Footer = function (_super) {
+	    __extends(Footer, _super);
+	    function Footer() {
+	        return _super !== null && _super.apply(this, arguments) || this;
+	    }
+	    Footer.prototype.render = function () {
+	        var footerText = this.props.footerText;
+	        return React.createElement("footer", null, React.createElement("div", { className: "pull-right" }, footerText), React.createElement("div", { className: "clearfix" }));
+	    };
+	    return Footer;
+	}(React.Component);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Footer;
+
+/***/ },
+/* 524 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(299);
+	var profile_1 = __webpack_require__(525);
+	var sidebarMenu_1 = __webpack_require__(526);
+	var menuFooter_1 = __webpack_require__(589);
+	var LeftColumn = function (_super) {
+	    __extends(LeftColumn, _super);
+	    function LeftColumn() {
+	        return _super !== null && _super.apply(this, arguments) || this;
+	    }
+	    LeftColumn.prototype.render = function () {
+	        var _a = this.props,
+	            user = _a.user,
+	            navTitle = _a.navTitle;
+	        var menu = {
+	            id: 1, text: "Root", link: "", icon: "", subMenus: [{
+	                id: 2, text: "General", link: "", icon: "", subMenus: [{
+	                    id: 3, text: "Dashboard", link: "", icon: "fa-home", subMenus: [{
+	                        id: 4, text: "menu 3", link: "", icon: "", subMenus: [{
+	                            id: 6, text: "menu 6", link: "", icon: ""
+	                        }]
+	                    }]
+	                }, {
+	                    id: 4, text: "Order Management", link: "", icon: "fa-edit", subMenus: [{
+	                        id: 5, text: "Order", link: "order", icon: ""
+	                    }]
+	                }]
+	            }, {
+	                id: 10, text: "menu 10", link: "", icon: "", subMenus: [{
+	                    id: 11, text: "menu 11", link: "", icon: "fa-table", subMenus: [{
+	                        id: 12, text: "menu 12", link: "", icon: ""
+	                    }]
+	                }]
+	            }]
+	        };
+	        var isSmallMenuMode = this.props.isSmallMenuMode;
+	        return React.createElement("div", { className: "col-md-3 left_col" }, React.createElement("div", { className: "left_col scroll-view" }, React.createElement("div", { className: "navbar nav_title" }, React.createElement("a", { href: "/", className: "site_title" }, React.createElement("i", { className: "fa fa-paw" }), " ", React.createElement("span", null, navTitle))), React.createElement("div", { className: "clearfix" }), React.createElement(profile_1.default, { user: user }), React.createElement(sidebarMenu_1.default, { isSmallMenuMode: isSmallMenuMode, menu: menu }), React.createElement(menuFooter_1.default, null)));
+	    };
+	    return LeftColumn;
+	}(React.Component);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = LeftColumn;
+
+/***/ },
+/* 525 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(299);
+	var Profile = function (_super) {
+	    __extends(Profile, _super);
+	    function Profile() {
+	        return _super !== null && _super.apply(this, arguments) || this;
+	    }
+	    Profile.prototype.render = function () {
+	        var user = this.props.user;
+	        return React.createElement("div", { className: "profile" }, React.createElement("div", { className: "profile_pic" }, React.createElement("img", { src: "images/img.jpg", alt: "...", className: "img-circle profile_img" })), React.createElement("div", { className: "profile_info" }, React.createElement("span", null, "Welcome,"), React.createElement("h2", null, user.name)));
+	    };
+	    return Profile;
+	}(React.Component);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Profile;
+
+/***/ },
+/* 526 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(299);
+	var ReactCSSTransitionGroup = __webpack_require__(510);
+	var sidebarMenuItem_1 = __webpack_require__(527);
+	var SidebarMenu = function (_super) {
+	    __extends(SidebarMenu, _super);
+	    function SidebarMenu(props, state) {
+	        var _this = _super.call(this) || this;
+	        _this.state = {
+	            activeMenuId: null
+	        };
+	        return _this;
+	    }
+	    SidebarMenu.prototype.handleMenuClick = function (event) {
+	        if (this.state.activeMenuId != Number(event.currentTarget.dataset.id)) {
+	            this.setState({ activeMenuId: Number(event.currentTarget.dataset.id) });
+	        } else {
+	            this.setState({ activeMenuId: null });
+	        }
+	    };
+	    SidebarMenu.prototype.showSubMenu = function (menu) {
+	        return menu.id == this.state.activeMenuId ? React.createElement(sidebarMenuItem_1.default, { key: "sm_smi_" + menu.id, menu: menu }) : null;
+	    };
+	    SidebarMenu.prototype.render = function () {
+	        var _this = this;
+	        var _a = this.props,
+	            menu = _a.menu,
+	            isSmallMenuMode = _a.isSmallMenuMode;
+	        var activeMenuId = this.state.activeMenuId;
+	        return React.createElement("div", { id: "sidebar-menu", className: "main_menu_side hidden-print main_menu" }, menu.subMenus.map(function (subMenu) {
+	            return React.createElement("div", { className: "menu_section", key: "sm_div_" + subMenu.id }, React.createElement("h3", null, subMenu.text), React.createElement("ul", { className: "nav side-menu" }, subMenu.subMenus.map(function (l1Menu) {
+	                var activeIndicator = l1Menu.id == _this.state.activeMenuId ? "active" : "";
+	                activeIndicator = isSmallMenuMode && activeIndicator == "active" ? "active-sm" : activeIndicator;
+	                return React.createElement("li", { key: "sm_li_" + l1Menu.id, className: activeIndicator }, React.createElement("a", { onClick: _this.handleMenuClick.bind(_this), "data-id": l1Menu.id }, React.createElement("i", { className: "fa " + l1Menu.icon }), " ", l1Menu.text, React.createElement("span", { className: "fa fa-chevron-down" })), React.createElement(ReactCSSTransitionGroup, { transitionName: "menuItemTransition", transitionEnterTimeout: 500, transitionLeaveTimeout: 300 }, _this.showSubMenu(l1Menu)));
+	            })));
+	        }));
+	    };
+	    return SidebarMenu;
+	}(React.Component);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = SidebarMenu;
+
+/***/ },
+/* 527 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(299);
+	var ReactCSSTransitionGroup = __webpack_require__(510);
 	var react_router_1 = __webpack_require__(528);
 	var SidebarMenuItem = function (_super) {
 	    __extends(SidebarMenuItem, _super);
 	    function SidebarMenuItem(props, state) {
-	        _super.call(this);
-	        this.state = {
+	        var _this = _super.call(this) || this;
+	        _this.state = {
 	            activeMenuId: null
 	        };
+	        return _this;
 	    }
 	    SidebarMenuItem.prototype.handleMenuClick = function (event) {
 	        if (this.state.activeMenuId != Number(event.currentTarget.dataset.id)) {
@@ -33630,7 +33666,7 @@
 	        if (menus != undefined && menus.length > 0) {
 	            return React.createElement("ul", { className: "nav child_menu", key: "smi_ul_" + menu.id }, menus.map(function (subMenu) {
 	                var activeIndicator = subMenu.id == _this.state.activeMenuId ? "current-page" : "";
-	                return React.createElement("li", { key: "smi_li_" + subMenu.id, className: activeIndicator }, React.createElement(react_router_1.Link, { to: subMenu.link, key: "smi_a_" + subMenu.id, onClick: _this.handleMenuClick.bind(_this), "data-id": subMenu.id }, subMenu.text, React.createElement("span", { key: "smi_span_" + subMenu.id, className: "fa fa-chevron-down" })), React.createElement(ReactCSSTransitionGroup, { transitionName: "menuItemTransition", transitionEnterTimeout: 500, transitionLeaveTimeout: 300, key: "smi_rctg_" + menu.id }, _this.showSubMenu(subMenu)));
+	                return React.createElement("li", { className: activeIndicator }, React.createElement(react_router_1.Link, { to: subMenu.link, onClick: _this.handleMenuClick.bind(_this), "data-id": subMenu.id }, subMenu.text, React.createElement("span", { className: "fa fa-chevron-down" })), React.createElement(ReactCSSTransitionGroup, { transitionName: "menuItemTransition", transitionEnterTimeout: 500, transitionLeaveTimeout: 300 }, _this.showSubMenu(subMenu)));
 	            }));
 	        } else {
 	            return null;
@@ -39185,9 +39221,10 @@
 
 	"use strict";
 	
-	var __extends = this && this.__extends || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() {
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
 	        this.constructor = d;
 	    }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39196,7 +39233,7 @@
 	var Footer = function (_super) {
 	    __extends(Footer, _super);
 	    function Footer() {
-	        _super.apply(this, arguments);
+	        return _super !== null && _super.apply(this, arguments) || this;
 	    }
 	    Footer.prototype.render = function () {
 	        return React.createElement("div", { className: "sidebar-footer hidden-small" }, React.createElement("a", { "data-toggle": "tooltip", "data-placement": "top", title: "Settings" }, React.createElement("span", { className: "glyphicon glyphicon-cog", "aria-hidden": "true" })), React.createElement("a", { "data-toggle": "tooltip", "data-placement": "top", title: "FullScreen" }, React.createElement("span", { className: "glyphicon glyphicon-fullscreen", "aria-hidden": "true" })), React.createElement("a", { "data-toggle": "tooltip", "data-placement": "top", title: "Lock" }, React.createElement("span", { className: "glyphicon glyphicon-eye-close", "aria-hidden": "true" })), React.createElement("a", { "data-toggle": "tooltip", "data-placement": "top", title: "Logout" }, React.createElement("span", { className: "glyphicon glyphicon-off", "aria-hidden": "true" })));
@@ -39212,9 +39249,10 @@
 
 	"use strict";
 	
-	var __extends = this && this.__extends || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() {
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
 	        this.constructor = d;
 	    }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -39224,16 +39262,20 @@
 	var TopNavigation = function (_super) {
 	    __extends(TopNavigation, _super);
 	    function TopNavigation() {
-	        _super.apply(this, arguments);
+	        return _super !== null && _super.apply(this, arguments) || this;
 	    }
 	    TopNavigation.prototype.handleMenuToggleClick = function (event) {
 	        var dispatch = this.props.dispatch;
 	        dispatch(appActions.APP_TOGGLE_MENU());
 	    };
+	    TopNavigation.prototype.handleLanguageChange = function (event, language) {
+	        var dispatch = this.props.dispatch;
+	        dispatch(appActions.APP_CHANGE_LANGUAGE(language));
+	    };
 	    TopNavigation.prototype.render = function () {
 	        var state = this.props.state;
-	        var user = state.user;
-	        return React.createElement("div", { className: "top_nav" }, React.createElement("div", { className: "nav_menu" }, React.createElement("nav", null, React.createElement("div", { className: "nav toggle" }, React.createElement("a", { id: "menu_toggle", onClick: this.handleMenuToggleClick.bind(this) }, React.createElement("i", { className: "fa fa-bars" }))), React.createElement("ul", { className: "nav navbar-nav navbar-right" }, React.createElement("li", { className: "" }, React.createElement("a", { href: "javascript:;", className: "user-profile dropdown-toggle", "data-toggle": "dropdown", "aria-expanded": "false" }, React.createElement("img", { src: "images/img.jpg", alt: "" }), user.name, React.createElement("span", { className: " fa fa-angle-down" })), React.createElement("ul", { className: "dropdown-menu dropdown-usermenu pull-right" }, React.createElement("li", null, React.createElement("a", { href: "javascript:;" }, " Profile")), React.createElement("li", null, React.createElement("a", { href: "javascript:;" }, React.createElement("span", { className: "badge bg-red pull-right" }, "50%"), React.createElement("span", null, "Settings"))), React.createElement("li", null, React.createElement("a", { href: "javascript:;" }, "Help")), React.createElement("li", null, React.createElement("a", { href: "login.html" }, React.createElement("i", { className: "fa fa-sign-out pull-right" }), " Log Out")))), React.createElement("li", { role: "presentation", className: "dropdown" }, React.createElement("a", { href: "javascript:;", className: "dropdown-toggle info-number", "data-toggle": "dropdown", "aria-expanded": "false" }, React.createElement("i", { className: "fa fa-envelope-o" }), React.createElement("span", { className: "badge bg-green" }, "1")), React.createElement("ul", { id: "menu1", className: "dropdown-menu list-unstyled msg_list", role: "menu" }, React.createElement("li", null, React.createElement("a", null, React.createElement("span", { className: "image" }, React.createElement("img", { src: "images/img.jpg", alt: "Profile Image" })), React.createElement("span", null, React.createElement("span", null, "John Smith"), React.createElement("span", { className: "time" }, "3 mins ago")), React.createElement("span", { className: "message" }, "Film festivals used to be do-or-die moments for movie makers. They were where..."))), React.createElement("li", null, React.createElement("div", { className: "text-center" }, React.createElement("a", null, React.createElement("strong", null, "See All Alerts"), React.createElement("i", { className: "fa fa-angle-right" }))))))))));
+	        var user = state.appState.user;
+	        return React.createElement("div", { className: "top_nav" }, React.createElement("div", { className: "nav_menu" }, React.createElement("nav", null, React.createElement("div", { className: "nav toggle" }, React.createElement("a", { id: "menu_toggle", onClick: this.handleMenuToggleClick.bind(this) }, React.createElement("i", { className: "fa fa-bars" }))), React.createElement("ul", { className: "nav navbar-nav navbar-right" }, React.createElement("li", { className: "" }, React.createElement("a", { href: "javascript:;", className: "user-profile dropdown-toggle", "data-toggle": "dropdown", "aria-expanded": "false" }, React.createElement("img", { src: "images/img.jpg", alt: "" }), user.name, React.createElement("span", { className: " fa fa-angle-down" })), React.createElement("ul", { className: "dropdown-menu dropdown-usermenu pull-right" }, React.createElement("li", null, React.createElement("a", { href: "javascript:;" }, " Profile")), React.createElement("li", null, React.createElement("a", { onClick: this.handleLanguageChange.bind(this, null, "English") }, " English")), React.createElement("li", null, React.createElement("a", { onClick: this.handleLanguageChange.bind(this, null, "Chinese") }, " Chinese")), React.createElement("li", null, React.createElement("a", { href: "javascript:;" }, React.createElement("span", { className: "badge bg-red pull-right" }, "50%"), React.createElement("span", null, "Settings"))), React.createElement("li", null, React.createElement("a", { href: "javascript:;" }, "Help")), React.createElement("li", null, React.createElement("a", { href: "login.html" }, React.createElement("i", { className: "fa fa-sign-out pull-right" }), " Log Out")))), React.createElement("li", { role: "presentation", className: "dropdown" }, React.createElement("a", { href: "javascript:;", className: "dropdown-toggle info-number", "data-toggle": "dropdown", "aria-expanded": "false" }, React.createElement("i", { className: "fa fa-envelope-o" }), React.createElement("span", { className: "badge bg-green" }, "1")), React.createElement("ul", { id: "menu1", className: "dropdown-menu list-unstyled msg_list", role: "menu" }, React.createElement("li", null, React.createElement("a", null, React.createElement("span", { className: "image" }, React.createElement("img", { src: "images/img.jpg", alt: "Profile Image" })), React.createElement("span", null, React.createElement("span", null, "John Smith"), React.createElement("span", { className: "time" }, "3 mins ago")), React.createElement("span", { className: "message" }, "Film festivals used to be do-or-die moments for movie makers. They were where..."))), React.createElement("li", null, React.createElement("div", { className: "text-center" }, React.createElement("a", null, React.createElement("strong", null, "See All Alerts"), React.createElement("i", { className: "fa fa-angle-right" }))))))))));
 	    };
 	    return TopNavigation;
 	}(React.Component);
@@ -39248,7 +39290,7 @@
 	
 	var redux_1 = __webpack_require__(482);
 	var appReducers_1 = __webpack_require__(592);
-	var orderReducers_1 = __webpack_require__(593);
+	var orderReducers_1 = __webpack_require__(594);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.combineReducers({
 	    appState: appReducers_1.default,
@@ -39266,13 +39308,20 @@
 	
 	var actionTypes_1 = __webpack_require__(508);
 	var appActions_1 = __webpack_require__(507);
-	var initialState = {
+	var reducerTypes_1 = __webpack_require__(593);
+	var config = window.config;
+	var defaultLanguage = config.localization.defaultLanguage;
+	exports.INITIAL_APP_STATE = Object.assign(new reducerTypes_1.AppState(), {
 	    user: null,
-	    isSmallMenuMode: false
-	};
-	var appReducer = function (state, action) {
+	    isSmallMenuMode: false,
+	    error: null,
+	    isAppProceeding: false,
+	    config: config,
+	    language: "English"
+	});
+	var appReducer = function appReducer(state, action) {
 	    if (state === void 0) {
-	        state = initialState;
+	        state = exports.INITIAL_APP_STATE;
 	    }
 	    var newState = state;
 	    if (actionTypes_1.isType(action, appActions_1.APP_TOGGLE_MENU)) {
@@ -39286,6 +39335,19 @@
 	        newState = Object.assign({}, state, {
 	            user: user
 	        });
+	    } else if (actionTypes_1.isType(action, appActions_1.APP_PROCEEDING)) {
+	        newState = Object.assign({}, state, {
+	            isAppProceeding: true
+	        });
+	    } else if (actionTypes_1.isType(action, appActions_1.APP_PROCEEDING_END)) {
+	        newState = Object.assign({}, state, {
+	            isAppProceeding: false
+	        });
+	    } else if (actionTypes_1.isType(action, appActions_1.APP_CHANGE_LANGUAGE)) {
+	        var language = action.payload;
+	        newState = Object.assign({}, state, {
+	            language: language
+	        });
 	    }
 	    return newState;
 	};
@@ -39294,19 +39356,40 @@
 
 /***/ },
 /* 593 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var AppState = function () {
+	    function AppState() {
+	        this.getText = function () {
+	            if (this.config && this.language) {
+	                return this.config.localization[this.language];
+	            } else {
+	                return null;
+	            }
+	        };
+	    }
+	    return AppState;
+	}();
+	exports.AppState = AppState;
+
+/***/ },
+/* 594 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
 	var actionTypes_1 = __webpack_require__(508);
-	var orderActions_1 = __webpack_require__(594);
-	var initialState = {
+	var orderActions_1 = __webpack_require__(595);
+	exports.INITIAL_ORDER_STATE = {
 	    currentOrder: null,
-	    orderList: null
+	    orderList: null,
+	    isOrderProceeding: false
 	};
-	var orderReducer = function (state, action) {
+	var orderReducer = function orderReducer(state, action) {
 	    if (state === void 0) {
-	        state = initialState;
+	        state = exports.INITIAL_ORDER_STATE;
 	    }
 	    var newState = state;
 	    if (actionTypes_1.isType(action, orderActions_1.GENERAL_ERROR)) {
@@ -39321,6 +39404,28 @@
 	        newState = Object.assign({}, state, {
 	            orderList: orderList
 	        });
+	    } else if (actionTypes_1.isType(action, orderActions_1.ORDER_PROCEEDING)) {
+	        newState = Object.assign({}, state, {
+	            isOrderProceeding: true
+	        });
+	    } else if (actionTypes_1.isType(action, orderActions_1.ORDER_PROCEEDING_END)) {
+	        newState = Object.assign({}, state, {
+	            isOrderProceeding: false
+	        });
+	    } else if (actionTypes_1.isType(action, orderActions_1.SHOW_ORDER)) {
+	        var currentOrder = action.payload;
+	        newState = Object.assign({}, state, {
+	            currentOrder: currentOrder
+	        });
+	    } else if (actionTypes_1.isType(action, orderActions_1.SHOW_ORDER_BY_ID)) {
+	        var orderList = state.orderList;
+	        var id_1 = action.payload;
+	        var currentOrder = orderList.data.find(function (element) {
+	            return element.id == id_1;
+	        });
+	        newState = Object.assign({}, state, {
+	            currentOrder: currentOrder
+	        });
 	    }
 	    return newState;
 	};
@@ -39328,48 +39433,61 @@
 	exports.default = orderReducer;
 
 /***/ },
-/* 594 */
+/* 595 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var axios = __webpack_require__(595);
+	var axios = __webpack_require__(596);
 	var actionTypes_1 = __webpack_require__(508);
-	exports.LOAD_ORDER_LIST = function () {
+	var modelTypes_1 = __webpack_require__(615);
+	exports.LOAD_ORDER_LIST = function (id) {
 	    return function (dispatch) {
-	        dispatch(exports.LOAD_ORDER_LIST_PROCEEDING);
-	        var request = axios.get('api/order');
+	        dispatch(exports.ORDER_PROCEEDING());
+	        var request = axios.get('http://localhost:3000/order/');
 	        request.then(function (response) {
-	            dispatch(exports.LOAD_ORDER_LIST_RECEIVED(DataList(), response.data));
+	            var result = response.data;
+	            var orderList = new modelTypes_1.DataList(modelTypes_1.Order, result.payload);
+	            dispatch(exports.LOAD_ORDER_LIST_RECEIVED(orderList));
+	            if (id) {
+	                dispatch(exports.SHOW_ORDER_BY_ID(id));
+	            }
+	            dispatch(exports.ORDER_PROCEEDING_END());
 	        }).catch(function (response) {
-	            dispatch(exports.GENERAL_ERROR("ORDER_API_ERROR", response.data));
+	            var error = { errorCode: "ORDER_API_ERROR", errorDetail: response };
+	            dispatch(exports.GENERAL_ERROR(error));
+	            dispatch(exports.ORDER_PROCEEDING_END());
 	        });
 	    };
 	};
-	exports.LOAD_ORDER_LIST_PROCEEDING = actionTypes_1.actionCreator('LOAD_ORDER_LIST_PROCEEDING');
+	exports.ORDER_PROCEEDING = actionTypes_1.actionCreator('ORDER_PROCEEDING');
+	exports.ORDER_PROCEEDING_END = actionTypes_1.actionCreator('ORDER_PROCEEDING_END');
 	exports.LOAD_ORDER_LIST_RECEIVED = actionTypes_1.actionCreator('LOAD_ORDER_LIST_RECEIVED');
+	exports.SHOW_ORDER = actionTypes_1.actionCreator('SHOW_ORDER');
+	exports.SHOW_ORDER_BY_ID = actionTypes_1.actionCreator('SHOW_ORDER_BY_ID');
 	exports.GENERAL_ERROR = actionTypes_1.actionCreator('GENERAL_ERROR');
-
-/***/ },
-/* 595 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(596);
+	exports.ADD_ORDER = actionTypes_1.actionCreator('ADD_ORDER');
 
 /***/ },
 /* 596 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = __webpack_require__(597);
+
+/***/ },
+/* 597 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 	
-	var defaults = __webpack_require__(597);
-	var utils = __webpack_require__(598);
-	var dispatchRequest = __webpack_require__(600);
-	var InterceptorManager = __webpack_require__(609);
-	var isAbsoluteURL = __webpack_require__(610);
-	var combineURLs = __webpack_require__(611);
-	var bind = __webpack_require__(612);
-	var transformData = __webpack_require__(604);
+	var defaults = __webpack_require__(598);
+	var utils = __webpack_require__(599);
+	var dispatchRequest = __webpack_require__(601);
+	var InterceptorManager = __webpack_require__(610);
+	var isAbsoluteURL = __webpack_require__(611);
+	var combineURLs = __webpack_require__(612);
+	var bind = __webpack_require__(613);
+	var transformData = __webpack_require__(605);
 	
 	function Axios(defaultConfig) {
 	  this.defaults = utils.merge({}, defaultConfig);
@@ -39458,7 +39576,7 @@
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(613);
+	axios.spread = __webpack_require__(614);
 	
 	// Provide aliases for supported request methods
 	utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
@@ -39486,13 +39604,13 @@
 
 
 /***/ },
-/* 597 */
+/* 598 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(598);
-	var normalizeHeaderName = __webpack_require__(599);
+	var utils = __webpack_require__(599);
+	var normalizeHeaderName = __webpack_require__(600);
 	
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -39564,7 +39682,7 @@
 
 
 /***/ },
-/* 598 */
+/* 599 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -39847,12 +39965,12 @@
 
 
 /***/ },
-/* 599 */
+/* 600 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(598);
+	var utils = __webpack_require__(599);
 	
 	module.exports = function normalizeHeaderName(headers, normalizedName) {
 	  utils.forEach(headers, function processHeader(value, name) {
@@ -39865,7 +39983,7 @@
 
 
 /***/ },
-/* 600 */
+/* 601 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -39887,10 +40005,10 @@
 	        adapter = config.adapter;
 	      } else if (typeof XMLHttpRequest !== 'undefined') {
 	        // For browsers use XHR adapter
-	        adapter = __webpack_require__(601);
+	        adapter = __webpack_require__(602);
 	      } else if (typeof process !== 'undefined') {
 	        // For node use HTTP adapter
-	        adapter = __webpack_require__(601);
+	        adapter = __webpack_require__(602);
 	      }
 	
 	      if (typeof adapter === 'function') {
@@ -39906,18 +40024,18 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(294)))
 
 /***/ },
-/* 601 */
+/* 602 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
-	var utils = __webpack_require__(598);
-	var buildURL = __webpack_require__(602);
-	var parseHeaders = __webpack_require__(603);
-	var transformData = __webpack_require__(604);
-	var isURLSameOrigin = __webpack_require__(605);
-	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(606);
-	var settle = __webpack_require__(607);
+	var utils = __webpack_require__(599);
+	var buildURL = __webpack_require__(603);
+	var parseHeaders = __webpack_require__(604);
+	var transformData = __webpack_require__(605);
+	var isURLSameOrigin = __webpack_require__(606);
+	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(607);
+	var settle = __webpack_require__(608);
 	
 	module.exports = function xhrAdapter(resolve, reject, config) {
 	  var requestData = config.data;
@@ -40014,7 +40132,7 @@
 	  // This is only done if running in a standard browser environment.
 	  // Specifically not if we're in a web worker, or react-native.
 	  if (utils.isStandardBrowserEnv()) {
-	    var cookies = __webpack_require__(608);
+	    var cookies = __webpack_require__(609);
 	
 	    // Add xsrf header
 	    var xsrfValue = config.withCredentials || isURLSameOrigin(config.url) ?
@@ -40075,12 +40193,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(294)))
 
 /***/ },
-/* 602 */
+/* 603 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(598);
+	var utils = __webpack_require__(599);
 	
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -40149,12 +40267,12 @@
 
 
 /***/ },
-/* 603 */
+/* 604 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(598);
+	var utils = __webpack_require__(599);
 	
 	/**
 	 * Parse headers into an object
@@ -40192,12 +40310,12 @@
 
 
 /***/ },
-/* 604 */
+/* 605 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(598);
+	var utils = __webpack_require__(599);
 	
 	/**
 	 * Transform the data for a request or a response
@@ -40218,12 +40336,12 @@
 
 
 /***/ },
-/* 605 */
+/* 606 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(598);
+	var utils = __webpack_require__(599);
 	
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -40292,7 +40410,7 @@
 
 
 /***/ },
-/* 606 */
+/* 607 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40334,7 +40452,7 @@
 
 
 /***/ },
-/* 607 */
+/* 608 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40358,12 +40476,12 @@
 
 
 /***/ },
-/* 608 */
+/* 609 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(598);
+	var utils = __webpack_require__(599);
 	
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -40417,12 +40535,12 @@
 
 
 /***/ },
-/* 609 */
+/* 610 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(598);
+	var utils = __webpack_require__(599);
 	
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -40475,7 +40593,7 @@
 
 
 /***/ },
-/* 610 */
+/* 611 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40495,7 +40613,7 @@
 
 
 /***/ },
-/* 611 */
+/* 612 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40513,7 +40631,7 @@
 
 
 /***/ },
-/* 612 */
+/* 613 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40530,7 +40648,7 @@
 
 
 /***/ },
-/* 613 */
+/* 614 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40563,7 +40681,871 @@
 
 
 /***/ },
-/* 614 */
+/* 615 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var class_transformer_1 = __webpack_require__(616);
+	var models_1 = __webpack_require__(626);
+	exports.Order = models_1.Order;
+	exports.OrderItem = models_1.OrderItem;
+	exports.Product = models_1.Product;
+	exports.User = models_1.User;
+	var Error = function () {
+	    function Error() {}
+	    return Error;
+	}();
+	exports.Error = Error;
+	var DataList = function () {
+	    function DataList(prototype, data) {
+	        this.data = class_transformer_1.plainToClass(prototype, data);
+	    }
+	    return DataList;
+	}();
+	exports.DataList = DataList;
+
+/***/ },
+/* 616 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	function __export(m) {
+	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+	}
+	var ClassTransformer_1 = __webpack_require__(617);
+	var ClassTransformer_2 = __webpack_require__(617);
+	exports.ClassTransformer = ClassTransformer_2.ClassTransformer;
+	__export(__webpack_require__(621));
+	var classTransformer = new ClassTransformer_1.ClassTransformer();
+	function classToPlain(object, options) {
+	    return classTransformer.classToPlain(object, options);
+	}
+	exports.classToPlain = classToPlain;
+	function classToPlainFromExist(object, plainObject, options) {
+	    return classTransformer.classToPlainFromExist(object, plainObject, options);
+	}
+	exports.classToPlainFromExist = classToPlainFromExist;
+	function plainToClass(cls, plain, options) {
+	    return classTransformer.plainToClass(cls, plain, options);
+	}
+	exports.plainToClass = plainToClass;
+	function plainToClassFromExist(clsObject, plain, options) {
+	    return classTransformer.plainToClassFromExist(clsObject, plain, options);
+	}
+	exports.plainToClassFromExist = plainToClassFromExist;
+	function classToClass(object, options) {
+	    return classTransformer.classToClass(object, options);
+	}
+	exports.classToClass = classToClass;
+	function classToClassFromExist(object, fromObject, options) {
+	    return classTransformer.classToClassFromExist(object, fromObject, options);
+	}
+	exports.classToClassFromExist = classToClassFromExist;
+	function serialize(object, options) {
+	    return classTransformer.serialize(object, options);
+	}
+	exports.serialize = serialize;
+	/**
+	 * Deserializes given JSON string to a object of the given class.
+	 */
+	function deserialize(cls, json, options) {
+	    return classTransformer.deserialize(cls, json, options);
+	}
+	exports.deserialize = deserialize;
+	/**
+	 * Deserializes given JSON string to an array of objects of the given class.
+	 */
+	function deserializeArray(cls, json, options) {
+	    return classTransformer.deserializeArray(cls, json, options);
+	}
+	exports.deserializeArray = deserializeArray;
+	
+
+
+/***/ },
+/* 617 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var TransformOperationExecutor_1 = __webpack_require__(618);
+	var ClassTransformer = (function () {
+	    function ClassTransformer() {
+	    }
+	    ClassTransformer.prototype.classToPlain = function (object, options) {
+	        var executor = new TransformOperationExecutor_1.TransformOperationExecutor("classToPlain", options || {});
+	        return executor.transform(undefined, object, undefined, undefined, undefined, undefined);
+	    };
+	    ClassTransformer.prototype.classToPlainFromExist = function (object, plainObject, options) {
+	        var executor = new TransformOperationExecutor_1.TransformOperationExecutor("classToPlain", options || {});
+	        return executor.transform(plainObject, object, undefined, undefined, undefined, undefined);
+	    };
+	    ClassTransformer.prototype.plainToClass = function (cls, plain, options) {
+	        var executor = new TransformOperationExecutor_1.TransformOperationExecutor("plainToClass", options || {});
+	        return executor.transform(undefined, plain, cls, undefined, undefined, undefined);
+	    };
+	    ClassTransformer.prototype.plainToClassFromExist = function (clsObject, plain, options) {
+	        var executor = new TransformOperationExecutor_1.TransformOperationExecutor("plainToClass", options || {});
+	        return executor.transform(clsObject, plain, undefined, undefined, undefined, undefined);
+	    };
+	    ClassTransformer.prototype.classToClass = function (object, options) {
+	        var executor = new TransformOperationExecutor_1.TransformOperationExecutor("classToClass", options || {});
+	        return executor.transform(undefined, object, undefined, undefined, undefined, undefined);
+	    };
+	    ClassTransformer.prototype.classToClassFromExist = function (object, fromObject, options) {
+	        var executor = new TransformOperationExecutor_1.TransformOperationExecutor("classToClass", options || {});
+	        return executor.transform(fromObject, object, undefined, undefined, undefined, undefined);
+	    };
+	    ClassTransformer.prototype.serialize = function (object, options) {
+	        return JSON.stringify(this.classToPlain(object, options));
+	    };
+	    /**
+	     * Deserializes given JSON string to a object of the given class.
+	     */
+	    ClassTransformer.prototype.deserialize = function (cls, json, options) {
+	        var jsonObject = JSON.parse(json);
+	        return this.plainToClass(cls, jsonObject, options);
+	    };
+	    /**
+	     * Deserializes given JSON string to an array of objects of the given class.
+	     */
+	    ClassTransformer.prototype.deserializeArray = function (cls, json, options) {
+	        var jsonObject = JSON.parse(json);
+	        return this.plainToClass(cls, jsonObject, options);
+	    };
+	    return ClassTransformer;
+	}());
+	exports.ClassTransformer = ClassTransformer;
+	
+
+
+/***/ },
+/* 618 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var storage_1 = __webpack_require__(619);
+	var TransformOperationExecutor = (function () {
+	    // -------------------------------------------------------------------------
+	    // Constructor
+	    // -------------------------------------------------------------------------
+	    function TransformOperationExecutor(transformationType, options) {
+	        this.transformationType = transformationType;
+	        this.options = options;
+	        // -------------------------------------------------------------------------
+	        // Private Properties
+	        // -------------------------------------------------------------------------
+	        this.transformedTypes = [];
+	    }
+	    // -------------------------------------------------------------------------
+	    // Public Methods
+	    // -------------------------------------------------------------------------
+	    TransformOperationExecutor.prototype.transform = function (source, value, targetType, arrayType, isMap, level) {
+	        var _this = this;
+	        if (level === void 0) { level = 0; }
+	        if (value instanceof Array || value instanceof Set) {
+	            var newValue_1 = arrayType && this.transformationType === "plainToClass" ? new arrayType() : [];
+	            value.forEach(function (subValue, index) {
+	                var subSource = source ? source[index] : undefined;
+	                if (!_this.isCircular(subValue, level)) {
+	                    var value_1 = _this.transform(subSource, subValue, targetType, undefined, subValue instanceof Map, level + 1);
+	                    if (newValue_1 instanceof Set) {
+	                        newValue_1.add(value_1);
+	                    }
+	                    else {
+	                        newValue_1.push(value_1);
+	                    }
+	                }
+	                else if (_this.transformationType === "classToClass") {
+	                    if (newValue_1 instanceof Set) {
+	                        newValue_1.add(subValue);
+	                    }
+	                    else {
+	                        newValue_1.push(subValue);
+	                    }
+	                }
+	            });
+	            return newValue_1;
+	        }
+	        else if (targetType === String && !isMap) {
+	            return String(value);
+	        }
+	        else if (targetType === Number && !isMap) {
+	            return Number(value);
+	        }
+	        else if (targetType === Boolean && !isMap) {
+	            return Boolean(value);
+	        }
+	        else if ((targetType === Date || value instanceof Date) && !isMap) {
+	            if (value instanceof Date) {
+	                return new Date(value.valueOf());
+	            }
+	            if (value === null || value === undefined)
+	                return value;
+	            return new Date(value);
+	        }
+	        else if (value instanceof Object) {
+	            // try to guess the type
+	            if (!targetType && value.constructor !== Object /* && operationType === "classToPlain"*/)
+	                targetType = value.constructor;
+	            if (!targetType && source)
+	                targetType = source.constructor;
+	            // add transformed type to prevent circular references
+	            this.transformedTypes.push({ level: level, object: value });
+	            var keys = this.getKeys(targetType, value);
+	            var newValue = source ? source : {};
+	            if (!source && (this.transformationType === "plainToClass" || this.transformationType === "classToClass")) {
+	                if (isMap) {
+	                    newValue = new Map();
+	                }
+	                else if (targetType) {
+	                    newValue = new targetType();
+	                }
+	                else {
+	                    newValue = {};
+	                }
+	            }
+	            // traverse over keys
+	            var _loop_1 = function(key) {
+	                var valueKey = key, newValueKey = key, propertyName = key;
+	                if (!this_1.options.ignoreDecorators && targetType) {
+	                    if (this_1.transformationType === "plainToClass") {
+	                        var exposeMetadata = storage_1.defaultMetadataStorage.findExposeMetadataByCustomName(targetType, key);
+	                        if (exposeMetadata) {
+	                            propertyName = exposeMetadata.propertyName;
+	                            newValueKey = exposeMetadata.propertyName;
+	                        }
+	                    }
+	                    else if (this_1.transformationType === "classToPlain" || this_1.transformationType === "classToClass") {
+	                        var exposeMetadata = storage_1.defaultMetadataStorage.findExposeMetadata(targetType, key);
+	                        if (exposeMetadata && exposeMetadata.options && exposeMetadata.options.name)
+	                            newValueKey = exposeMetadata.options.name;
+	                    }
+	                }
+	                // get a subvalue
+	                var subValue = undefined;
+	                if (value instanceof Map) {
+	                    subValue = value.get(valueKey);
+	                }
+	                else if (value[valueKey] instanceof Function) {
+	                    subValue = value[valueKey]();
+	                }
+	                else {
+	                    subValue = value[valueKey];
+	                }
+	                // determine a type
+	                var type = undefined, isSubValueMap = subValue instanceof Map;
+	                if (targetType && isMap) {
+	                    type = targetType;
+	                }
+	                else if (targetType) {
+	                    var metadata = storage_1.defaultMetadataStorage.findTypeMetadata(targetType, propertyName);
+	                    if (metadata) {
+	                        var options = { newObject: newValue, object: value, property: propertyName };
+	                        type = metadata.typeFunction(options);
+	                        isSubValueMap = isSubValueMap || metadata.reflectedType === Map;
+	                    }
+	                    else if (this_1.options.targetMaps) {
+	                        this_1.options.targetMaps
+	                            .filter(function (map) { return map.target === targetType && !!map.properties[propertyName]; })
+	                            .forEach(function (map) { return type = map.properties[propertyName]; });
+	                    }
+	                }
+	                // if value is an array try to get its custom array type
+	                var arrayType_1 = value[valueKey] instanceof Array ? this_1.getReflectedType(targetType, propertyName) : undefined;
+	                // const subValueKey = operationType === "plainToClass" && newKeyName ? newKeyName : key;
+	                var subSource = source ? source[valueKey] : undefined;
+	                // if its deserialization then type if required
+	                // if we uncomment this types like string[] will not work
+	                // if (this.transformationType === "plainToClass" && !type && subValue instanceof Object && !(subValue instanceof Date))
+	                //     throw new Error(`Cannot determine type for ${(targetType as any).name }.${propertyName}, did you forget to specify a @Type?`);
+	                // if newValue is a source object that has method that match newKeyName then skip it
+	                if (newValue.constructor.prototype) {
+	                    var descriptor = Object.getOwnPropertyDescriptor(newValue.constructor.prototype, newValueKey);
+	                    if ((this_1.transformationType === "plainToClass" || this_1.transformationType === "classToClass")
+	                        && (newValue[newValueKey] instanceof Function || (descriptor && !descriptor.set)))
+	                        return "continue";
+	                }
+	                if (!this_1.isCircular(subValue, level)) {
+	                    var transformKey = this_1.transformationType === "plainToClass" ? newValueKey : key;
+	                    var finalValue = this_1.transform(subSource, subValue, type, arrayType_1, isSubValueMap, level + 1);
+	                    finalValue = this_1.applyCustomTransformations(finalValue, targetType, transformKey);
+	                    if (newValue instanceof Map) {
+	                        newValue.set(newValueKey, finalValue);
+	                    }
+	                    else {
+	                        newValue[newValueKey] = finalValue;
+	                    }
+	                }
+	                else if (this_1.transformationType === "classToClass") {
+	                    var finalValue = subValue;
+	                    finalValue = this_1.applyCustomTransformations(finalValue, targetType, key);
+	                    if (newValue instanceof Map) {
+	                        newValue.set(newValueKey, finalValue);
+	                    }
+	                    else {
+	                        newValue[newValueKey] = finalValue;
+	                    }
+	                }
+	            };
+	            var this_1 = this;
+	            for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
+	                var key = keys_1[_i];
+	                _loop_1(key);
+	            }
+	            return newValue;
+	        }
+	        else {
+	            return value;
+	        }
+	    };
+	    TransformOperationExecutor.prototype.applyCustomTransformations = function (value, target, key) {
+	        var _this = this;
+	        var metadatas = storage_1.defaultMetadataStorage.findTransformMetadatas(target, key, this.transformationType);
+	        // apply versioning options
+	        if (this.options.version !== undefined) {
+	            metadatas = metadatas.filter(function (metadata) {
+	                if (!metadata.options)
+	                    return true;
+	                return _this.checkVersion(metadata.options.since, metadata.options.until);
+	            });
+	        }
+	        // apply grouping options
+	        if (this.options.groups && this.options.groups.length) {
+	            metadatas = metadatas.filter(function (metadata) {
+	                if (!metadata.options)
+	                    return true;
+	                return _this.checkGroups(metadata.options.groups);
+	            });
+	        }
+	        else {
+	            metadatas = metadatas.filter(function (metadata) {
+	                return !metadata.options ||
+	                    !metadata.options.groups ||
+	                    !metadata.options.groups.length;
+	            });
+	        }
+	        metadatas.forEach(function (metadata) {
+	            value = metadata.transformFn(value);
+	        });
+	        return value;
+	    };
+	    // preventing circular references
+	    TransformOperationExecutor.prototype.isCircular = function (object, level) {
+	        return !!this.transformedTypes.find(function (transformed) { return transformed.object === object && transformed.level < level; });
+	    };
+	    TransformOperationExecutor.prototype.getReflectedType = function (target, propertyName) {
+	        if (!target)
+	            return undefined;
+	        var meta = storage_1.defaultMetadataStorage.findTypeMetadata(target, propertyName);
+	        return meta ? meta.reflectedType : undefined;
+	    };
+	    TransformOperationExecutor.prototype.getKeys = function (target, object) {
+	        var _this = this;
+	        // determine exclusion strategy
+	        var strategy = storage_1.defaultMetadataStorage.getStrategy(target);
+	        if (strategy === "none")
+	            strategy = this.options.strategy || "exposeAll"; // exposeAll is default strategy
+	        // get all keys that need to expose
+	        var keys = [];
+	        if (strategy === "exposeAll") {
+	            if (object instanceof Map) {
+	                keys = Array.from(object.keys());
+	            }
+	            else {
+	                keys = Object.keys(object);
+	            }
+	        }
+	        if (!this.options.ignoreDecorators && target) {
+	            // add all exposed to list of keys
+	            var exposedProperties = storage_1.defaultMetadataStorage.getExposedProperties(target, this.transformationType);
+	            if (this.transformationType === "plainToClass") {
+	                exposedProperties = exposedProperties.map(function (key) {
+	                    var exposeMetadata = storage_1.defaultMetadataStorage.findExposeMetadata(target, key);
+	                    if (exposeMetadata && exposeMetadata.options && exposeMetadata.options.name) {
+	                        return exposeMetadata.options.name;
+	                    }
+	                    return key;
+	                });
+	            }
+	            keys = keys.concat(exposedProperties);
+	            // exclude excluded properties
+	            var excludedProperties_1 = storage_1.defaultMetadataStorage.getExcludedProperties(target, this.transformationType);
+	            if (excludedProperties_1.length > 0) {
+	                keys = keys.filter(function (key) {
+	                    return excludedProperties_1.indexOf(key) === -1;
+	                });
+	            }
+	            // apply versioning options
+	            if (this.options.version !== undefined) {
+	                keys = keys.filter(function (key) {
+	                    var exposeMetadata = storage_1.defaultMetadataStorage.findExposeMetadata(target, key);
+	                    if (!exposeMetadata || !exposeMetadata.options)
+	                        return true;
+	                    return _this.checkVersion(exposeMetadata.options.since, exposeMetadata.options.until);
+	                });
+	            }
+	            // apply grouping options
+	            if (this.options.groups && this.options.groups.length) {
+	                keys = keys.filter(function (key) {
+	                    var exposeMetadata = storage_1.defaultMetadataStorage.findExposeMetadata(target, key);
+	                    if (!exposeMetadata || !exposeMetadata.options)
+	                        return true;
+	                    return _this.checkGroups(exposeMetadata.options.groups);
+	                });
+	            }
+	            else {
+	                keys = keys.filter(function (key) {
+	                    var exposeMetadata = storage_1.defaultMetadataStorage.findExposeMetadata(target, key);
+	                    return !exposeMetadata ||
+	                        !exposeMetadata.options ||
+	                        !exposeMetadata.options.groups ||
+	                        !exposeMetadata.options.groups.length;
+	                });
+	            }
+	        }
+	        // exclude prefixed properties
+	        if (this.options.excludePrefixes && this.options.excludePrefixes.length) {
+	            keys = keys.filter(function (key) { return _this.options.excludePrefixes.every(function (prefix) {
+	                return key.substr(0, prefix.length) !== prefix;
+	            }); });
+	        }
+	        // make sure we have unique keys
+	        keys = keys.filter(function (key, index, self) {
+	            return self.indexOf(key) === index;
+	        });
+	        return keys;
+	    };
+	    TransformOperationExecutor.prototype.checkVersion = function (since, until) {
+	        var decision = true;
+	        if (decision && since)
+	            decision = this.options.version >= since;
+	        if (decision && until)
+	            decision = this.options.version < until;
+	        return decision;
+	    };
+	    TransformOperationExecutor.prototype.checkGroups = function (groups) {
+	        if (!groups)
+	            return true;
+	        return this.options.groups.some(function (optionGroup) { return groups.indexOf(optionGroup) !== -1; });
+	    };
+	    return TransformOperationExecutor;
+	}());
+	exports.TransformOperationExecutor = TransformOperationExecutor;
+	
+
+
+/***/ },
+/* 619 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var MetadataStorage_1 = __webpack_require__(620);
+	/**
+	 * Default metadata storage is used as singleton and can be used to storage all metadatas.
+	 */
+	exports.defaultMetadataStorage = new MetadataStorage_1.MetadataStorage();
+	
+
+
+/***/ },
+/* 620 */
+/***/ function(module, exports) {
+
+	"use strict";
+	/**
+	 * Storage all library metadata.
+	 */
+	var MetadataStorage = (function () {
+	    function MetadataStorage() {
+	        // -------------------------------------------------------------------------
+	        // Properties
+	        // -------------------------------------------------------------------------
+	        this._typeMetadatas = [];
+	        this._transformMetadatas = [];
+	        this._exposeMetadatas = [];
+	        this._excludeMetadatas = [];
+	    }
+	    // -------------------------------------------------------------------------
+	    // Adder Methods
+	    // -------------------------------------------------------------------------
+	    MetadataStorage.prototype.addTypeMetadata = function (metadata) {
+	        this._typeMetadatas.push(metadata);
+	    };
+	    MetadataStorage.prototype.addTransformMetadata = function (metadata) {
+	        this._transformMetadatas.push(metadata);
+	    };
+	    MetadataStorage.prototype.addExposeMetadata = function (metadata) {
+	        this._exposeMetadatas.push(metadata);
+	    };
+	    MetadataStorage.prototype.addExcludeMetadata = function (metadata) {
+	        this._excludeMetadatas.push(metadata);
+	    };
+	    // -------------------------------------------------------------------------
+	    // Public Methods
+	    // -------------------------------------------------------------------------
+	    MetadataStorage.prototype.findTransformMetadatas = function (target, propertyName, transformationType) {
+	        return this.findMetadatas(this._transformMetadatas, target, propertyName)
+	            .filter(function (metadata) {
+	            if (!metadata.options)
+	                return true;
+	            if (metadata.options.toClassOnly === true && metadata.options.toPlainOnly === true)
+	                return true;
+	            if (metadata.options.toClassOnly === true) {
+	                return transformationType === "classToClass" || transformationType === "plainToClass";
+	            }
+	            if (metadata.options.toPlainOnly === true) {
+	                return transformationType === "classToPlain";
+	            }
+	            return true;
+	        });
+	    };
+	    MetadataStorage.prototype.findExcludeMetadata = function (target, propertyName) {
+	        return this.findMetadata(this._excludeMetadatas, target, propertyName);
+	    };
+	    MetadataStorage.prototype.findExposeMetadata = function (target, propertyName) {
+	        return this.findMetadata(this._exposeMetadatas, target, propertyName);
+	    };
+	    MetadataStorage.prototype.findExposeMetadataByCustomName = function (target, name) {
+	        return this._exposeMetadatas.find(function (metadata) {
+	            return metadata.target === target && metadata.options && metadata.options.name === name;
+	        });
+	    };
+	    MetadataStorage.prototype.findTypeMetadata = function (target, propertyName) {
+	        return this.findMetadata(this._typeMetadatas, target, propertyName);
+	    };
+	    MetadataStorage.prototype.getStrategy = function (target) {
+	        var exclude = this._excludeMetadatas.find(function (metadata) { return metadata.target === target && metadata.propertyName === undefined; });
+	        var expose = this._exposeMetadatas.find(function (metadata) { return metadata.target === target && metadata.propertyName === undefined; });
+	        if ((exclude && expose) || (!exclude && !expose))
+	            return "none";
+	        return exclude ? "excludeAll" : "exposeAll";
+	    };
+	    MetadataStorage.prototype.getExposedMetadatas = function (target) {
+	        return this.getMetadata(this._exposeMetadatas, target);
+	    };
+	    MetadataStorage.prototype.getExcludedMetadatas = function (target) {
+	        return this.getMetadata(this._excludeMetadatas, target);
+	    };
+	    MetadataStorage.prototype.getExposedProperties = function (target, transformationType) {
+	        return this.getExposedMetadatas(target)
+	            .filter(function (metadata) {
+	            if (!metadata.options)
+	                return true;
+	            if (metadata.options.toClassOnly === true && metadata.options.toPlainOnly === true)
+	                return true;
+	            if (metadata.options.toClassOnly === true) {
+	                return transformationType === "classToClass" || transformationType === "plainToClass";
+	            }
+	            if (metadata.options.toPlainOnly === true) {
+	                return transformationType === "classToPlain";
+	            }
+	            return true;
+	        })
+	            .map(function (metadata) { return metadata.propertyName; });
+	    };
+	    MetadataStorage.prototype.getExcludedProperties = function (target, transformationType) {
+	        return this.getExcludedMetadatas(target)
+	            .filter(function (metadata) {
+	            if (!metadata.options)
+	                return true;
+	            if (metadata.options.toClassOnly === true && metadata.options.toPlainOnly === true)
+	                return true;
+	            if (metadata.options.toClassOnly === true) {
+	                return transformationType === "classToClass" || transformationType === "plainToClass";
+	            }
+	            if (metadata.options.toPlainOnly === true) {
+	                return transformationType === "classToPlain";
+	            }
+	            return true;
+	        })
+	            .map(function (metadata) { return metadata.propertyName; });
+	    };
+	    MetadataStorage.prototype.clear = function () {
+	        this._typeMetadatas = [];
+	        this._exposeMetadatas = [];
+	        this._excludeMetadatas = [];
+	    };
+	    // -------------------------------------------------------------------------
+	    // Private Methods
+	    // -------------------------------------------------------------------------
+	    MetadataStorage.prototype.getMetadata = function (metadatas, target) {
+	        var metadataFromTarget = metadatas.filter(function (meta) { return meta.target === target && meta.propertyName !== undefined; });
+	        var metadataFromChildren = metadatas.filter(function (meta) { return target.prototype instanceof meta.target && meta.propertyName !== undefined; });
+	        return metadataFromChildren.concat(metadataFromTarget);
+	    };
+	    MetadataStorage.prototype.findMetadata = function (metadatas, target, propertyName) {
+	        var metadataFromTarget = metadatas.find(function (meta) { return meta.target === target && meta.propertyName === propertyName; });
+	        var metadataFromChildren = metadatas.find(function (meta) { return target.prototype instanceof meta.target && meta.propertyName === propertyName; });
+	        return metadataFromTarget || metadataFromChildren;
+	    };
+	    MetadataStorage.prototype.findMetadatas = function (metadatas, target, propertyName) {
+	        var metadataFromTarget = metadatas.filter(function (meta) { return meta.target === target && meta.propertyName === propertyName; });
+	        var metadataFromChildren = metadatas.filter(function (meta) { return target.prototype instanceof meta.target && meta.propertyName === propertyName; });
+	        return metadataFromChildren.reverse().concat(metadataFromTarget.reverse());
+	    };
+	    return MetadataStorage;
+	}());
+	exports.MetadataStorage = MetadataStorage;
+	
+
+
+/***/ },
+/* 621 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var ClassTransformer_1 = __webpack_require__(617);
+	var storage_1 = __webpack_require__(619);
+	var TypeMetadata_1 = __webpack_require__(622);
+	var ExposeMetadata_1 = __webpack_require__(623);
+	var ExcludeMetadata_1 = __webpack_require__(624);
+	var TransformMetadata_1 = __webpack_require__(625);
+	/**
+	 * Defines a custom logic for value transformation.
+	 */
+	function Transform(transformFn, options) {
+	    return function (target, key) {
+	        var metadata = new TransformMetadata_1.TransformMetadata(target.constructor, key, transformFn, options);
+	        storage_1.defaultMetadataStorage.addTransformMetadata(metadata);
+	    };
+	}
+	exports.Transform = Transform;
+	/**
+	 * Specifies a type of the property.
+	 */
+	function Type(typeFunction) {
+	    return function (target, key) {
+	        var type = Reflect.getMetadata("design:type", target, key);
+	        var metadata = new TypeMetadata_1.TypeMetadata(target.constructor, key, type, typeFunction);
+	        storage_1.defaultMetadataStorage.addTypeMetadata(metadata);
+	    };
+	}
+	exports.Type = Type;
+	/**
+	 * Marks property as included in the process of transformation. By default it includes the property for both
+	 * constructorToPlain and plainToConstructor transformations, however you can specify on which of transformation types
+	 * you want to skip this property.
+	 */
+	function Expose(options) {
+	    return function (object, propertyName) {
+	        var metadata = new ExposeMetadata_1.ExposeMetadata(object instanceof Function ? object : object.constructor, propertyName, options || {});
+	        storage_1.defaultMetadataStorage.addExposeMetadata(metadata);
+	    };
+	}
+	exports.Expose = Expose;
+	/**
+	 * Marks property as excluded from the process of transformation. By default it excludes the property for both
+	 * constructorToPlain and plainToConstructor transformations, however you can specify on which of transformation types
+	 * you want to skip this property.
+	 */
+	function Exclude(options) {
+	    return function (object, propertyName) {
+	        var metadata = new ExcludeMetadata_1.ExcludeMetadata(object instanceof Function ? object : object.constructor, propertyName, options || {});
+	        storage_1.defaultMetadataStorage.addExcludeMetadata(metadata);
+	    };
+	}
+	exports.Exclude = Exclude;
+	/**
+	 * Transform the object from class to plain object and return only with the exposed properties.
+	 */
+	function TransformClassToPlain(params) {
+	    return function (target, propertyKey, descriptor) {
+	        var classTransformer = new ClassTransformer_1.ClassTransformer();
+	        var originalMethod = descriptor.value;
+	        descriptor.value = function () {
+	            var args = [];
+	            for (var _i = 0; _i < arguments.length; _i++) {
+	                args[_i - 0] = arguments[_i];
+	            }
+	            var result = originalMethod.apply(this, args);
+	            var isPromise = !!result && (typeof result === "object" || typeof result === "function") && typeof result.then === "function";
+	            return isPromise ? result.then(function (data) { return classTransformer.classToPlain(data, params); }) : classTransformer.classToPlain(result, params);
+	        };
+	    };
+	}
+	exports.TransformClassToPlain = TransformClassToPlain;
+	/**
+	 * Return the class instance only with the exposed properties.
+	 */
+	function TransformClassToClass(params) {
+	    return function (target, propertyKey, descriptor) {
+	        var classTransformer = new ClassTransformer_1.ClassTransformer();
+	        var originalMethod = descriptor.value;
+	        descriptor.value = function () {
+	            var args = [];
+	            for (var _i = 0; _i < arguments.length; _i++) {
+	                args[_i - 0] = arguments[_i];
+	            }
+	            var result = originalMethod.apply(this, args);
+	            var isPromise = !!result && (typeof result === "object" || typeof result === "function") && typeof result.then === "function";
+	            return isPromise ? result.then(function (data) { return classTransformer.classToClass(data, params); }) : classTransformer.classToClass(result, params);
+	        };
+	    };
+	}
+	exports.TransformClassToClass = TransformClassToClass;
+	
+
+
+/***/ },
+/* 622 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var TypeMetadata = (function () {
+	    function TypeMetadata(target, propertyName, reflectedType, typeFunction) {
+	        this.target = target;
+	        this.propertyName = propertyName;
+	        this.reflectedType = reflectedType;
+	        this.typeFunction = typeFunction;
+	    }
+	    return TypeMetadata;
+	}());
+	exports.TypeMetadata = TypeMetadata;
+	
+
+
+/***/ },
+/* 623 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var ExposeMetadata = (function () {
+	    function ExposeMetadata(target, propertyName, options) {
+	        this.target = target;
+	        this.propertyName = propertyName;
+	        this.options = options;
+	    }
+	    return ExposeMetadata;
+	}());
+	exports.ExposeMetadata = ExposeMetadata;
+	
+
+
+/***/ },
+/* 624 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var ExcludeMetadata = (function () {
+	    function ExcludeMetadata(target, propertyName, options) {
+	        this.target = target;
+	        this.propertyName = propertyName;
+	        this.options = options;
+	    }
+	    return ExcludeMetadata;
+	}());
+	exports.ExcludeMetadata = ExcludeMetadata;
+	
+
+
+/***/ },
+/* 625 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var TransformMetadata = (function () {
+	    function TransformMetadata(target, propertyName, transformFn, options) {
+	        this.target = target;
+	        this.propertyName = propertyName;
+	        this.transformFn = transformFn;
+	        this.options = options;
+	    }
+	    return TransformMetadata;
+	}());
+	exports.TransformMetadata = TransformMetadata;
+	
+
+
+/***/ },
+/* 626 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var enums_1 = __webpack_require__(627);
+	var APIResult = (function () {
+	    function APIResult() {
+	        this.successful = true;
+	        this.statusCode = enums_1.HTTPStatusCode.OK;
+	    }
+	    APIResult.prototype.formatError = function () { };
+	    ;
+	    return APIResult;
+	}());
+	exports.APIResult = APIResult;
+	var Order = (function () {
+	    function Order() {
+	        this.createTime = new Date();
+	    }
+	    Order.prototype.getSubtotal = function () {
+	        var subtotal = 0;
+	        this.orderItems.map(function (orderItem) {
+	            subtotal += orderItem.productOrderPrice * orderItem.productQuantity;
+	        });
+	        return subtotal;
+	    };
+	    Order.prototype.getTotal = function () {
+	        var total = this.getSubtotal();
+	        total += this.tax + this.shipping;
+	        return total;
+	    };
+	    return Order;
+	}());
+	exports.Order = Order;
+	var OrderItem = (function () {
+	    function OrderItem() {
+	    }
+	    return OrderItem;
+	}());
+	exports.OrderItem = OrderItem;
+	var Product = (function () {
+	    function Product() {
+	    }
+	    return Product;
+	}());
+	exports.Product = Product;
+	var User = (function () {
+	    function User() {
+	    }
+	    return User;
+	}());
+	exports.User = User;
+
+
+/***/ },
+/* 627 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var HTTPStatusCode;
+	(function (HTTPStatusCode) {
+	    HTTPStatusCode[HTTPStatusCode["OK"] = 200] = "OK";
+	    HTTPStatusCode[HTTPStatusCode["BadRequest"] = 400] = "BadRequest";
+	    HTTPStatusCode[HTTPStatusCode["InternalServerError"] = 500] = "InternalServerError";
+	})(HTTPStatusCode = exports.HTTPStatusCode || (exports.HTTPStatusCode = {}));
+	var MessageSectionCategory;
+	(function (MessageSectionCategory) {
+	    MessageSectionCategory[MessageSectionCategory["Name"] = 0] = "Name";
+	    MessageSectionCategory[MessageSectionCategory["Address"] = 1] = "Address";
+	    MessageSectionCategory[MessageSectionCategory["Mobile"] = 2] = "Mobile";
+	    MessageSectionCategory[MessageSectionCategory["CommodityName"] = 3] = "CommodityName";
+	    MessageSectionCategory[MessageSectionCategory["Quantity"] = 4] = "Quantity";
+	    MessageSectionCategory[MessageSectionCategory["Other"] = 5] = "Other";
+	})(MessageSectionCategory = exports.MessageSectionCategory || (exports.MessageSectionCategory = {}));
+	var ErrorCode;
+	(function (ErrorCode) {
+	    ErrorCode[ErrorCode["MessageMissingRequired"] = 0] = "MessageMissingRequired";
+	    ErrorCode[ErrorCode["MessageMultipleValue"] = 1] = "MessageMultipleValue";
+	    ErrorCode[ErrorCode["OrderAssembleFailed"] = 2] = "OrderAssembleFailed";
+	})(ErrorCode = exports.ErrorCode || (exports.ErrorCode = {}));
+	var StatusCode;
+	(function (StatusCode) {
+	    StatusCode[StatusCode["Created"] = 0] = "Created";
+	})(StatusCode = exports.StatusCode || (exports.StatusCode = {}));
+
+
+/***/ },
+/* 628 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40591,14 +41573,15 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 615 */
+/* 629 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var __extends = this && this.__extends || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() {
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
 	        this.constructor = d;
 	    }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -40607,7 +41590,7 @@
 	var Dashboard = function (_super) {
 	    __extends(Dashboard, _super);
 	    function Dashboard() {
-	        _super.apply(this, arguments);
+	        return _super !== null && _super.apply(this, arguments) || this;
 	    }
 	    Dashboard.prototype.render = function () {
 	        return React.createElement("div", null, React.createElement("h1", null, "Dashboard"), React.createElement("div", { className: "row tile_count" }, React.createElement("div", { className: "col-md-2 col-sm-4 col-xs-6 tile_stats_count" }, React.createElement("span", { className: "count_top" }, React.createElement("i", { className: "fa fa-user" }), " Total Users"), React.createElement("div", { className: "count" }, "2500"), React.createElement("span", { className: "count_bottom" }, React.createElement("i", { className: "green" }, "4% "), " From last Week")), React.createElement("div", { className: "col-md-2 col-sm-4 col-xs-6 tile_stats_count" }, React.createElement("span", { className: "count_top" }, React.createElement("i", { className: "fa fa-clock-o" }), " Average Time"), React.createElement("div", { className: "count" }, "123.50"), React.createElement("span", { className: "count_bottom" }, React.createElement("i", { className: "green" }, React.createElement("i", { className: "fa fa-sort-asc" }), "3% "), " From last Week")), React.createElement("div", { className: "col-md-2 col-sm-4 col-xs-6 tile_stats_count" }, React.createElement("span", { className: "count_top" }, React.createElement("i", { className: "fa fa-user" }), " Total Males"), React.createElement("div", { className: "count green" }, "2,500"), React.createElement("span", { className: "count_bottom" }, React.createElement("i", { className: "green" }, React.createElement("i", { className: "fa fa-sort-asc" }), "34% "), " From last Week")), React.createElement("div", { className: "col-md-2 col-sm-4 col-xs-6 tile_stats_count" }, React.createElement("span", { className: "count_top" }, React.createElement("i", { className: "fa fa-user" }), " Total Females"), React.createElement("div", { className: "count" }, "4,567"), React.createElement("span", { className: "count_bottom" }, React.createElement("i", { className: "red" }, React.createElement("i", { className: "fa fa-sort-desc" }), "12% "), " From last Week")), React.createElement("div", { className: "col-md-2 col-sm-4 col-xs-6 tile_stats_count" }, React.createElement("span", { className: "count_top" }, React.createElement("i", { className: "fa fa-user" }), " Total Collections"), React.createElement("div", { className: "count" }, "2,315"), React.createElement("span", { className: "count_bottom" }, React.createElement("i", { className: "green" }, React.createElement("i", { className: "fa fa-sort-asc" }), "34% "), " From last Week")), React.createElement("div", { className: "col-md-2 col-sm-4 col-xs-6 tile_stats_count" }, React.createElement("span", { className: "count_top" }, React.createElement("i", { className: "fa fa-user" }), " Total Connections"), React.createElement("div", { className: "count" }, "7,325"), React.createElement("span", { className: "count_bottom" }, React.createElement("i", { className: "green" }, React.createElement("i", { className: "fa fa-sort-asc" }), "34% "), " From last Week"))));
@@ -40616,6 +41599,220 @@
 	}(React.Component);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = Dashboard;
+
+/***/ },
+/* 630 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(299);
+	var table_1 = __webpack_require__(631);
+	var editableSelect_1 = __webpack_require__(632);
+	var invoice_1 = __webpack_require__(633);
+	var OrderActions = __webpack_require__(595);
+	var OrderPage = function (_super) {
+	    __extends(OrderPage, _super);
+	    function OrderPage() {
+	        return _super !== null && _super.apply(this, arguments) || this;
+	    }
+	    OrderPage.prototype.componentWillMount = function () {
+	        var _a = this.props,
+	            dispatch = _a.dispatch,
+	            params = _a.params;
+	        dispatch(OrderActions.LOAD_ORDER_LIST(params.id));
+	    };
+	    OrderPage.prototype.handleOrderRowClick = function (rowData) {
+	        var order = rowData;
+	        var dispatch = this.props.dispatch;
+	        dispatch(OrderActions.SHOW_ORDER(order));
+	    };
+	    OrderPage.prototype.renderOrderDetail = function () {
+	        var state = this.props.state;
+	        var currentOrder = state.orderState.currentOrder;
+	        if (currentOrder) {
+	            return React.createElement(invoice_1.default, { order: currentOrder });
+	        }
+	    };
+	    OrderPage.prototype.render = function () {
+	        var state = this.props.state;
+	        var _a = state.orderState,
+	            orderList = _a.orderList,
+	            error = _a.error,
+	            isOrderProceeding = _a.isOrderProceeding;
+	        if (isOrderProceeding) {
+	            return React.createElement("div", { className: "col-md-12 col-sm-12 col-xs-12" }, React.createElement("div", { className: "loader" }, "Loading..."));
+	        } else if (error) {
+	            return React.createElement("div", { className: "col-md-12 col-sm-12 col-xs-12" }, React.createElement("h1", null, "Error: ", error.errorCode), React.createElement("h3", null, error.errorDetail));
+	        } else {
+	            if (orderList) {
+	                return React.createElement("div", { className: "row" }, React.createElement("div", { className: "col-md-12 col-sm-12 col-xs-12" }, React.createElement("div", { className: "x_panel" }, React.createElement(editableSelect_1.default, { optionList: [{ value: '111' }, { value: '111' }, { value: '111' }, { value: '111' }], valueName: "value", textName: "value", name: "test" }), React.createElement("div", { className: "x_title" }, React.createElement("h2", null, "Table design ", React.createElement("small", null, "Custom design")), React.createElement("ul", { className: "nav navbar-right panel_toolbox" }, React.createElement("li", null, React.createElement("a", { className: "collapse-link" }, React.createElement("i", { className: "fa fa-chevron-up" }))), React.createElement("li", { className: "dropdown" }, React.createElement("a", { href: "#", className: "dropdown-toggle", "data-toggle": "dropdown", role: "button", "aria-expanded": "false" }, React.createElement("i", { className: "fa fa-wrench" })), React.createElement("ul", { className: "dropdown-menu", role: "menu" }, React.createElement("li", null, React.createElement("a", { href: "#" }, "Settings 1")), React.createElement("li", null, React.createElement("a", { href: "#" }, "Settings 2")))), React.createElement("li", null, React.createElement("a", { className: "close-link" }, React.createElement("i", { className: "fa fa-close" })))), React.createElement("div", { className: "clearfix" })), React.createElement("div", { className: "x_content" }, React.createElement("p", null, "Add class ", React.createElement("code", null, "bulk_action"), " to table for bulk actions options on row select"), React.createElement("div", { className: "table-responsive" }, React.createElement(table_1.default, { dataList: orderList, header: {}, idColumn: "id", clickCallBack: this.handleOrderRowClick.bind(this) }))))), this.renderOrderDetail());
+	            }
+	        }
+	        return null;
+	    };
+	    return OrderPage;
+	}(React.Component);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = OrderPage;
+
+/***/ },
+/* 631 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __assign = undefined && undefined.__assign || Object.assign || function (t) {
+	    for (var s, i = 1, n = arguments.length; i < n; i++) {
+	        s = arguments[i];
+	        for (var p in s) {
+	            if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+	        }
+	    }
+	    return t;
+	};
+	var React = __webpack_require__(299);
+	var Table = function (_super) {
+	    __extends(Table, _super);
+	    function Table() {
+	        return _super !== null && _super.apply(this, arguments) || this;
+	    }
+	    Table.prototype.render = function () {
+	        var _this = this;
+	        var _a = this.props,
+	            dataList = _a.dataList,
+	            header = _a.header,
+	            idColumn = _a.idColumn;
+	        return React.createElement("table", { className: "table table-striped jambo_table bulk_action" }, React.createElement("thead", null, React.createElement("tr", { className: "headings" }, React.createElement("th", null, React.createElement("div", { className: "icheckbox_flat-green" }, React.createElement("input", { type: "checkbox", id: "check-all", className: "flat" }))), Object.keys(dataList).map(function (key, index) {
+	            return React.createElement("th", { className: "column-title", key: "t_th_" + index }, header[key]);
+	        }))), React.createElement("tbody", null, dataList.data.map(function (data, index) {
+	            return React.createElement(TableRow, __assign({ header: header, rowData: data, key: "t_tr_" + index }, _this.props));
+	        })));
+	    };
+	    return Table;
+	}(React.Component);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Table;
+	var TableRow = function (_super) {
+	    __extends(TableRow, _super);
+	    function TableRow() {
+	        return _super !== null && _super.apply(this, arguments) || this;
+	    }
+	    TableRow.prototype.render = function () {
+	        var _a = this.props,
+	            header = _a.header,
+	            rowData = _a.rowData,
+	            idColumn = _a.idColumn,
+	            clickCallBack = _a.clickCallBack;
+	        return React.createElement("tr", { className: "even cell", onClick: clickCallBack.bind(null, rowData) }, React.createElement("td", { className: "a-center " }, React.createElement("div", { className: "icheckbox_flat-green" }, React.createElement("input", { type: "checkbox", className: "flat", name: "table_records" }))), Object.keys(header).map(function (key, index) {
+	            if (key == idColumn) {
+	                return React.createElement("td", { key: "t_tr_td_" + index }, React.createElement("b", null, rowData[key]));
+	            } else {
+	                return React.createElement("td", { key: "t_tr_td_" + index }, rowData[key]);
+	            }
+	        }));
+	    };
+	    return TableRow;
+	}(React.Component);
+
+/***/ },
+/* 632 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(299);
+	var EditableSelect = function (_super) {
+	    __extends(EditableSelect, _super);
+	    function EditableSelect() {
+	        return _super !== null && _super.apply(this, arguments) || this;
+	    }
+	    EditableSelect.prototype.handleSelectChange = function (event) {
+	        var select = event.target;
+	        select.nextElementSibling.value = select.value;
+	    };
+	    EditableSelect.prototype.render = function () {
+	        var _a = this.props,
+	            _b = _a.size,
+	            size = _b === void 0 ? 20 : _b,
+	            name = _a.name,
+	            optionList = _a.optionList,
+	            valueName = _a.valueName,
+	            textName = _a.textName;
+	        return (
+	            // non-html5 implementation
+	            //        <div style={{position:"relative",width:width,fontSize:"14px",}}>
+	            //            <select onChange={this.handleSelectChange.bind(this)} style={{position:"absolute",top:"0px",left:"0px",width:width}}>
+	            //            {optionList.map((option,index)=>{
+	            //                return <option key={index} value={option[valueName]}>{option[textName]}</option>;
+	            //                })}
+	            //            </select>
+	            //            <input type="text" name={name} value="" style={{position:"absolute",top:"0px",left:"0px",width:width-20,fontSize:"12px",}}/>
+	            //        </div>
+	            React.createElement("div", null, React.createElement("input", { list: name + "_list", name: name, size: size }), React.createElement("datalist", { id: name + "_list" }, optionList.map(function (option, index) {
+	                return React.createElement("option", { key: index, value: option[valueName] }, option[textName]);
+	            })))
+	        );
+	    };
+	    return EditableSelect;
+	}(React.Component);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = EditableSelect;
+
+/***/ },
+/* 633 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var __extends = undefined && undefined.__extends || function (d, b) {
+	    for (var p in b) {
+	        if (b.hasOwnProperty(p)) d[p] = b[p];
+	    }function __() {
+	        this.constructor = d;
+	    }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(299);
+	var Invoice = function (_super) {
+	    __extends(Invoice, _super);
+	    function Invoice() {
+	        return _super !== null && _super.apply(this, arguments) || this;
+	    }
+	    Invoice.prototype.render = function () {
+	        var order = this.props.order;
+	        return React.createElement("div", { className: "col-md-12 col-sm-12 col-xs-12" }, React.createElement("div", { className: "x_panel" }, React.createElement("div", { className: "x_title" }, React.createElement("h2", null, "Invoice of Order ", React.createElement("small", null, order.id)), React.createElement("ul", { className: "nav navbar-right panel_toolbox" }, React.createElement("li", null, React.createElement("a", { className: "collapse-link" }, React.createElement("i", { className: "fa fa-chevron-up" }))), React.createElement("li", null, React.createElement("a", { className: "close-link" }, React.createElement("i", { className: "fa fa-close" })))), React.createElement("div", { className: "clearfix" })), React.createElement("div", { className: "x_content" }, React.createElement("section", { className: "content invoice" }, React.createElement("div", { className: "row" }, React.createElement("div", { className: "col-xs-12 invoice-header" }, React.createElement("h1", null, React.createElement("i", { className: "fa fa-globe" }), " Invoice.", React.createElement("small", { className: "pull-right" }, "Date: ", order.createTime.toUTCString())))), React.createElement("div", { className: "row invoice-info" }, React.createElement("div", { className: "col-sm-4 invoice-col" }, "From", React.createElement("br", null), React.createElement("strong", null, order.senderName), React.createElement("br", null), React.createElement("span", null, order.senderPhone), React.createElement("br", null), React.createElement("address", null, order.senderAddress)), React.createElement("div", { className: "col-sm-4 invoice-col" }, "To", React.createElement("br", null), React.createElement("strong", null, order.consigneeName), React.createElement("br", null), React.createElement("span", null, order.consigneePhone), React.createElement("br", null), React.createElement("address", null, order.consigneeAddress)), React.createElement("div", { className: "col-sm-4 invoice-col" }, React.createElement("b", null, "Invoice #INV", order.id), React.createElement("br", null), React.createElement("br", null), React.createElement("b", null, "Order ID:"), " ", order.id, React.createElement("br", null), React.createElement("b", null, "Payment Due:"), " ", order.paidTime.toDateString(), React.createElement("br", null), React.createElement("b", null, "Account:"), " 968-34567")), React.createElement("div", { className: "row" }, React.createElement("div", { className: "col-xs-12 table" }, React.createElement("table", { className: "table table-striped" }, React.createElement("thead", null, React.createElement("tr", null, React.createElement("th", null, "Qty"), React.createElement("th", null, "Product"), React.createElement("th", null, "Serial #"), React.createElement("th", null, "Description"), React.createElement("th", null, "Subtotal"))), React.createElement("tbody", null, order.orderItems.map(function (orderItem, index) {
+	            return React.createElement("tr", { key: "tr_" + index }, React.createElement("td", null, orderItem.productQuantity), React.createElement("td", null, orderItem.product.productName), React.createElement("td", null, orderItem.product.id), React.createElement("td", null, orderItem.product.productSummary), React.createElement("td", null, "$", orderItem.productOrderPrice));
+	        }))))), React.createElement("div", { className: "row" }, React.createElement("div", { className: "col-xs-6" }, React.createElement("p", { className: "lead" }, "Payment Methods:"), React.createElement("img", { src: "images/visa.png", alt: "Visa" }), React.createElement("img", { src: "images/mastercard.png", alt: "Mastercard" }), React.createElement("img", { src: "images/american-express.png", alt: "American Express" }), React.createElement("img", { src: "images/paypal.png", alt: "Paypal" }), React.createElement("p", { className: "text-muted well well-sm no-shadow" }, "Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem plugg dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.")), React.createElement("div", { className: "col-xs-6" }, React.createElement("p", { className: "lead" }, "Amount Due 2/22/2014"), React.createElement("div", { className: "table-responsive" }, React.createElement("table", { className: "table" }, React.createElement("tbody", null, React.createElement("tr", null, React.createElement("th", null, "Subtotal:"), React.createElement("td", null, "$", order.getSubtotal())), React.createElement("tr", null, React.createElement("th", null, "Tax (9.3%)"), React.createElement("td", null, "$", order.tax)), React.createElement("tr", null, React.createElement("th", null, "Shipping:"), React.createElement("td", null, "$", order.shipping)), React.createElement("tr", null, React.createElement("th", null, "Total:"), React.createElement("td", null, "$", order.getTotal()))))))), React.createElement("div", { className: "row no-print" }, React.createElement("div", { className: "col-xs-12" }, React.createElement("button", { className: "btn btn-default", onClick: window.print }, React.createElement("i", { className: "fa fa-print" }), " Print"), React.createElement("button", { className: "btn btn-success pull-right" }, React.createElement("i", { className: "fa fa-credit-card" }), " Submit Payment"), React.createElement("button", { className: "btn btn-primary pull-right" }, React.createElement("i", { className: "fa fa-download" }), " Generate PDF")))))));
+	    };
+	    return Invoice;
+	}(React.Component);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Invoice;
 
 /***/ }
 /******/ ]);

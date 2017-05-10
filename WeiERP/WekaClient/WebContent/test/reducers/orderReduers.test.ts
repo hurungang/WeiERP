@@ -8,6 +8,7 @@ import {
   SHOW_ORDER,
   SHOW_ORDER_BY_ID,
   ADD_ORDER,
+  SAVE_ORDER_RECEIVED,
 } from '../../app/actions/orderActions'
 import {OrderState} from '../../app/reducers/reducerTypes';
 import {Error,DataList,Order} from '../../app/models/modelTypes';
@@ -25,7 +26,7 @@ describe("App Reducers",()=>{
   })
   
   it("LOAD_ORDER_LIST_RECEIVED",()=>{
-    let orderList:DataList<Order> = {header:null,data:[new Order()]};
+    let orderList:DataList<Order> = new DataList(Order,[new Order()]);
     let newState:OrderState = orderReducers(INITIAL_ORDER_STATE,LOAD_ORDER_LIST_RECEIVED(orderList));
     chai.assert.strictEqual(newState.orderList,orderList);
   })
@@ -40,24 +41,36 @@ describe("App Reducers",()=>{
   
   it("SHOW_ORDER",()=>{
     let order:Order = new Order();
-    order.id = 1;
+    order.id = "1";
     let newState:OrderState = orderReducers(INITIAL_ORDER_STATE,SHOW_ORDER(order));
     chai.assert.strictEqual(newState.currentOrder,order);
   })
   
   it("SHOW_ORDER_BY_ID",()=>{
     let order:Order = new Order();
-    order.id = 1;
-    let orderList:DataList<Order> = {header:null,data:[order,new Order()]};
+    order.id = "1";
+    let orderList:DataList<Order> = new DataList(Order,[new Order(),order]);
     let newState:OrderState = orderReducers(INITIAL_ORDER_STATE,LOAD_ORDER_LIST_RECEIVED(orderList));
-    newState = orderReducers(newState,SHOW_ORDER_BY_ID(1));
-    chai.assert.strictEqual(newState.currentOrder,order);
+    newState = orderReducers(newState,SHOW_ORDER_BY_ID("1"));
+    chai.assert.deepEqual(newState.currentOrder,order);
   })
   
   it("ADD_ORDER",()=>{
     let order:Order = new Order();
-    order.id = 1;
+    order.id = "1";
     let newState:OrderState = orderReducers(INITIAL_ORDER_STATE,ADD_ORDER(order));
     //todo
+  })
+
+  it("SAVE_ORDER_RECEIVED",()=>{
+    let testOrder = new Order();
+    testOrder.id = "1";
+    testOrder.consigneeName = "John";
+    let orderList:DataList<Order> = new DataList(Order,[new Order(),testOrder]);
+    let newState:OrderState = orderReducers(INITIAL_ORDER_STATE,LOAD_ORDER_LIST_RECEIVED(orderList));
+    chai.assert.strictEqual(newState.orderList.data[1].consigneeName,"John");
+    testOrder.consigneeName = "Tom";
+    newState = orderReducers(newState,SAVE_ORDER_RECEIVED(testOrder));
+    chai.assert.strictEqual(newState.orderList.data[1].consigneeName,"Tom");
   })
 })

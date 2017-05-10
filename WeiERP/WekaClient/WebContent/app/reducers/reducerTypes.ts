@@ -1,5 +1,5 @@
 import {Action} from '../actions/actionTypes';
-import {User,Order,DataList,Error,Localization} from '../models/modelTypes';
+import { User, Order, DataList, Error, Config, Language } from '../models/modelTypes';
 
 export interface Reducer<T> {
   (state: T, action: Action<any>):T
@@ -10,29 +10,17 @@ export class AppState {
 	isSmallMenuMode: boolean;
 	error?: Error;
 	isAppProceeding: boolean;
-  config : Object;
-  language: string;
-
-  constructor(){
-  }
-  
-  getText= function():Localization{
-    if(this.config&&this.language){
-      return this.config.localization[this.language];
-    }else{
-      return null;
-    }
-  }
+  language: Language;
 }
 
-export interface OrderState {
+export class OrderState {
 	currentOrder?: any;
 	orderList?: DataList<Order>;
 	error?: Error;
 	isOrderProceeding: boolean;
 }
 
-export interface State {
+export class State {
 	appState: AppState;
 	orderState: OrderState;
 }

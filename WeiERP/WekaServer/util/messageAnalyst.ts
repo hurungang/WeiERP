@@ -18,11 +18,13 @@ export class MessageAnalyst {
     let messageSections: string[] = this.message.split(this.regexSymbol);
     this.result = new MessageAnalysisResult();
     for (var message of messageSections) {
-      let messageSection: TextSection = new TextSection(message,patterns);
-      this.result.add(messageSection);
+      if(message.trim()!=""){
+        let messageSection: TextSection = new TextSection(message,patterns);
+        this.result.add(messageSection);
+      }
     }
     this.validateResult = this.validate();
-    logger.debug("MessageAnalyst constructed");
+    logger.debug("MessageAnalyst constructed:"+this.result);
   }
 
   public validate():ValidateResult{
@@ -50,12 +52,36 @@ export class MessageAnalyst {
 
 export class MessageAnalysisResult {
   textSections: TextSection[];
+  rawTextSections: TextSection[];
   constructor() {
     this.textSections = [];
+    this.rawTextSections = [];
   }
 
   public add(textSection: TextSection) {
-    this.textSections.push(textSection);
+    this.rawTextSections.push(textSection);
+    let pattern = commonConfig.MESSAGE_ANALYST_CONFIG.getOrderPattern(textSection.category);
+    if(pattern.multiple){
+      this.textSections.push(textSection);
+    }else{
+      let pendingAddTextSection = textSection;
+      let categoryExisted = false;
+      for(let i=0;i<this.textSections.length;i++){
+        let savedTextSection = this.textSections[i];
+        if(savedTextSection.category == textSection.category){
+          categoryExisted = true;
+          if(savedTextSection.similarity<textSection.similarity){
+            pendingAddTextSection = savedTextSection;
+            this.textSections[i] = textSection;
+          }
+        }
+      }
+      if(!categoryExisted){
+        this.textSections.push(pendingAddTextSection);
+      }else if(pendingAddTextSection.nextPossibleCategory()){
+        this.add(pendingAddTextSection);
+      }
+    }
   }
 
   public get(index: number): TextSection {
@@ -82,6 +108,14 @@ export class MessageAnalysisResult {
       return tempResult[0];
     }
   }
+
+  public toString(){
+    let resultString = "";
+    for(let textSection of this.textSections){
+      resultString += textSection+"\n";
+    }
+    return resultString;
+  }
 }
 export class TextSection {
   patterns: TextPattern[];
@@ -93,9 +127,11 @@ export class TextSection {
   countSymbol: number;
   similarities: Similarity[];
   category: MessageSectionCategory;
+  similarity: number;
   constructor(text: string, patterns: TextPattern[]) {
     this.text = text;
     this.patterns = patterns;
+    this.category = null;
     this.length = this.count(commonConfig.MESSAGE_ANALYST_CONFIG.REGEX_MIXED);
     this.countEnglish = this.count(commonConfig.MESSAGE_ANALYST_CONFIG.REGEX_ENGLISH);
     this.countNumber = this.count(commonConfig.MESSAGE_ANALYST_CONFIG.REGEX_NUMBER);
@@ -103,11 +139,28 @@ export class TextSection {
     this.countSymbol = this.count(commonConfig.MESSAGE_ANALYST_CONFIG.REGEX_SYMBOL);
 
     this.calcSimilarity();
-  
-    let highestSimilarity = this.getHighestSimilarity();
-    if(highestSimilarity){
-      this.category = highestSimilarity.category;
+    this.nextPossibleCategory();
+  }
+
+  public nextPossibleCategory():boolean{
+    //get next most possible category compare to current category
+    let hasNextCategory = false;
+    for(let i=0;i<this.similarities.length;i++){
+      let tempCategory = this.similarities[i].category;
+      let tempSimilarity = this.similarities[i].similarity;
+      if(this.category==null){
+        this.category = tempCategory;
+        this.similarity = tempSimilarity;
+        hasNextCategory = true;
+        break;
+      }else if(this.category==tempCategory&&(i+1)<this.similarities.length){
+        this.category = this.similarities[i+1].category;
+        this.similarity = this.similarities[i+1].similarity;
+        hasNextCategory = true;
+        break;
+      }
     }
+    return hasNextCategory;
   }
   
   public getSimilarity(category: MessageSectionCategory):Similarity {
@@ -116,18 +169,6 @@ export class TextSection {
         return similarity;
       }
     }
-  }
-  
-  public getHighestSimilarity():Similarity{
-    let tempSimilarity = 0;
-    let highestSimilarity:Similarity;
-    for (let similarity of this.similarities) {
-      if (similarity.similarity > tempSimilarity) {
-        tempSimilarity = similarity.similarity;
-        highestSimilarity = similarity;
-      }
-    }
-    return highestSimilarity;
   }
   
   private count(regEx: RegExp): number {
@@ -151,6 +192,10 @@ export class TextSection {
         category: pattern.category,
         similarity: similarity
       });
+      this.similarities.sort((a,b)=>{
+        //from high to low
+        return b.similarity - a.similarity;
+      })
     }
   }
   private getKeywordScore(keywords:string){
@@ -172,6 +217,15 @@ export class TextSection {
     } else if (count <= countRange.maximalLength && count > countRange.higherLength) {
       return (countRange.maximalLength - count) / (countRange.maximalLength - countRange.higherLength)
     }
+  }
+
+  public toString(){
+    let resultString = "{category:"+MessageSectionCategory[this.category]+",text:"+this.text+",similarities:[";
+    for(let tempSimilarity of this.similarities){
+      resultString += "{category:"+MessageSectionCategory[tempSimilarity.category]+",similarity:"+tempSimilarity.similarity+"}";
+    }
+    resultString += "]}";
+    return resultString;
   }
 }
 

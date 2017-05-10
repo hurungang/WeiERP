@@ -17,6 +17,7 @@ export enum MessageSectionCategory{
 export enum ErrorCode{
   MessageMissingRequired,
   MessageMultipleValue,
+  OrderAssembleFailed,
 }
 
 export enum StatusCode{

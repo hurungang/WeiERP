@@ -10,6 +10,8 @@ import {
 	ORDER_PROCEEDING_END,
 	SHOW_ORDER,
 	SHOW_ORDER_BY_ID,
+	CLOSE_CURRENT_ORDER,
+	SAVE_ORDER_RECEIVED,
 } from '../actions/orderActions'
 
 export const INITIAL_ORDER_STATE : OrderState = {
@@ -47,10 +49,24 @@ let orderReducer : Reducer<OrderState> = (state : OrderState = INITIAL_ORDER_STA
 		});
 	}else if(isType(action, SHOW_ORDER_BY_ID)){
     let orderList:DataList<Order> = state.orderList;
-		let id:number = action.payload;
-		let currentOrder:Order = orderList.data.find(element=>element.id==id);
+		let id:string = action.payload;
+		if(orderList.data&&orderList.data.length>1){
+			let currentOrder:Order = orderList.data.find(element=>element.id==id);
+			newState = Object.assign({},state,{
+				currentOrder: currentOrder,
+			});
+		}
+	}else if(isType(action, CLOSE_CURRENT_ORDER)){
 		newState = Object.assign({},state,{
-			currentOrder: currentOrder,
+			currentOrder: null,
+		});
+
+	}else if(isType(action, SAVE_ORDER_RECEIVED)){
+		let savedOrder:Order = action.payload;
+		let orderList = newState.orderList;
+		orderList.addOrReplace(savedOrder);
+		newState = Object.assign({},state,{
+			currentOrder: null,
 		});
 	}
   return newState;

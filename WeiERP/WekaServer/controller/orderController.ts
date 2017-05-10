@@ -40,7 +40,7 @@ export default class OrderController extends Controller implements IController {
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
         /* start of business logic */
-        OrderDAO.find({})
+        OrderDAO.find({}).populate("user").populate("orderItems.product").exec()
           .then((orders: any) => {
             result.payload = orders;
             this.handleResult(res,next,result);
@@ -60,7 +60,7 @@ export default class OrderController extends Controller implements IController {
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
         /* start of business logic */
-        OrderDAO.findById(req.params.id).populate("orderItems.product").exec()
+        OrderDAO.findById(req.params.id).populate("user").populate("orderItems.product").exec()
           .then((order: IOrderModel) => {
             result.payload = order;
             this.handleResult(res,next,result);
@@ -81,8 +81,10 @@ export default class OrderController extends Controller implements IController {
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
         /* start of business logic */
-        var query = { '_id': req.params.id };
+        let newOrder = req.body;
+        var query = { '_id': newOrder.id };
         OrderDAO.findOneAndUpdate(query, req.body, { upsert: false, new: true, runValidators: true })
+          .populate("user").populate("orderItems.product")
           .then((order: IOrderModel) => {
             result.payload = order;
             this.handleResult(res,next,result);

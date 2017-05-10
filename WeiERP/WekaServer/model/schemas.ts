@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose'
+import { IOrder, IOrderItem, IProduct, IUser } from './models'
 
 let orderItemSchema: mongoose.Schema = new mongoose.Schema({
   product: { type: mongoose.Schema.Types.ObjectId, ref: 'products' },
@@ -8,6 +9,7 @@ let orderItemSchema: mongoose.Schema = new mongoose.Schema({
 });
 
 let orderSchema: mongoose.Schema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
   consigneeName: String,
   consigneeAddress: String,
   consigneePhone: String,
@@ -21,54 +23,40 @@ let orderSchema: mongoose.Schema = new mongoose.Schema({
   paidTime: Date,
   status: String,
   rawMessage: String,
-  orderItems: [orderItemSchema]
+  orderItems: [orderItemSchema],
+  comments: String
 });
 
+
 let productSchema: mongoose.Schema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
   productName: String,
   productSN: String,
   productSummary: String,
   productDetail: String,
-  productPrice: String,
+  productPrice: Number,
   productUnit: String,
+  createTime: Date,
 });
 
-export interface IOrder {
-  id?: string;
-  consigneeName: string,
-  consigneeAddress: string,
-  consigneePhone: string,
-  senderName: string,
-  senderAddress?: string,
-  senderPhone?: string,
+let userSchema: mongoose.Schema = new mongoose.Schema({
+  name: String,
+  source: String,
+  referenceID: String,
+  address: String,
+  phone: String,
+  sender: String,
   createTime: Date,
-  tax?: number,
-  shipping?: number,
-  paid?: number,
-  paidTime?: Date,
-  status: string,
-  rawMessage: string,
-  orderItems: IOrderItem[]
-}
+});
+orderItemSchema.virtual('id').get(function(){return this._id.toHexString()});
+orderSchema.virtual('id').get(function(){return this._id.toHexString()});
+productSchema.virtual('id').get(function(){return this._id.toHexString()});
+userSchema.virtual('id').get(function(){return this._id.toHexString()});
 
-export interface IOrderItem {
-  id?: string;
-  product: IProduct,
-  productQuantity: number,
-  productCost?: number,
-  productOrderPrice?: number
-}
-
-export interface IProduct {
-  id?: string;
-  productName: string,
-  productSN?: string,
-  productSummary?: string,
-  productDetail?: string,
-  productPrice?: number,
-  productUnit?: string,
-  createTime?: Date;
-}
+orderItemSchema.set('toJSON',{virtuals:true})
+orderSchema.set('toJSON',{virtuals:true})
+productSchema.set('toJSON',{virtuals:true})
+userSchema.set('toJSON',{virtuals:true})
 
 export interface IOrderModel extends IOrder, mongoose.Document {
 
@@ -81,6 +69,9 @@ export interface IOrderItemModel extends IOrderItem, mongoose.Document {
 export interface IProductModel extends IProduct, mongoose.Document {
 
 }
+export interface IUserModel extends IUser, mongoose.Document {
 
+}
 export const OrderDAO = mongoose.model<IOrderModel>('orders', orderSchema);
 export const ProductDAO = mongoose.model<IProductModel>('products', productSchema);
+export const UserDAO = mongoose.model<IUserModel>('users', userSchema);

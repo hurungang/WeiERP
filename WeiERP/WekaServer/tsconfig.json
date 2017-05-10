@@ -6,8 +6,10 @@
         "lib": [ "es6","dom"],
         "target": "es5",
         "allowJs": false,
-        "outDir": "../WekaClient/node_modules/WekaServer",
-    	"declaration": true
+        "outDir": "../WekaClient/WebContent/node_modules/WekaServer",
+    	"declaration": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
     },
     "files": [
         "./app.ts"

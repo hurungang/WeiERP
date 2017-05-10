@@ -39,9 +39,9 @@ export class MESSAGE_ANALYST_CONFIG {
     multiple: false,
   },{
     category: MessageSectionCategory.CommodityName,
-    countEnglish:   {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
+    countEnglish:   {minimalLength: 0,maximalLength: 20,lowerLength: 3,higherLength: 10, weight: 1,},
     countNumber:    {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
-    countChinese:   {minimalLength: 4,maximalLength: 40,lowerLength: 10,higherLength: 20, weight: 1,},
+    countChinese:   {minimalLength: 4,maximalLength: 40,lowerLength: 3,higherLength: 20, weight: 1,},
     countSymbol:    {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
     keywords: "护肝片;维生素",
     keywordsWeight: 20,
@@ -62,9 +62,9 @@ export class MESSAGE_ANALYST_CONFIG {
   },{
     category: MessageSectionCategory.Quantity,
     countEnglish:   {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
-    countNumber:    {minimalLength: 0,maximalLength: 3,lowerLength: 1,higherLength: 2, weight: 10,},
+    countNumber:    {minimalLength: 1,maximalLength: 3,lowerLength: 1,higherLength: 2, weight: 20,},
     countChinese:   {minimalLength: 0,maximalLength: 2,lowerLength: 0,higherLength: 2, weight: 10,},
-    countSymbol:    {minimalLength: 0,maximalLength: 3,lowerLength: 0,higherLength: 1, weight: 1,},
+    countSymbol:    {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 0,},
     keywords: "瓶;盒;箱;件;个;只;罐;条;袋;支;管",
     keywordsWeight: 10,
     required: true,

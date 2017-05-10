@@ -29,7 +29,7 @@ describe("App Reducers",()=>{
   it("APP_LOGIN",()=>{
     chai.assert.strictEqual(INITIAL_APP_STATE.isSmallMenuMode,false);
     let user:User = new User();
-    user.id = 1;
+    user.id = "1";
     let newState:AppState = appReducers(INITIAL_APP_STATE,APP_LOGIN(user));
     chai.assert.strictEqual(newState.user,user);
   })

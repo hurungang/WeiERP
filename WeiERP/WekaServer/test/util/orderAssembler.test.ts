@@ -13,12 +13,6 @@ describe("OrderAssembler Util", () => {
       let orderAssembler = new OrderAssembler(test);
       chai.assert.strictEqual(orderAssembler.order.rawMessage, test);
     })
-    it("return no information if message is invalid", () => {
-      let test: string = "测试，13551880577 四川省成都市温江区碧水新居12# 四川省成都市温江区碧水新居12#;Swiss男士综合维生素 2瓶 Swiss男士综合维生素 2瓶";
-      let orderAssembler = new OrderAssembler(test);
-      chai.assert.strictEqual(orderAssembler.order.rawMessage, test);
-      chai.assert.strictEqual(orderAssembler.order.consigneeName, undefined);
-    })
     it("find the right order information", () => {
       let test: string = "测试，13551880577 四川省成都市温江区碧水新居12#;Swiss男士综合维生素 2瓶";
       let orderAssembler = new OrderAssembler(test);
@@ -37,6 +31,28 @@ describe("OrderAssembler Util", () => {
       chai.assert.strictEqual(orderAssembler.order.orderItems.length, 1);
       chai.assert.strictEqual(orderAssembler.order.orderItems[0].productQuantity, 2);
       chai.assert.strictEqual(orderAssembler.order.orderItems[0].product.productName, "Swiss男士综合维生素");
+    })
+    it("assemble the right order item when there is only one commodity and commodity do not match any existing keyword", () => {
+      let test: string = "测试，13551880577 四川省成都市温江区碧水新居12#;Blackmoor袋鼠精 2瓶";
+      let orderAssembler = new OrderAssembler(test);
+      chai.assert.strictEqual(orderAssembler.order.rawMessage, test);
+      chai.assert.strictEqual(orderAssembler.order.consigneeName, "测试");
+      chai.assert.strictEqual(orderAssembler.order.consigneeAddress, "四川省成都市温江区碧水新居12#");
+      chai.assert.strictEqual(orderAssembler.order.consigneePhone, "13551880577");
+      chai.assert.strictEqual(orderAssembler.order.orderItems.length, 1);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].productQuantity, 2);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].product.productName, "Blackmoor袋鼠精");
+    })
+    it("assemble the right order item when there is only one commodity and commodity do not match any existing keyword and address at end", () => {
+      let test: string = "测试，13551880577 ;Blackmoor袋鼠精 2瓶 四川省成都市温江区碧水新居12";
+      let orderAssembler = new OrderAssembler(test);
+      chai.assert.strictEqual(orderAssembler.order.rawMessage, test);
+      chai.assert.strictEqual(orderAssembler.order.consigneeName, "测试");
+      chai.assert.strictEqual(orderAssembler.order.consigneeAddress, "四川省成都市温江区碧水新居12");
+      chai.assert.strictEqual(orderAssembler.order.consigneePhone, "13551880577");
+      chai.assert.strictEqual(orderAssembler.order.orderItems.length, 1);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].productQuantity, 2);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].product.productName, "Blackmoor袋鼠精");
     })
     it("assemble the right order item when there is multiple commodities", () => {
       let test: string = "测试，13551880577 四川省成都市温江区碧水新居12#;Swiss男士综合维生素 2瓶 Swiss男士综合维生素 2瓶";

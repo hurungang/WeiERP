@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import {State} from '../reducers/reducerTypes';
-import {Localization} from '../models/modelTypes';
+import { Language } from '../models/modelTypes';
 import Footer from './layout/footer';
 import LeftColumn from './layout/leftColumn';
 import TopNavigation from './layout/topNavigation';
@@ -33,7 +33,7 @@ export default class Main extends React.Component<MainProps,{}>{
 	render(){
 	  let {state,dispatch,params} = this.props;
 	  let {user,isSmallMenuMode} = state.appState;
-    let appText:Localization = state.appState.getText();
+    let appText = state.appState.language.textPackage;
 	  let smallMenuCSSIndicator = isSmallMenuMode?"nav-sm":"nav-md";
 	  return (
 		      <div className={`main_container ${smallMenuCSSIndicator}`}>

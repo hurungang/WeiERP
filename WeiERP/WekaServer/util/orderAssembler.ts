@@ -25,7 +25,7 @@ export default class OrderAssembler {
             this.order.orderItems = this.getOrderItems(messageAnalyst.result);
             this.successful = true;
         }
-        logger.debug("OrderAssembler constructed" + JSON.stringify(this));
+        logger.debug("OrderAssembler constructed");
     }
 
     private getTextByCategory(result: MessageAnalysisResult, category: MessageSectionCategory) {

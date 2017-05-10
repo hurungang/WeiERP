@@ -26,7 +26,7 @@ export class Controller {
       fn(req, res, next, result);
     }
     catch (err) {
-      result = this.badRequest(result, err);
+      result = this.badRequest(result, err.message);
       this.handleResult(res, next, result);
     }
   }
@@ -36,13 +36,13 @@ export class Controller {
     res.json(result);
   }
 
-  public internalError(result: APIResult, error: String): APIResult {
+  public internalError(result: APIResult, error: string): APIResult {
     result.statusCode = HTTPStatusCode.InternalServerError;
     result.errorMessage = error;
     return result;
   }
 
-  public badRequest(result: APIResult, error: String): APIResult {
+  public badRequest(result: APIResult, error: string): APIResult {
     result.statusCode = HTTPStatusCode.BadRequest;
     result.errorMessage = error;
     return result;
