@@ -1163,6 +1163,7 @@ table.jambo_table tbody tr.selected td {
   border-bottom: 1px solid rgba(38, 185, 154, 0.4); }
 
 .dataTables_paginate a {
+  cursor: pointer;
   background: #ff0000; }
 
 .dataTables_wrapper {
@@ -2738,6 +2739,16 @@ ul.count2 li span {
   height: 1px;
   margin: 10px 0; }
 
+.dropdown-menu > li.text-divider{
+    border-bottom: 1px dashed #e7eaec;
+    background-color: #F9FFF0;
+    margin: 5px 0;
+    padding: 3px 10px;
+    color: #5A738E;
+    font-weight: bold;
+    font-size: 14px; 
+    }
+
 ul.messages {
   padding: 0;
   list-style: none; }
@@ -4068,4 +4079,8 @@ ul.notifications {
 
 .cell{
 	cursor:cell;
+}
+
+.pointer{
+	cursor:pointer;
 }

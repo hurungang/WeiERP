@@ -22,4 +22,7 @@ export enum ErrorCode{
 
 export enum StatusCode{
   Created,
+  Sent,
+  Paid,
+  Printed
 }

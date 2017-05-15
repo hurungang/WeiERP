@@ -1,4 +1,4 @@
-import {HTTPStatusCode} from './enums'
+import { HTTPStatusCode, StatusCode } from './enums'
 import { Type } from "class-transformer"
 import 'reflect-metadata';
 
@@ -93,6 +93,8 @@ export class Order extends DataItem implements IOrder {
   constructor(){
     super();
     this.createTime = new Date();
+    this.orderItems = [];
+    this.status = StatusCode[StatusCode.Created];
   }
 
   public getSubtotal(): number {
@@ -148,4 +150,9 @@ export class User implements IUser {
   sender?: string;
   @Type(() => Date)
   createTime?: Date;
+}
+
+export interface BulkActionPayload{
+  idList: string[];
+  applyChange: any;
 }

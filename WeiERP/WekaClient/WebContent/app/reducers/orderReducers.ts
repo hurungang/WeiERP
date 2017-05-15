@@ -12,6 +12,7 @@ import {
 	SHOW_ORDER_BY_ID,
 	CLOSE_CURRENT_ORDER,
 	SAVE_ORDER_RECEIVED,
+    ADD_ORDER,
 } from '../actions/orderActions'
 
 export const INITIAL_ORDER_STATE : OrderState = {
@@ -67,6 +68,11 @@ let orderReducer : Reducer<OrderState> = (state : OrderState = INITIAL_ORDER_STA
 		orderList.addOrReplace(savedOrder);
 		newState = Object.assign({},state,{
 			currentOrder: null,
+		});
+	}else if(isType(action, ADD_ORDER)){
+		let order = new Order();
+		newState = Object.assign({},state,{
+			currentOrder: new Order(),
 		});
 	}
   return newState;

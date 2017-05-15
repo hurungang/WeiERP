@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { APIResult } from '../model/models';
+import { APIResult, BulkActionPayload } from '../model/models';
 import { IOrderModel, OrderDAO } from '../model/schemas';
 import { IController, Controller } from './controller';
 import Logger from '../server/logger';
@@ -23,11 +23,11 @@ export default class OrderController extends Controller implements IController {
           .save()
           .then((order: IOrderModel) => {
             result.payload = order;
-            this.handleResult(res,next,result);
+            this.handleResult(res, next, result);
           })
-          .catch((err: string) => {
-            result = this.internalError(result, err);
-            this.handleResult(res,next,result);
+          .catch((err: any) => {
+            result = this.internalError(result, err.toString());
+            this.handleResult(res, next, result);
           });
         /* end of business logic */
 
@@ -43,11 +43,11 @@ export default class OrderController extends Controller implements IController {
         OrderDAO.find({}).populate("user").populate("orderItems.product").exec()
           .then((orders: any) => {
             result.payload = orders;
-            this.handleResult(res,next,result);
+            this.handleResult(res, next, result);
           })
-          .catch((err: string) => {
-            result = this.internalError(result, err);
-            this.handleResult(res,next,result);
+          .catch((err: any) => {
+            result = this.internalError(result, err.toString());
+            this.handleResult(res, next, result);
           });
         /* end of business logic */
 
@@ -63,11 +63,11 @@ export default class OrderController extends Controller implements IController {
         OrderDAO.findById(req.params.id).populate("user").populate("orderItems.product").exec()
           .then((order: IOrderModel) => {
             result.payload = order;
-            this.handleResult(res,next,result);
+            this.handleResult(res, next, result);
           })
-          .catch((err: string) => {
-            result = this.internalError(result, err);
-            this.handleResult(res,next,result);
+          .catch((err: any) => {
+            result = this.internalError(result, err.toString());
+            this.handleResult(res, next, result);
           });
         /* end of business logic */
 
@@ -87,17 +87,48 @@ export default class OrderController extends Controller implements IController {
           .populate("user").populate("orderItems.product")
           .then((order: IOrderModel) => {
             result.payload = order;
-            this.handleResult(res,next,result);
+            this.handleResult(res, next, result);
           })
-          .catch((err: string) => {
-            result = this.internalError(result, err);
-            this.handleResult(res,next,result);
+          .catch((err: any) => {
+            result = this.internalError(result, err.toString());
+            this.handleResult(res, next, result);
           });
         /* end of business logic */
 
       }
     );
   }
+
+
+  public bulkUpdate(req, res, next) {
+    this.safeHandle(req, res, next,
+      (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
+
+        /* start of business logic */
+        let payload: BulkActionPayload = req.body;
+        var query = { '_id': { $in: payload.idList } };
+        OrderDAO.update(query, payload.applyChange,{multi: true})
+          .then(() => {
+            OrderDAO.find({}).populate("user").populate("orderItems.product").exec()
+              .then((orders: any) => {
+                result.payload = orders;
+                this.handleResult(res, next, result);
+              })
+              .catch((err: any) => {
+                result = this.internalError(result, err.toString());
+                this.handleResult(res, next, result);
+              });
+          })
+          .catch((err: any) => {
+            result = this.internalError(result, err.toString());
+            this.handleResult(res, next, result);
+          });
+        /* end of business logic */
+
+      }
+    );
+  }
+
 
   public deleteById(req, res, next) {
     this.safeHandle(req, res, next,
@@ -107,15 +138,16 @@ export default class OrderController extends Controller implements IController {
         OrderDAO.findByIdAndRemove(req.params.id)
           .then((order: IOrderModel) => {
             result.payload = order;
-            this.handleResult(res,next,result);
+            this.handleResult(res, next, result);
           })
-          .catch((err: string) => {
-            result = this.internalError(result, err);
-            this.handleResult(res,next,result);
+          .catch((err: any) => {
+            result = this.internalError(result, err.toString());
+            this.handleResult(res, next, result);
           });
         /* end of business logic */
 
       }
     );
   }
+
 }

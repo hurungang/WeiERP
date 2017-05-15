@@ -14,13 +14,14 @@ import {OrderState} from '../../app/reducers/reducerTypes';
 import {Error,DataList,Order} from '../../app/models/modelTypes';
 import * as chai from 'chai'
 import * as mocha from 'mocha'
+import { ClientErrorCode } from "../../app/models/enums";
 
 
 describe("App Reducers",()=>{
 
   it("GENERAL_ERROR",()=>{
     let error:Error = new Error();
-    error.errorCode = "test";
+    error.errorCode = ClientErrorCode.ORDER_API_ERROR;
     let newState:OrderState = orderReducers(INITIAL_ORDER_STATE,GENERAL_ERROR(error));
     chai.assert.strictEqual(newState.error,error);
   })

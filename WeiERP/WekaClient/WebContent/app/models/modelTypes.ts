@@ -1,6 +1,7 @@
-import { Status } from './enums'
+import { ClientErrorCode } from './enums'
 import { plainToClass } from "class-transformer"
 import { DataItem } from 'WekaServer/model/models'
+import TextFormater from "../utils/textFormater";
 
 export { Order, OrderItem, Product, User, DataItem } from 'WekaServer/model/models'
 
@@ -37,12 +38,29 @@ export class Language {
     this.textPackage = new TextPackage();
   }
 }
-
+export interface TableHeader{
+  [name: string]: string|ComputedColumn, 
+}
+export interface ComputedColumn{
+  label:string;
+  callback:(value:string)=>string;
+}
+export interface Option{
+  name:any;
+  value:any;
+}
 export class TextPackage {
   applicationName: string;
   invoiceTitle: string;
   orderListTitle: string;
   currencyInfo: string;
+  timeRangeFormat: TextFormater;
+  paginator :{
+    entriesPerPage: string;
+    pageRange: TextFormater;
+    entriesSelectArray: Option[];
+  }
+  orderHeader: TableHeader
   order:{
     id: string;
     user: string;
@@ -63,6 +81,21 @@ export class TextPackage {
     comments: string;
     subtotal: string;
     total: string;
+    idColumn: string;
+    defaultEntriesPerPage: number;
+    bulkSend: string;
+    bulkChangeStatus: string;
+    statuses: {
+      [status:string]:string;
+    },
+    changeStatusButtons: {
+      [status:string]:string;
+    },
+    sendButtons: {
+      newBatch:string;
+      [button:string]:string;
+    },
+    emptyHeader: string;
   };
   orderItem:{
     id: string;
@@ -88,6 +121,9 @@ export class TextPackage {
     delete: string;
     update: string;
     print: string;
+    create: string; 
+    bulkAction: string;
+    refresh: string;
   };
   timeRangePicker:{
       format: string,
@@ -99,6 +135,9 @@ export class TextPackage {
       daysOfWeek: string[],
       monthNames: string[],
       firstDay: number,
+  };
+  errorMessage:{
+    [errorCode: string]:string
   }
 }
 
@@ -128,11 +167,13 @@ export interface Menu {
 
 
 export class Error {
-  errorCode: string;
+  errorCode: ClientErrorCode;
   errorDetail?: string;
 }
 
 export class Paginator {
+  disableNext: boolean;
+  disablePrevious: boolean;
   end: number;
   start: number;
   slice: any[];
@@ -154,6 +195,8 @@ export class Paginator {
       this.start = (this.currentPage-1)*this.entriesPerPage + 1;
       this.end = this.currentPage*this.entriesPerPage;
       this.slice = list.slice((this.currentPage-1)*this.entriesPerPage,(this.currentPage)*this.entriesPerPage);
+      this.disablePrevious = (this.currentPage == 1);
+      this.disableNext = (this.currentPage == this.totalPages);
     }
   }
 
@@ -172,34 +215,6 @@ export class DataList<T extends DataItem>{
     this.data = plainToClass(prototype, data);
   }
 
-  //filter all properties by keyword, return the list has one or more properties contains the keyword
-  public filter(keyword: string): T[] {
-    let resultData = this.data;
-    if (keyword && keyword.length > 0) {
-      resultData = this.data.filter(function (v) {
-        return Object.keys(v).some(function (k) {
-          if (v[k]) {
-            return v[k].toString().indexOf(keyword) > -1;
-          } else {
-            return false;
-          }
-        })
-      }
-      )
-    }
-    return resultData;
-  }
-  public sort(propertyName:string, desc:boolean){
-    this.data = this.data.sort((a,b)=>{
-      let propValueA = a[propertyName]?a[propertyName]:"";
-      let propValueB = b[propertyName]?b[propertyName]:"";
-      if(desc){
-        return (propValueB<propValueA?-1:(propValueB>propValueA?1:0));
-      }else{
-        return (propValueA<propValueB?-1:(propValueA>propValueB?1:0));
-      }
-    })
-  }
   // add or replace, return index of replacing, or -1 for adding
   public addOrReplace(item:T): number {
     let result = -1;
@@ -218,3 +233,9 @@ export class DataList<T extends DataItem>{
   }
 }
 
+export interface TableAction{
+  bulkActions: {
+    [actionName:string]:any;
+  }[]
+  createAction: any;
+}

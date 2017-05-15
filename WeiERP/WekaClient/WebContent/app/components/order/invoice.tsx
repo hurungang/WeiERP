@@ -31,7 +31,7 @@ export default class Invoice extends React.Component<InvoiceProps, {}>{
     order.senderAddress = this.refs.senderAddress.value;
     order.consigneeName = this.refs.consigneeName.value;
     order.consigneePhone = this.refs.consigneePhone.value;
-    order.senderAddress = this.refs.senderAddress.value;
+    order.consigneeAddress = this.refs.consigneeAddress.value;
     order.comments = this.refs.comments.value;
     let newPaid = parseFloat(this.refs.paid.value);
     order.paid = newPaid!=NaN?newPaid:order.paid;

@@ -32,10 +32,10 @@ export default class SidebarMenuItem extends React.Component<SidebarMenuItemProp
 	if(menus!=undefined&&menus.length>0){
 	    return (
     		<ul className="nav child_menu" key={`smi_ul_${menu.id}`}>
-    		{menus.map((subMenu)=>{
+    		{menus.map((subMenu,index)=>{
     			let activeIndicator = (subMenu.id==this.state.activeMenuId)?"current-page":"";
 	    			return 	(
-    					<li className={activeIndicator}>
+    					<li className={activeIndicator} key={index}>
     						<Link to={subMenu.link} onClick={this.handleMenuClick.bind(this)} data-id={subMenu.id}>{subMenu.text}
     							<span className="fa fa-chevron-down"></span>
     						</Link>

@@ -1,6 +1,3 @@
-export enum Status {
-  Pending,
-  Paid,
-  Shipped,
-  Closed,
+export enum ClientErrorCode {
+  ORDER_API_ERROR,
 }
