@@ -4,7 +4,6 @@ import {Action,
 	} from '../actions/actionTypes';
 import {Order,DataList,Error} from '../models/modelTypes';
 import {
-	GENERAL_ERROR, 
 	LOAD_ORDER_LIST_RECEIVED,
 	ORDER_PROCEEDING,
 	ORDER_PROCEEDING_END,
@@ -14,6 +13,7 @@ import {
 	SAVE_ORDER_RECEIVED,
     ADD_ORDER,
 } from '../actions/orderActions'
+import { GENERAL_ERROR } from "../actions/appActions";
 
 export const INITIAL_ORDER_STATE : OrderState = {
 	currentOrder:null,

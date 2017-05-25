@@ -47,4 +47,10 @@ export class Controller {
     result.errorMessage = error;
     return result;
   }
+
+  public unauthorizedRequest(result: APIResult, error: string): APIResult {
+    result.statusCode = HTTPStatusCode.Unauthorized;
+    result.errorMessage = error;
+    return result;
+  }
 }

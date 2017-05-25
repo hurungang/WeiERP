@@ -24,7 +24,7 @@ describe("App Reducers",()=>{
   it("CHANGE_LANGUAGE",()=>{
     let language = "Chinese";
     let newState:AppState = appReducers(INITIAL_APP_STATE,APP_CHANGE_LANGUAGE(language));
-    chai.assert.strictEqual(newState.language,language);
+    chai.assert.strictEqual(newState.language.languageName,language);
   })
   it("APP_LOGIN",()=>{
     chai.assert.strictEqual(INITIAL_APP_STATE.isSmallMenuMode,false);

@@ -1,13 +1,14 @@
 import * as express from "express";
+import ProtectedRouter from "./protectedRouter"
 import OrderController from "../controller/orderController";
 import Logger from '../server/logger';
 
 const logger = new Logger("OrderRouter");
 
-export default class OrderRouter{
+export default class OrderRouter extends ProtectedRouter{
 
   constructor() {
-    let router = express.Router();
+    let router = super() as any;
     let orderController = new OrderController();
     router.get('/', orderController.list.bind(orderController));
     router.post('/', orderController.create.bind(orderController));

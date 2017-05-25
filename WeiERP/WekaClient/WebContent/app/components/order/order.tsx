@@ -20,8 +20,9 @@ export default class OrderPage extends React.Component<OrderPageProps, {}>{
 		super();
 	}
 	componentWillMount() {
-		let { dispatch, params } = this.props;
-		dispatch(OrderActions.LOAD_ORDER_LIST(params.id));
+		let { dispatch, params,state } = this.props;
+		let {token} = state.appState;
+		dispatch(OrderActions.LOAD_ORDER_LIST(params.id,token));
 
 	}
 
@@ -37,8 +38,9 @@ export default class OrderPage extends React.Component<OrderPageProps, {}>{
 	}
 
 	handleOrderSave(updatedOrder: Order) {
-		let { dispatch } = this.props;
-		dispatch(OrderActions.SAVE_ORDER(updatedOrder));
+		let { dispatch,state } = this.props;
+		let {token} = state.appState;
+		dispatch(OrderActions.SAVE_ORDER(updatedOrder,token));
 	}
 
 	handleCreateAction() {
@@ -48,13 +50,14 @@ export default class OrderPage extends React.Component<OrderPageProps, {}>{
 
 	handleBulkStatusAction(applyChange:{},selectedItem:any[]) {
 		let { dispatch, state } = this.props;
+		let {token} = state.appState;
 		let idList:string[] = selectedItem.map((item)=>{
 			if(item.selected){
 				return item.id;
 			}
 		})
 		let payload:BulkActionPayload = {idList:idList,applyChange:applyChange}
-		dispatch(OrderActions.BULK_CHANGE_ORDERS(payload));
+		dispatch(OrderActions.BULK_CHANGE_ORDERS(payload,token));
 	}
 	handleBulkSendAction(selectedItem:any[]) {
 		console.log("bulk send");

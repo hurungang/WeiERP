@@ -15,9 +15,11 @@
   "license": "ISC",
   "dependencies": {
     "class-transformer": "^0.1.6",
+    "cors": "^2.8.3",
     "express": "^4.15.2",
     "express-winston": "^2.3.0",
     "express-xml-bodyparser": "^0.3.0",
+    "jsonwebtoken": "^7.4.1",
     "mongoose": "^4.9.2",
     "reflect-metadata": "^0.1.10",
     "segment": "^0.1.3",
@@ -37,6 +39,7 @@
     "chai": "^3.5.0",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
+    "typescript": "^2.3.2",
     "ts-node": "^3.0.2"
   }
 }

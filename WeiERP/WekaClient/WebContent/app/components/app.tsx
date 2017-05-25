@@ -19,7 +19,7 @@ class App extends React.Component<AppProps,{}>{
 	  let {state,dispatch} = this.props;
 	  //todo: skip login for development, should be removed later
 	  let testUser = {name:'Harry Hu'};
-	  dispatch(appActions.APP_LOGIN(testUser));
+	  //dispatch(appActions.APP_LOGIN(testUser));
   }
   
   render(){

@@ -55,6 +55,17 @@ export default class Invoice extends React.Component<InvoiceProps, {}>{
       this.forceUpdate();
   }
 
+  handleAddOrderItem(){
+    let { order } = this.props;
+    let tempOrderItem = new OrderItem();
+    order.orderItems.push(tempOrderItem);
+    this.forceUpdate();
+  }
+
+  handleProductNameChange(){
+    
+  }
+
   render() {
     let { order, onClose, onSave, language } = this.props;
     let orderCreateTime = order.createTime ? order.createTime.toLocaleString() : "";
@@ -146,7 +157,7 @@ export default class Invoice extends React.Component<InvoiceProps, {}>{
                     </thead>
                     <tbody>
                       {order.orderItems.map((orderItem, index) => {
-                        let productPrice = orderItem.product.productPrice ? orderItem.product.productPrice : 0.0;
+                        let productPrice = orderItem.product&&orderItem.product.productPrice ? orderItem.product.productPrice : 0.0;
                         let productOrderPrice = orderItem.productOrderPrice ? orderItem.productOrderPrice : productPrice;
                         let productQuantity = orderItem.productQuantity ? orderItem.productQuantity : 0;
                         let orderItemSubtotal = productOrderPrice * productQuantity;
@@ -155,7 +166,7 @@ export default class Invoice extends React.Component<InvoiceProps, {}>{
                             <td>
                                 <input type="text" onChange={this.handleOrderQuantityChange.bind(this, orderItem)} placeholder={productQuantity.toFixed(0)} className="form-control" defaultValue={productQuantity.toFixed(0)} />
                             </td>
-                            <td>{orderItem.product.productName}</td>
+                            <td>{orderItem.product?orderItem.product.productName:<input type="text" onChange={this.handleProductNameChange.bind(this, orderItem)} className="form-control"/>}</td>
                             <td>{productPrice}</td>
                             <td>
                               <input type="text" onChange={this.handleOrderProductPriceChange.bind(this, orderItem)} placeholder={productOrderPrice.toFixed(2)} className="form-control" defaultValue={productOrderPrice.toFixed(2)} />
@@ -166,6 +177,14 @@ export default class Invoice extends React.Component<InvoiceProps, {}>{
                           </tr>
                         )
                       })}
+                      <tr>
+                        <td colSpan={5}>
+                                    
+                          <div className="col-xs-12 no-print">
+                            <button className="btn btn-success pull-right" onClick={this.handleAddOrderItem.bind(this)}><i className="fa fa-add"></i> {language.textPackage.button.addOrderItem}</button>
+                          </div>
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>

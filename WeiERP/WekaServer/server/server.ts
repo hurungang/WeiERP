@@ -5,9 +5,12 @@ import * as xmlBodyParser from "express-xml-bodyparser";
 import * as winston from "winston";
 import * as expressWinston from "express-winston";
 import * as commonConfiguration from '../config/commonConfig';
+import * as tokenVerifier from '../middleware/tokenVerifier';
 import Database from './database';
 import OrderRouter from '../routes/orderRouter'
 import ChatRouter from '../routes/chatRouter'
+import UserRouter from '../routes/userRouter'
+import AuthenticationRouter from '../routes/authenticationRouter'
 import Logger from './logger'
 
 
@@ -84,6 +87,8 @@ export default class Server {
     let router = express.Router();
     router.use("/order",new OrderRouter());
     router.use("/chat",new ChatRouter());
+    router.use("/user",new UserRouter());
+    router.use("/authentication",new AuthenticationRouter());
     this.app.use(router);
       
   }

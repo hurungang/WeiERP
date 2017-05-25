@@ -6,7 +6,9 @@ export const WELCOME_WORD = "Welcome to use Weka";
 export const LOG_FILE_EXPRESS = "logs/log_express.log";
 export const LOG_FILE = "logs/_app.log";
 export const DATE_PATTERN = "yyyy_MM_dd";
-export const ENV = "development" //change this to production when go live
+export const ENV = "development" //change this to production when go live;
+export const SECRET_KEY = "IloveWeka";
+export const TOKEN_EXPIRES_IN_SECONDS = 1440*60;
 
 export class MESSAGE_ANALYST_CONFIG {
   static REGEX_SPLITTER = /[ $-/:-?{-~!"^_`\[\]|\u3002|\uff1f|\uff01|\uff0c|\u3001|\uff1b|\uff1a|\u201c|\u201d|\u2018|\u2019|\uff08|\uff09|\u300a|\u300b|\u3008|\u3009|\u3010|\u3011|\u300e|\u300f|\u300c|\u300d|\ufe43|\ufe44|\u3014|\u3015|\u2026|\u2014|\uff5e|\ufe4f|\uffe5]/

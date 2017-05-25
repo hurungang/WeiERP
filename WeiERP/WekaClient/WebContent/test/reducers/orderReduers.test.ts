@@ -1,7 +1,6 @@
 import orderReducers from '../../app/reducers/orderReducers'
 import {INITIAL_ORDER_STATE} from '../../app/reducers/orderReducers'
 import {
-  GENERAL_ERROR, 
   LOAD_ORDER_LIST_RECEIVED,
   ORDER_PROCEEDING,
   ORDER_PROCEEDING_END,
@@ -15,6 +14,7 @@ import {Error,DataList,Order} from '../../app/models/modelTypes';
 import * as chai from 'chai'
 import * as mocha from 'mocha'
 import { ClientErrorCode } from "../../app/models/enums";
+import { GENERAL_ERROR } from "../../app/actions/appActions";
 
 
 describe("App Reducers",()=>{

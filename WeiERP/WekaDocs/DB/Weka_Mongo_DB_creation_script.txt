@@ -1,0 +1,8 @@
+use Weka
+
+db.createCollection("users");
+db.users.createIndex( { "name": 1 }, { unique: true, name:"idx_users_name" } );
+
+db.createCollection("orders");
+db.createCollection("products");
+db.createCollection("consignees");

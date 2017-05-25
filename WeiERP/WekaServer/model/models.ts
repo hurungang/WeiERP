@@ -12,6 +12,7 @@ export class APIResult {
   statusCode?: HTTPStatusCode = HTTPStatusCode.OK;
   errorMessage?: string;
   payload: any;
+  token?: string;
   formatError(){};
 }
 
@@ -57,13 +58,31 @@ export interface IProduct {
 export interface IUser {
   id?: string;
   name: string;
+  email?: string;
   password?: string;
+  fullName?: string;
   source?: string;
   referenceID?: string;
   address?: string;
   phone?: string;
   sender?: string;
   createTime?: Date;
+}
+
+export interface IConsignee {
+  user: IUser,
+  consigneeName: string,
+  consigneeAddresses: string[],
+  consigneePhone: string,
+  createTime: Date,
+}
+
+export interface IManifest {
+  id?: string;
+  name: string;
+  comments: string;
+  createTime: Date;
+  shipTime: Date;
 }
 
 export class Order extends DataItem implements IOrder {
@@ -100,7 +119,7 @@ export class Order extends DataItem implements IOrder {
   public getSubtotal(): number {
     let subtotal: number = 0;
     this.orderItems.map((orderItem: OrderItem) => {
-      let productPrice = orderItem.product.productPrice?orderItem.product.productPrice:0;
+      let productPrice = orderItem.product&&orderItem.product.productPrice?orderItem.product.productPrice:0;
       let productOrderPrice = orderItem.productOrderPrice?orderItem.productOrderPrice:productPrice;
       subtotal += productOrderPrice * orderItem.productQuantity;
     });
@@ -138,8 +157,23 @@ export class Product implements IProduct {
   createTime?: Date;
 }
 
+export class Consignee implements IConsignee {
+  user: IUser;
+  consigneeName: string;
+  consigneeAddresses: string[];
+  consigneePhone: string;
+  createTime: Date;
+}
 
-export class User implements IUser {
+export class ModelWrapper{
+  constructor(model?:any){
+    if(model){
+      return Object.assign(ModelWrapper.prototype,model);
+    }
+  }
+}
+
+export class User extends ModelWrapper implements IUser {
   id?: string;
   name: string;
   password?: string;
@@ -150,6 +184,9 @@ export class User implements IUser {
   sender?: string;
   @Type(() => Date)
   createTime?: Date;
+  consignees?: Consignee[];
+  @Type(()=>Product)
+  products?: Product[];
 }
 
 export interface BulkActionPayload{

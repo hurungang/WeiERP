@@ -124,6 +124,7 @@ export class TextPackage {
     create: string; 
     bulkAction: string;
     refresh: string;
+    addOrderItem: string;
   };
   timeRangePicker:{
       format: string,
@@ -154,6 +155,7 @@ export interface Runtime {
   api: {
     order: string,
     user: string,
+    authentication: string,
   }
 }
 

@@ -8,11 +8,13 @@ import { ClientErrorCode } from '../models/enums';
 import { APIResult, BulkActionPayload } from 'WekaServer/model/models'
 import { plainToClass } from "class-transformer"
 import config from '../configs/config'
+import { GENERAL_ERROR } from "./appActions";
+import DataUtils from "../utils/dataUtils"
 
-export const LOAD_ORDER_LIST = (id: string) => {
+export const LOAD_ORDER_LIST = (id: string, token:string) => {
   return dispatch => {
     dispatch(ORDER_PROCEEDING());
-    const request = axios.get(config.runtime.api.order);
+    const request = axios.get(config.runtime.api.order,DataUtils.buildJWTAxiosData(token));
     request
       .then(response => {
         let result: APIResult = response.data as APIResult;
@@ -42,13 +44,12 @@ export const LOAD_ORDER_LIST_RECEIVED = actionCreator<DataList<Order>>('LOAD_ORD
 export const SHOW_ORDER = actionCreator<Order>('SHOW_ORDER');
 export const SHOW_ORDER_BY_ID = actionCreator<string>('SHOW_ORDER_BY_ID');
 export const CLOSE_CURRENT_ORDER = actionCreator<string>('CLOSE_CURRENT_ORDER');
-export const GENERAL_ERROR = actionCreator<Error>('GENERAL_ERROR');
 export const ADD_ORDER = actionCreator<Order>('ADD_ORDER');
 
-export const BULK_CHANGE_ORDERS = (payload:BulkActionPayload) => {
+export const BULK_CHANGE_ORDERS = (payload:BulkActionPayload, token:string) => {
   return dispatch => {
     dispatch(ORDER_PROCEEDING());
-    const request = axios.patch(config.runtime.api.order,payload);
+    const request = axios.patch(config.runtime.api.order,DataUtils.buildJWTAxiosData(token,payload));
     request
       .then(response => {
         let result: APIResult = response.data as APIResult;
@@ -70,10 +71,10 @@ export const BULK_CHANGE_ORDERS = (payload:BulkActionPayload) => {
   }
 }
 
-export const SAVE_ORDER = (order: Order) => {
+export const SAVE_ORDER = (order: Order, token: string) => {
   return dispatch => {
     dispatch(ORDER_PROCEEDING());
-    const request = order.id===undefined?axios.post(config.runtime.api.order,order):axios.put(config.runtime.api.order,order);
+    const request = order.id===undefined?axios.post(config.runtime.api.order,DataUtils.buildJWTAxiosData(token,order)):axios.put(config.runtime.api.order,DataUtils.buildJWTAxiosData(token,order));
     request
       .then(response => {
         let result: APIResult = response.data as APIResult;

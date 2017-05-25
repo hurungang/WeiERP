@@ -2,8 +2,9 @@ import * as React from 'react';
 import {User} from '../models/modelTypes'
 import {State} from '../reducers/reducerTypes'
 import * as appActions from '../actions/appActions'
+import ErrorAlert from "./elements/errorAlert";
 
-interface LoginProps { 
+interface LoginProps {
 	dispatch:any;
 	state:State;
 }
@@ -19,10 +20,12 @@ export default class Login extends React.Component<LoginProps,{}>{
 		let {dispatch} = this.props;
 		let user:User = {name:this.refs.name.value,
 				password : this.refs.password.value};
-		dispatch(appActions.APP_LOGIN(user));
+		dispatch(appActions.APP_AUTHENTICATE_USER(user));
 	}
 	
   render(){
+		let { language , error } = this.props.state.appState;
+		let textPac = language.textPackage;
     return (
 		  <div className="login">
 	      <a className="hiddenanchor" id="signup"></a>
@@ -34,12 +37,14 @@ export default class Login extends React.Component<LoginProps,{}>{
 	            <form>
 	              <h1>Login Form</h1>
 	              <div>
-	                <input type="text" className="form-control" placeholder="Username" defaultValue="Harry Hu" ref="name" required={true} />
+	                <input type="text" className="form-control" placeholder="Username" defaultValue="Harry" ref="name" required={true} />
 	              </div>
 	              <div>
 	                <input type="password" className="form-control" placeholder="Password" ref="password" required={true} />
 	              </div>
 	              <div>
+									
+									{error?<ErrorAlert errorSummary={textPac.errorMessage[error.errorCode]} errorDetail={error.errorDetail} />:""}
 	                <a className="btn btn-default submit" onClick={this.handleLogin.bind(this)}>Log in</a>
 	                <a className="reset_pass" href="#">Lost your password?</a>
 	              </div>
@@ -56,7 +61,7 @@ export default class Login extends React.Component<LoginProps,{}>{
 
 	                <div>
 	                  <h1><i className="fa fa-paw"></i> Gentelella Alela!</h1>
-	                  <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+	                  <p>ï¿½2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
 	                </div>
 	              </div>
 	            </form>
@@ -92,7 +97,7 @@ export default class Login extends React.Component<LoginProps,{}>{
 
 	                <div>
 	                  <h1><i className="fa fa-paw"></i> Gentelella Alela!</h1>
-	                  <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+	                  <p>ï¿½2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
 	                </div>
 	              </div>
 	            </form>

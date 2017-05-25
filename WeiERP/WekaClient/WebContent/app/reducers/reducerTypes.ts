@@ -11,6 +11,7 @@ export class AppState {
 	error?: Error;
 	isAppProceeding: boolean;
   language: Language;
+	token: string;
 }
 
 export class OrderState {
