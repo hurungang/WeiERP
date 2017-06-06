@@ -67,6 +67,8 @@ export interface IUser {
   phone?: string;
   sender?: string;
   createTime?: Date;
+  consignees?: Consignee[];
+  products?: Product[];
 }
 
 export interface IConsignee {
@@ -184,6 +186,7 @@ export class User extends ModelWrapper implements IUser {
   sender?: string;
   @Type(() => Date)
   createTime?: Date;
+  @Type(() => Consignee)
   consignees?: Consignee[];
   @Type(()=>Product)
   products?: Product[];

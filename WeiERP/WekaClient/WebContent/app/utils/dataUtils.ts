@@ -1,3 +1,5 @@
+import { Consignee, ConsigneeAddress, TableHeader, ComputedColumn } from "../models/modelTypes";
+
 export default class DataUtils {
 
   //filter all properties by keyword, return the list has one or more properties contains the keyword
@@ -37,5 +39,39 @@ export default class DataUtils {
       },
       body: data
     }
+  }
+
+  public static buildConsigneeAddressList(consignees: Consignee[]): ConsigneeAddress[] {
+    let addressList = []
+    addressList = consignees.reduce((addressList, consignee) => {
+      return addressList.concat(consignee.consigneeAddresses.map((address) => {
+        return {
+          addressString: `${consignee.consigneeName}-${consignee.consigneePhone}-${address}`,
+          consigneeName: consignee.consigneeName,
+          consigneePhone: consignee.consigneePhone,
+          consigneeAddress: address,
+        } as ConsigneeAddress;
+      }));
+    }, addressList);
+    return addressList;
+  }
+
+  public static buildExportData(rawData: any[], header: TableHeader) {
+    let newData = rawData.map((row) => {
+      let newRow = {};
+      Object.keys(header).map((key, index) => {
+        let headerText;
+        let fieldValue = row[key];
+        if (typeof header[key] === "object") {
+          headerText = (header[key] as ComputedColumn).label;
+          fieldValue = (header[key] as ComputedColumn).callback(fieldValue);
+        } else {
+          headerText = header[key] as string;
+        }
+        newRow[headerText] = fieldValue;
+      });
+      return newRow;
+    });
+    return newData;
   }
 }

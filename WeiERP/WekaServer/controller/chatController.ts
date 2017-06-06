@@ -80,6 +80,7 @@ export default class ChatController extends Controller {
           } else {
             let newProduct = { _id: new ObjectID(), ...tempOrderItem.product };
             newProduct.createTime = new Date();
+            newProduct.user = order.user;
             tempOrderItem.product = tempProduct;
             productsToCreate.push(newProduct);
           }

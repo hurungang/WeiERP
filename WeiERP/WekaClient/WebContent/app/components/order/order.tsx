@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { State } from '../../reducers/reducerTypes';
-import { Order, Error, TableAction } from '../../models/modelTypes';
+import { Order, Error, TableAction,BulkActionPayload } from '../../models/modelTypes';
 import Invoice from '../order/invoice';
 import * as OrderActions from '../../actions/orderActions';
 import ErrorAlert from "../elements/errorAlert";
 import OrderList from "./orderList";
 import { StatusCode } from "WekaServer/model/enums";
-import { BulkActionPayload } from "WekaServer/model/models";
 
 export interface OrderPageProps {
 	state: State;
@@ -66,7 +65,7 @@ export default class OrderPage extends React.Component<OrderPageProps, {}>{
 	render() {
 		let { state } = this.props;
 		let { orderList, error, isOrderProceeding, currentOrder } = state.orderState;
-		let language = state.appState.language;
+		let {user,language} = state.appState;
 		let textPac = language.textPackage;
 		let tableActions:TableAction = {
 			bulkActions: [{
@@ -95,7 +94,7 @@ export default class OrderPage extends React.Component<OrderPageProps, {}>{
 						<div className="row">
 							{error?<ErrorAlert errorSummary={textPac.errorMessage[error.errorCode]} errorDetail={error.errorDetail} />:""}
 							{orderList&&!currentOrder?<OrderList orderList={orderList} onOrderRowClick={this.handleOrderRowClick.bind(this)} language={language} actions={tableActions}/>:""}
-							{currentOrder?< Invoice order={currentOrder} onClose={this.handleInvoiceCloseClick.bind(this)} onSave={this.handleOrderSave.bind(this, currentOrder)} language={language} />:""}
+							{currentOrder?< Invoice order={currentOrder} user={user} onClose={this.handleInvoiceCloseClick.bind(this)} onSave={this.handleOrderSave.bind(this, currentOrder)} language={language} />:""}
 							{/* show selected order detail(invoice)*/}
 						</div>
 					);

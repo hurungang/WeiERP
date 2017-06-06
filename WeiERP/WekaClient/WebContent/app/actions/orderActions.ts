@@ -3,9 +3,8 @@ import * as axios from 'axios';
 import {
   IActionCreator, actionCreator,
 } from './actionTypes';
-import { DataList, Order, Error } from '../models/modelTypes';
+import { DataList, Order, Error,APIResult, BulkActionPayload } from '../models/modelTypes';
 import { ClientErrorCode } from '../models/enums';
-import { APIResult, BulkActionPayload } from 'WekaServer/model/models'
 import { plainToClass } from "class-transformer"
 import config from '../configs/config'
 import { GENERAL_ERROR } from "./appActions";
@@ -49,7 +48,7 @@ export const ADD_ORDER = actionCreator<Order>('ADD_ORDER');
 export const BULK_CHANGE_ORDERS = (payload:BulkActionPayload, token:string) => {
   return dispatch => {
     dispatch(ORDER_PROCEEDING());
-    const request = axios.patch(config.runtime.api.order,DataUtils.buildJWTAxiosData(token,payload));
+    const request = axios.patch(config.runtime.api.order,payload,DataUtils.buildJWTAxiosData(token));
     request
       .then(response => {
         let result: APIResult = response.data as APIResult;
@@ -74,7 +73,7 @@ export const BULK_CHANGE_ORDERS = (payload:BulkActionPayload, token:string) => {
 export const SAVE_ORDER = (order: Order, token: string) => {
   return dispatch => {
     dispatch(ORDER_PROCEEDING());
-    const request = order.id===undefined?axios.post(config.runtime.api.order,DataUtils.buildJWTAxiosData(token,order)):axios.put(config.runtime.api.order,DataUtils.buildJWTAxiosData(token,order));
+    const request = order.id===undefined?axios.post(config.runtime.api.order,order,DataUtils.buildJWTAxiosData(token)):axios.put(config.runtime.api.order,order,DataUtils.buildJWTAxiosData(token));
     request
       .then(response => {
         let result: APIResult = response.data as APIResult;

@@ -1,9 +1,12 @@
 import * as React from 'react';
 import InputGroup from "./inputGroup";
 import Table from "../elements/table";
-import { Paginator, DataList, Language, TableAction, TableHeader } from "../../models/modelTypes";
+import { Paginator, DataList, Language, TableAction, TableHeader, Workbook } from "../../models/modelTypes";
 import DataUtils from "../../utils/dataUtils";
 import LabeledSelect from "./labeledSelect";
+//import * as alasql from 'alasql'
+import * as XLSX from 'xlsx'
+import * as FileSaver from 'file-saver'
 
 interface PagedTableProps {
     dataList: any[],
@@ -13,6 +16,7 @@ interface PagedTableProps {
     onDataRowClick: any,
     language: Language,
     actions: TableAction,
+    exportHeader?: TableHeader,
 }
 
 interface PagedTableState {
@@ -64,6 +68,29 @@ export default class PagedTable extends React.Component<PagedTableProps, PagedTa
         let newState = { ...this.state, selectedItems: selectedItems };
         this.setState(newState);
     }
+    handleExport(dataList:any[]) {
+        let fileName = Date.now();
+        let { exportHeader } = this.props;
+        let plainDataList = DataUtils.buildExportData(dataList,exportHeader);
+        //let res = alasql('SELECT * INTO XLSX("' + fileName + '.xlsx",{headers:true}) FROM ?', [plainDataList]);
+        /* bookType can be any supported output type */
+        var wopts = { bookType:'xlsx' as XLSX.BookType, bookSST:true, type:"binary" as "binary"  };
+        let workbook = new Workbook();
+        workbook.SheetNames.push("test");
+        let worksheet = XLSX.utils.json_to_sheet(plainDataList);
+        workbook.Sheets["test"] = worksheet;
+        var wbout = XLSX.write(workbook,wopts);
+
+        function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+        }
+
+        /* the saveAs call downloads a file on the local machine */
+        FileSaver.saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), "test.xlsx");
+    }
 
     render() {
         let { dataList, header, idColumn, defaultEntriesPerPage, onDataRowClick, language, actions } = this.props;
@@ -77,7 +104,7 @@ export default class PagedTable extends React.Component<PagedTableProps, PagedTa
         return (
             <div id="datatable-responsive_wrapper" className="dataTables_wrapper form-inline dt-bootstrap no-footer">
                 <div className="row">
-                    <div className="col-xs-8">
+                    <div className="col-xs-7">
                         {
                             (actions && selectedItems && selectedItems.length > 0) ?
                                 //when some rows selected
@@ -108,8 +135,10 @@ export default class PagedTable extends React.Component<PagedTableProps, PagedTa
                                     <i className="fa fa-plus"></i> {language.textPackage.button.create}</button>
                         }
                     </div>
-                    <div className="col-xs-4">
-                        <InputGroup iconClass="fa fa-search" containerClass="col-xs-12" onChange={this.handleKeywordChange.bind(this)} />
+                    <div className="col-xs-5">
+                        <InputGroup iconClass="fa fa-search" containerClass="col-xs-9" onChange={this.handleKeywordChange.bind(this)} />
+                        <div className="col-xs-3"><button type="button" className="btn btn-success" onClick={this.handleExport.bind(this,filterDataList)}>
+                                    <i className="fa fa-file-excel-o"></i> {language.textPackage.button.export}</button></div>
                     </div>
                 </div>
                 <div className="row">

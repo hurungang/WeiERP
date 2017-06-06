@@ -62,6 +62,7 @@ export default class UserController extends Controller implements IController {
             (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
                 /* start of business logic */
                 let endUser = req.body;
+                let logonUser: IUserModel;
                 UserDAO.findOne({ name: endUser.name, password: endUser.password }).exec()
                     .then((user: IUserModel) => {
                         if (user) {
@@ -70,9 +71,20 @@ export default class UserController extends Controller implements IController {
                                 expiresIn: commonConfiguration.TOKEN_EXPIRES_IN_SECONDS
                             });
                             result.token = token;
+                            logonUser = user;
+                            return ConsigneeDAO.find({ user: user._id }).exec();
                         } else {
                             this.unauthorizedRequest(result, null);
+                            this.handleResult(res, next, result);
                         }
+                    })
+                    .then((consignees: any) => {
+                        logonUser.consignees = consignees;
+                        return ProductDAO.find({ user: logonUser._id }).exec();
+                    })
+                    .then((products: any) => {
+                        logonUser.products = products;
+                        result.payload = logonUser;
                         this.handleResult(res, next, result);
                     })
                     .catch((err: any) => {

@@ -1,10 +1,13 @@
 var path = require('path');
+var IgnorePlugin = require("webpack").IgnorePlugin;
 
-module.exports = {        
-	entry: [
-	        	'babel-polyfill', './app/index.tsx'
-          ],
+module.exports = {
+    entry: [
+        'babel-polyfill', './app/index.tsx'
+    ],
     output: {
+		libraryTarget: 'var',
+		library: 'XLSX',
         filename: "bundle.js",
         path: __dirname + "/dist",
         publicPath: "/dist"
@@ -27,15 +30,26 @@ module.exports = {
         preLoaders: [
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
             { test: /\.js$/, loader: "source-map-loader" }
-        ]
+        ],
+        noParse: [/jszip.js$/],
     },
-
-//    // When importing a module whose path matches one of the following, just
-//    // assume a corresponding global variable exists and use that instead.
-//    // This is important because it allows us to avoid bundling all of our
-//    // dependencies, which allows browsers to cache those libraries between builds.
-//    externals: {
-//        "react": "React",
-//        "react-dom": "ReactDOM"
-//    },
+    //plugins:[new IgnorePlugin(/(ycptable|mime-db|har-schema|react-native-fs|react-native-fetch-blob|^es6-promise$|^net$|^tls$|^forever-agent$|^tough-cookie$|^path$)/)]
+    plugins: [new IgnorePlugin(/cptable/)],
+    //    // When importing a module whose path matches one of the following, just
+    //    // assume a corresponding global variable exists and use that instead.
+    //    // This is important because it allows us to avoid bundling all of our
+    //    // dependencies, which allows browsers to cache those libraries between builds.
+    //    externals: {
+    //        "react": "React",
+    //        "react-dom": "ReactDOM"
+    //    },
+    node: {
+        fs: "empty",
+		Buffer: false
+    },
+    externals: [
+        {
+            './cptable': 'var cptable',"./jszip": "jszip"
+        }
+    ]
 };

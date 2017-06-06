@@ -12,11 +12,11 @@ import {APP_TOGGLE_MENU,
 	APP_CHANGE_LANGUAGE,
 	APP_SET_TOKEN,
 	GENERAL_ERROR,
+    APP_LOGOUT,
 } from '../actions/appActions'
 import {Reducer,AppState} from './reducerTypes';
 import config from '../configs/config'
-import {Error} from '../models/modelTypes';
-import { User } from "WekaServer/model/models";
+import {Error, User} from '../models/modelTypes';
 
 const defaultLanguage = config.localization.defaultLanguage;
 
@@ -47,6 +47,10 @@ let appReducer : Reducer<AppState> = (state : AppState = INITIAL_APP_STATE, acti
 		let user:User = action.payload;
 		newState = Object.assign(new AppState(),state,{
 			user: user,
+		});
+	}else if(isType(action, APP_LOGOUT)){
+		newState = Object.assign(new AppState(),state,{
+			user: null,
 		});
 	}else if(isType(action, APP_SET_TOKEN)){
 		let token = action.payload;

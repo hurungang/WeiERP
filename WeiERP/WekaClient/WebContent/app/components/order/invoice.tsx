@@ -1,29 +1,36 @@
 import * as React from 'react';
-import * as dateFormater from 'dateformat' 
-import { Order, OrderItem, Language } from '../../models/modelTypes'
+import * as dateFormater from 'dateformat'
+import { Order, OrderItem, Language, Product, User } from '../../models/modelTypes'
 import EditableSelect from "../elements/editableSelect";
+import DataUtils from "../../utils/dataUtils";
 
 interface InvoiceProps {
   order: Order;
   onClose: any;
   onSave: any;
   language: Language;
+  user: User;
 }
-export default class Invoice extends React.Component<InvoiceProps, {}>{
+interface InvoiceState {
+  formValidationMap: Map<any,boolean>;
+}
+export default class Invoice extends React.Component<InvoiceProps, InvoiceState>{
   refs: {
-    [key: string]: (Element);
     senderName: HTMLInputElement;
     senderPhone: HTMLInputElement;
     senderAddress: HTMLInputElement;
-    consigneeName: HTMLInputElement;
-    consigneePhone: HTMLInputElement;
-    consigneeAddress: HTMLInputElement;
+    consigneeName: EditableSelect;
+    consigneePhone: EditableSelect;
+    consigneeAddress: EditableSelect;
     comments: HTMLInputElement;
     tax: HTMLInputElement;
     shipping: HTMLInputElement;
     paid: HTMLInputElement;
   }
-
+  constructor(){
+    super();
+    this.state = {formValidationMap: new Map<any,boolean>()};
+  }
   handleOrderChange() {
     let { order } = this.props;
     order.senderName = this.refs.senderName.value;
@@ -34,51 +41,98 @@ export default class Invoice extends React.Component<InvoiceProps, {}>{
     order.consigneeAddress = this.refs.consigneeAddress.value;
     order.comments = this.refs.comments.value;
     let newPaid = parseFloat(this.refs.paid.value);
-    order.paid = newPaid!=NaN?newPaid:order.paid;
+    order.paid = newPaid != NaN ? newPaid : order.paid;
     let newShipping = parseFloat(this.refs.shipping.value);
-    order.shipping = newShipping!=NaN?newShipping:order.shipping;
+    order.shipping = newShipping != NaN ? newShipping : order.shipping;
     let newTax = parseFloat(this.refs.tax.value);
-    order.tax = newTax!=NaN?newTax:order.tax;
+    order.tax = newTax != NaN ? newTax : order.tax;
+    this.forceUpdate();
+  }
+
+  handleConsigneeChange() {
+    let { order } = this.props;
+    let data = this.refs.consigneeName.data;
+    if(!data){
+      data = this.refs.consigneePhone.data;
+    }
+    if(!data){
+      this.refs.consigneeAddress.data;
+    }
+
+    if(data){
+      order.consigneeName = data.consigneeName;
+      order.consigneePhone = data.consigneePhone;
+      order.consigneeAddress = data.consigneeAddress;
+      this.refs.consigneeName.remount();
+      this.refs.consigneePhone.remount();
+      this.refs.consigneeAddress.remount();
+    }else{
+      order.consigneeName = this.refs.consigneeName.value;
+      order.consigneePhone = this.refs.consigneePhone.value;
+      order.consigneeAddress = this.refs.consigneeAddress.value;
+    }
     this.forceUpdate();
   }
 
   handleOrderQuantityChange(orderItem: OrderItem, event: any) {
-      let newQuantity = parseInt(event.target.value);
-      orderItem.productQuantity = newQuantity!=NaN?newQuantity:orderItem.productQuantity;
-      this.forceUpdate();
+    let newQuantity = parseInt(event.target.value);
+    orderItem.productQuantity = newQuantity != NaN ? newQuantity : orderItem.productQuantity;
+    this.forceUpdate();
 
   }
 
   handleOrderProductPriceChange(orderItem: OrderItem, event: any) {
-      let newPrice = parseFloat(event.target.value);
-      orderItem.productOrderPrice = newPrice!=NaN?newPrice:orderItem.productOrderPrice;
-      this.forceUpdate();
+    let newPrice = parseFloat(event.target.value);
+    orderItem.productOrderPrice = newPrice != NaN ? newPrice : orderItem.productOrderPrice;
+    this.forceUpdate();
   }
 
-  handleAddOrderItem(){
+  handleAddOrderItem() {
     let { order } = this.props;
     let tempOrderItem = new OrderItem();
+    tempOrderItem.productQuantity = 1;
     order.orderItems.push(tempOrderItem);
     this.forceUpdate();
   }
 
-  handleProductNameChange(){
-    
+  handleProductNameChange(orderItem: OrderItem, event: any) {
+    let { user } = this.props;
+    let productName = event.target.value;
+    if (productName == null || productName.trim() == "") {
+      event.target.className = event.target.className + " bad";
+      this.state.formValidationMap.set(event.target,false);
+    } else {
+      event.target.className.replace("bad","");
+      this.state.formValidationMap.delete(event.target);
+      orderItem.product = user.products.find((product) => product.productName == productName);
+      if (!orderItem.product) {
+        orderItem.product = new Product();
+        orderItem.product.productName = productName;
+      }
+    }
+    this.forceUpdate();
   }
 
   render() {
-    let { order, onClose, onSave, language } = this.props;
+    let { order, onClose, onSave, language, user } = this.props;
     let orderCreateTime = order.createTime ? order.createTime.toLocaleString() : "";
     let orderPaidTime = order.paidTime ? order.paidTime.toLocaleString() : "";
     let paid = order.paid ? order.paid : 0;
-    let tax = order.tax ? order.tax:0;
-    let shipping = order.shipping ? order.shipping:0;
+    let tax = order.tax ? order.tax : 0;
+    let shipping = order.shipping ? order.shipping : 0;
+    let productNames = user.products.map((product) => {
+      return product.productName
+    })
 
-    let user = order.user;
-    if(user){
-      order.senderName = order.senderName?order.senderName:user.sender?user.sender:user.name?user.name:"";
-      order.senderAddress = order.senderAddress?order.senderAddress:user.address?user.address:"";
-      order.senderPhone = order.senderPhone?order.senderPhone:user.phone?user.phone:"";
+    let consigneeAddresses = DataUtils.buildConsigneeAddressList(user.consignees);
+    // consigneeAddresses = consigneeAddresses.filter((address)=>{
+    //   return (!order.consigneeName||address.addressString.includes(order.consigneeName))&&
+    //   (!order.consigneePhone||address.addressString.includes(order.consigneePhone))
+    // })
+    if (user) {
+      order.senderName = order.senderName ? order.senderName : user.sender ? user.sender : user.name ? user.name : "";
+      order.senderAddress = order.senderAddress ? order.senderAddress : user.address ? user.address : "";
+      order.senderPhone = order.senderPhone ? order.senderPhone : user.phone ? user.phone : "";
     }
     return (
       <div className="col-md-12 col-sm-12 col-xs-12">
@@ -111,7 +165,7 @@ export default class Invoice extends React.Component<InvoiceProps, {}>{
                 <div className="col-sm-6 invoice-col">
                   <p className="lead">{language.textPackage.order.senderName}</p>
                   <div className="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                    <input type="text" onChange={this.handleOrderChange.bind(this)} className="form-control has-feedback-left" placeholder={order.senderName}  ref="senderName" defaultValue={order.senderName}/>
+                    <input type="text" onChange={this.handleOrderChange.bind(this)} className="form-control has-feedback-left" placeholder={order.senderName} ref="senderName" defaultValue={order.senderName} />
                     <span className="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                   </div>
                   <div className="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
@@ -126,16 +180,16 @@ export default class Invoice extends React.Component<InvoiceProps, {}>{
                 {/*<!-- /.col -->*/}
                 <div className="col-sm-6 invoice-col">
                   <p className="lead">{language.textPackage.order.consigneeName}</p>
-                        <div className="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                    <input type="text" onChange={this.handleOrderChange.bind(this)} className="form-control has-feedback-left" placeholder={order.consigneeName} ref="consigneeName" defaultValue={order.consigneeName} />
+                  <div className="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                    <EditableSelect ref="consigneeName" onChange={this.handleConsigneeChange.bind(this)} optionList={consigneeAddresses} textName="consigneeName" valueName="addressString" className="form-control has-feedback-left" defaultValue={order.consigneeName} />
                     <span className="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                   </div>
                   <div className="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                    <input type="text" onChange={this.handleOrderChange.bind(this)} className="form-control has-feedback-left" placeholder={order.consigneePhone} ref="consigneePhone" defaultValue={order.consigneePhone} />
+                    <EditableSelect ref="consigneePhone" onChange={this.handleConsigneeChange.bind(this)} optionList={consigneeAddresses} textName="consigneePhone" valueName="addressString" className="form-control has-feedback-left" defaultValue={order.consigneePhone} />
                     <span className="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
                   </div>
                   <div className="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                    <input type="text" onChange={this.handleOrderChange.bind(this)} className="form-control has-feedback-left" placeholder={order.consigneeAddress} ref="consigneeAddress" defaultValue={order.consigneeAddress} />
+                    <EditableSelect ref="consigneeAddress" onChange={this.handleConsigneeChange.bind(this)} optionList={consigneeAddresses} textName="consigneeAddress" valueName="addressString" className="form-control has-feedback-left" defaultValue={order.consigneeAddress} />
                     <span className="fa fa-home form-control-feedback left" aria-hidden="true"></span>
                   </div>
                 </div>
@@ -157,16 +211,16 @@ export default class Invoice extends React.Component<InvoiceProps, {}>{
                     </thead>
                     <tbody>
                       {order.orderItems.map((orderItem, index) => {
-                        let productPrice = orderItem.product&&orderItem.product.productPrice ? orderItem.product.productPrice : 0.0;
+                        let productPrice = orderItem.product && orderItem.product.productPrice ? orderItem.product.productPrice : 0.0;
                         let productOrderPrice = orderItem.productOrderPrice ? orderItem.productOrderPrice : productPrice;
                         let productQuantity = orderItem.productQuantity ? orderItem.productQuantity : 0;
                         let orderItemSubtotal = productOrderPrice * productQuantity;
                         return (
                           <tr key={`tr_${index}`}>
                             <td>
-                                <input type="text" onChange={this.handleOrderQuantityChange.bind(this, orderItem)} placeholder={productQuantity.toFixed(0)} className="form-control" defaultValue={productQuantity.toFixed(0)} />
+                              <input type="text" onChange={this.handleOrderQuantityChange.bind(this, orderItem)} placeholder={productQuantity.toFixed(0)} className="form-control" defaultValue={productQuantity.toFixed(0)} />
                             </td>
-                            <td>{orderItem.product?orderItem.product.productName:<input type="text" onChange={this.handleProductNameChange.bind(this, orderItem)} className="form-control"/>}</td>
+                            <td><EditableSelect onChange={this.handleProductNameChange.bind(this, orderItem)} optionList={user.products} textName="productName" valueName="productName" className="form-control" name={`oi_${index}_product`} defaultValue={orderItem.product ? orderItem.product.productName : ""} /></td>
                             <td>{productPrice}</td>
                             <td>
                               <input type="text" onChange={this.handleOrderProductPriceChange.bind(this, orderItem)} placeholder={productOrderPrice.toFixed(2)} className="form-control" defaultValue={productOrderPrice.toFixed(2)} />
@@ -179,7 +233,7 @@ export default class Invoice extends React.Component<InvoiceProps, {}>{
                       })}
                       <tr>
                         <td colSpan={5}>
-                                    
+
                           <div className="col-xs-12 no-print">
                             <button className="btn btn-success pull-right" onClick={this.handleAddOrderItem.bind(this)}><i className="fa fa-add"></i> {language.textPackage.button.addOrderItem}</button>
                           </div>
@@ -204,7 +258,7 @@ export default class Invoice extends React.Component<InvoiceProps, {}>{
                 </div>
                 {/*<!-- /.col -->*/}
                 <div className="col-xs-6">
-                  <p className="lead">{language.textPackage.order.createTime}: {dateFormater(orderCreateTime,language.timeFormat)}</p>
+                  <p className="lead">{language.textPackage.order.createTime}: {dateFormater(orderCreateTime, language.timeFormat)}</p>
                   <div className="table-responsive">
                     <table className="table">
                       <tbody>
@@ -246,7 +300,7 @@ export default class Invoice extends React.Component<InvoiceProps, {}>{
               <div className="row no-print">
                 <div className="col-xs-12">
                   <button className="btn btn-default" onClick={window.print}><i className="fa fa-print"></i> {language.textPackage.button.print}</button>
-                  <button className="btn btn-success pull-right" onClick={onSave}><i className="fa fa-save"></i> {language.textPackage.button.save}</button>
+                  <button className="btn btn-success pull-right"  disabled={this.state.formValidationMap.size>0?true:false} onClick={onSave}><i className="fa fa-save"></i> {language.textPackage.button.save}</button>
                 </div>
               </div>
             </section>

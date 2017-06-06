@@ -94,7 +94,7 @@ export interface IOrderItemModel extends IOrderItem, mongoose.Document {
 }
 
 export interface IProductModel extends IProduct, mongoose.Document {
-
+  _id: mongoose.Schema.Types.ObjectId;
 }
 export interface IUserModel extends IUser, mongoose.Document {
   _id: mongoose.Schema.Types.ObjectId;

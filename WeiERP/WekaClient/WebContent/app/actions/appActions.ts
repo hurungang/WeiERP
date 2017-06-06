@@ -3,9 +3,8 @@ import * as axios from 'axios';
 import {
   actionCreator,
 } from "./actionTypes"
-import { User, Error } from '../models/modelTypes'
+import { User, Error, APIResult } from '../models/modelTypes'
 import config from '../configs/config'
-import { APIResult } from "WekaServer/model/models";
 import { ClientErrorCode } from "../models/enums";
 
 export const APP_TOGGLE_MENU = actionCreator<void>('APP_TOGGLE_MENU');
@@ -34,6 +33,7 @@ export const APP_AUTHENTICATE_USER = (user: User) => {
   }
 }
 export const APP_LOGIN = actionCreator<User>('APP_LOGIN');
+export const APP_LOGOUT = actionCreator<User>('APP_LOGOUT');
 export const APP_SET_TOKEN = actionCreator<string>('APP_SET_TOKEN');
 export const APP_PROCEEDING = actionCreator<User>('APP_PROCEEDING');
 export const APP_PROCEEDING_END = actionCreator<User>('APP_PROCEEDING_END');

@@ -1,4 +1,4 @@
-import { Config, Language, Localization } from '../models/modelTypes';
+import { Config, Language, Localization, OrderItem } from '../models/modelTypes';
 import * as moment from 'moment';
 import { ClientErrorCode } from "../models/enums";
 import TextFormater from "../utils/textFormater";
@@ -29,6 +29,14 @@ Chinese.textPackage.orderListTitle = "订单列表";
 Chinese.textPackage.currencyInfo = "价格单位 - 元";
 Chinese.textPackage.timeRangeFormat = new TextFormater("{1} 至 {2}");
 
+Chinese.textPackage.predefinedRange = {
+    today: "今天",
+    yesterday: "昨天",
+    last7Days: "前7天",
+    last30Days: "前30天",
+    thisMonth: "这个月",
+    lastMonth: "上个月",
+}
 Chinese.textPackage.paginator = {
     entriesPerPage: "每页显示",
     pageRange: new TextFormater("{1} - {2}/共{3}"),
@@ -75,6 +83,23 @@ Chinese.textPackage.order = {
     },
     emptyHeader: "全部",
 };
+
+Chinese.textPackage.orderExportHeader = {
+    id: Chinese.textPackage.order.id,
+    senderName: Chinese.textPackage.order.senderName,
+    senderAddress: Chinese.textPackage.order.senderAddress,
+    senderPhone: Chinese.textPackage.order.senderPhone,
+    consigneeName: Chinese.textPackage.order.consigneeName,
+    consigneeAddress: Chinese.textPackage.order.consigneeAddress,
+    consigneePhone: Chinese.textPackage.order.consigneePhone,
+    orderItems:  {label: Chinese.textPackage.order.orderItems, callback: (value: OrderItem[]) => value.reduce((valueString:string,orderItem:OrderItem)=>{
+        return `${valueString} \r\n ${orderItem.product.productName} - [${orderItem.productQuantity}]`;
+    },"")
+    },
+    status: { label: Chinese.textPackage.order.status, callback: (value) => Chinese.textPackage.order.statuses[value] },
+    createTime: { label: Chinese.textPackage.order.createTime, callback: (value) => dateFormater(value, Chinese.timeFormat) },
+}
+
 Chinese.textPackage.orderHeader = {
     id: Chinese.textPackage.order.id,
     consigneeName: Chinese.textPackage.order.consigneeName,
@@ -111,7 +136,8 @@ Chinese.textPackage.button = {
     create: "创建",
     bulkAction: "批量操作",
     refresh: "刷新",
-    addOrderItem: "增加订单项"
+    addOrderItem: "增加订单项",
+    export: "导出"
 };
 Chinese.textPackage.errorMessage = {
     [ClientErrorCode.ORDER_API_ERROR]: "订单接口错误",

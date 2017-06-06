@@ -7,7 +7,11 @@ interface TopNavigationProps {
 	dispatch: any;
 }
 export default class TopNavigation extends React.Component<TopNavigationProps,{}>{
-  
+	handleLogout(){
+		let {dispatch} = this.props;
+		dispatch(appActions.APP_LOGOUT());
+	}
+
 	handleMenuToggleClick(event){
 		let {dispatch} = this.props;
 		dispatch(appActions.APP_TOGGLE_MENU());
@@ -45,7 +49,7 @@ export default class TopNavigation extends React.Component<TopNavigationProps,{}
 	                      </a>
 	                    </li>
 	                    <li><a href="javascript:;">Help</a></li>
-	                    <li><a href="login.html"><i className="fa fa-sign-out pull-right"></i> Log Out</a></li>
+	                    <li><a href="javascript:;" onClick={this.handleLogout.bind(this)}><i className="fa fa-sign-out pull-right"></i> Log Out</a></li>
 	                  </ul>
 	                </li>
 
