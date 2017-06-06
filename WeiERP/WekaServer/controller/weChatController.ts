@@ -19,10 +19,10 @@ export default class WeChatController extends Controller {
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
         /* start of business logic */
-        let signature = req.param('signature');
-        let timestamp = req.param('timestamp');
-        let nonce = req.param('nonce');
-        let echostr = req.param('echostr');
+        let signature = req.params.signature;
+        let timestamp = req.params.timestamp;
+        let nonce = req.params.nonce;
+        let echostr = req.params.echostr;
         if (this.checkSignature(signature, timestamp, nonce,SECRET_KEY)) {
           res.send(echostr);   // 确认来源是微信，并把echostr返回给微信服务器。
         } else {
@@ -45,5 +45,17 @@ export default class WeChatController extends Controller {
       return true;
     }
     return false;
+  }
+
+  
+  public hello(req: express.Request, res: express.Response, next: express.Next) {
+    this.safeHandle(req, res, next,
+      (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
+
+        /* start of business logic */
+        res.send("hello world");
+        /* end of business logic */
+      }
+    );
   }
 }

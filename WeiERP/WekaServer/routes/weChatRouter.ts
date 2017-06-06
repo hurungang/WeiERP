@@ -13,7 +13,8 @@ export default class WeChatRouter{
     let weChatController = new WeChatController();
     let chatController = new ChatController();
     router.get('/', weChatController.validate.bind(weChatController));
-    router.post('/', chatController.chat.bind(chatController));
+    router.post('/', weChatController.hello.bind(weChatController));
+    // router.post('/', chatController.chat.bind(chatController));
     logger.info('register wechat router');
     return router;
   }
