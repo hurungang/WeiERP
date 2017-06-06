@@ -51,7 +51,7 @@ export default class ChatController extends Controller {
 
         } else {
           result = this.badRequest(result, ErrorCode[ErrorCode.OrderAssembleFailed]);
-          this.handleResult(res, next, result);
+          this.handleWechatResult(res, next, result);
         }
         /* end of business logic */
       }
@@ -97,14 +97,14 @@ export default class ChatController extends Controller {
             })
             .catch((err: string) => {
               result = this.internalError(result, err);
-              this.handleResult(res, next, result);
+              this.handleWechatResult(res, next, result);
             });
         }
 
       })
       .catch((err: string) => {
         result = this.internalError(result, err);
-        this.handleResult(res, next, result);
+        this.handleWechatResult(res, next, result);
       });
   }
 
@@ -114,11 +114,11 @@ export default class ChatController extends Controller {
       .save()
       .then((order: IOrderModel) => {
         result.payload = order;
-        this.handleResult(res, next, result);
+        this.handleWechatResult(res, next, result);
       })
       .catch((err: string) => {
         result = this.internalError(result, err);
-        this.handleResult(res, next, result);
+        this.handleWechatResult(res, next, result);
       });
   }
 }

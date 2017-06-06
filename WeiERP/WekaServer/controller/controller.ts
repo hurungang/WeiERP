@@ -36,6 +36,10 @@ export class Controller {
     res.json(result);
   }
 
+  public handleWechatResult(res: express.Response, next: express.Next, result: APIResult) {
+    result.successful = (result.statusCode == HTTPStatusCode.OK)? true : false
+    res.send(result.successful?"success":result.errorMessage);
+  }
   public internalError(result: APIResult, error: string): APIResult {
     result.statusCode = HTTPStatusCode.InternalServerError;
     result.errorMessage = error;
