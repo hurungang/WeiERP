@@ -5,10 +5,10 @@ import ProtectedRouter from "./protectedRouter";
 
 const logger = new Logger("ChatRouter");
 
-export default class ChatRouter extends ProtectedRouter{
+export default class ChatRouter{
 
   constructor() {
-    let router = super() as any;
+    let router = express.Router();
     let chatController = new ChatController();
     router.post('/', chatController.chat.bind(chatController));
     logger.info('register chat router');

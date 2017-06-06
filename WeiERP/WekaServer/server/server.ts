@@ -10,6 +10,7 @@ import Database from './database';
 import OrderRouter from '../routes/orderRouter'
 import ChatRouter from '../routes/chatRouter'
 import UserRouter from '../routes/userRouter'
+import WeChatRouter from '../routes/weChatRouter'
 import AuthenticationRouter from '../routes/authenticationRouter'
 import Logger from './logger'
 
@@ -89,6 +90,7 @@ export default class Server {
     router.use("/chat",new ChatRouter());
     router.use("/user",new UserRouter());
     router.use("/authentication",new AuthenticationRouter());
+    router.use("/wechat",new WeChatRouter());
     this.app.use(router);
       
   }
