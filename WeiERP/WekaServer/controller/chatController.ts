@@ -21,6 +21,8 @@ export default class ChatController extends Controller {
   public chat(req: express.Request, res: express.Response, next: express.Next) {
     this.safeHandle(req, res, next,
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
+        
+        this.handleWechatResult(res, next, result);
 
         /* start of business logic */
         let content = req.body.xml.content[0];
@@ -38,11 +40,16 @@ export default class ChatController extends Controller {
             .then((user: IUserModel) => {
               if (user == null) {
                 let tempUser = new UserDAO(searchUser);
+                tempUser.name = tempUser.referenceID;
                 tempUser.save()
                 .then((savedUser:IUserModel)=>{
                   order.user = savedUser;
                   this.saveProductAndOrder(order, req, res, next, result);
                 })
+                .catch((err: string) => {
+                  result = this.internalError(result, err);
+                  //this.handleWechatResult(res, next, result);
+                });
               } else {
                 order.user = user;
                 this.saveProductAndOrder(order, req, res, next, result);
@@ -51,7 +58,7 @@ export default class ChatController extends Controller {
 
         } else {
           result = this.badRequest(result, ErrorCode[ErrorCode.OrderAssembleFailed]);
-          this.handleWechatResult(res, next, result);
+          //this.handleWechatResult(res, next, result);
         }
         /* end of business logic */
       }
@@ -97,7 +104,7 @@ export default class ChatController extends Controller {
             })
             .catch((err: string) => {
               result = this.internalError(result, err);
-              this.handleWechatResult(res, next, result);
+              //this.handleWechatResult(res, next, result);
             });
         }
 
@@ -114,11 +121,11 @@ export default class ChatController extends Controller {
       .save()
       .then((order: IOrderModel) => {
         result.payload = order;
-        this.handleWechatResult(res, next, result);
+        //this.handleWechatResult(res, next, result);
       })
       .catch((err: string) => {
         result = this.internalError(result, err);
-        this.handleWechatResult(res, next, result);
+        //this.handleWechatResult(res, next, result);
       });
   }
 }

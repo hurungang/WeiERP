@@ -53,7 +53,7 @@ export default class WeChatController extends Controller {
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
         /* start of business logic */
-        res.send("hello world");
+        res.send("success");
         /* end of business logic */
       }
     );
