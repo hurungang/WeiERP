@@ -60,8 +60,8 @@ export default class Server {
       console.log(err.stack);
       res.status(500).send({"Error" : err.stack});
     });
-    this.app.listen(3000, function () {
-      logger.info(commonConfiguration.APP_NAME+' listening on port 3000!');
+    this.app.listen(80, function () {
+      logger.info(commonConfiguration.APP_NAME+' listening on port 80!');
     });
   }
 
