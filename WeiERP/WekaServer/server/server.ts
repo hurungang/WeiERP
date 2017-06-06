@@ -13,6 +13,7 @@ import UserRouter from '../routes/userRouter'
 import WeChatRouter from '../routes/weChatRouter'
 import AuthenticationRouter from '../routes/authenticationRouter'
 import Logger from './logger'
+import { Environment } from "../model/models";
 
 
 const logger = new Logger("Server");
@@ -60,8 +61,9 @@ export default class Server {
       console.log(err.stack);
       res.status(500).send({"Error" : err.stack});
     });
-    this.app.listen(80, function () {
-      logger.info(commonConfiguration.APP_NAME+' listening on port 80!');
+    let port = commonConfiguration.ENV=="development" as Environment ? commonConfiguration.SERVER_PORT_DEV : commonConfiguration.SERVER_PORT;
+    this.app.listen(port, function () {
+      logger.info(commonConfiguration.APP_NAME+' listening on port '+port+'!');
     });
   }
 

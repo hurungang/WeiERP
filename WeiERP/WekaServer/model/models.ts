@@ -196,3 +196,5 @@ export interface BulkActionPayload{
   idList: string[];
   applyChange: any;
 }
+
+export type Environment = "production" | "development";
