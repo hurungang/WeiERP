@@ -20,14 +20,7 @@ export default class WeChatRouter {
     // logger.info('register wechat router');
     router.all('/', wechat(commonConfiguration.WECHAT_CONFIG).text(function (message, req, res, next) {
 
-      var content = message.Content || '';
-      if (/help/.test(content) || /帮助/.test(content) || /HELP/.test(content)) {
-        res.reply('Hi,小编等你很久了\n输入 帮助 或 help 获取帮助');
-      } else if (/里约/.test(content) || /奥运/.test(content) || /奖牌/.test(content) || /2016/.test(content)) {
-        res.reply('奥运奖牌');
-      } else {
-        res.reply('您的反馈已收到,我们会定时回复.');
-      }
+
 
     }).image(function (message, req, res, next) {
 

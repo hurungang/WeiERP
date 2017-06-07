@@ -22,16 +22,44 @@ export default class ChatController extends Controller {
     this.safeHandle(req, res, next,
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
         
-        this.handleWechatResult(res, next, result);
 
         /* start of business logic */
+        this.handleWechatResult(res, next, result);
         let content = req.body.xml.content[0];
-        let referenceID = req.body.xml.fromusername[0];
+        let fromUserName = req.body.xml.fromusername[0];
+        this.handleOrder(content,fromUserName,req,res,next);
+        /* end of business logic */
+      }
+    );
+  }
+
+  public chat(message:any, req: express.Request, res: express.Response, next: express.Next) {
+    this.safeHandle(req, res, next,
+      (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
+
+        /* start of business logic */
+        let content = message.Content || '';
+        let fromUserName = message.FromUserName;
+        if (/help/.test(content) || /帮助/.test(content) || /HELP/.test(content)) {
+          res.reply('Hi,小编等你很久了\n输入 帮助 或 help 获取帮助');
+        } else if (/里约/.test(content) || /奥运/.test(content) || /奖牌/.test(content) || /2016/.test(content)) {
+          res.reply('奥运奖牌');
+        } else {
+          res.reply('正在生成订单，请稍侯...');
+          this.handleOrder(content,fromUserName,req,res,next);
+        }
+        /* end of business logic */
+      }
+    );
+  }
+
+  private handleOrder(content:string, fromUserName:string, req: express.Request, res: express.Response, next: express.Next){
+        let result = new APIResult();
         let orderAssembler = new OrderAssembler(content);
         //find Product
         let order = orderAssembler.order;
         let searchUser = new User();
-        searchUser.referenceID = referenceID;
+        searchUser.referenceID = fromUserName;
         
         logger.debug("chat:" + JSON.stringify(order));
         if (orderAssembler.successful) {
@@ -60,11 +88,7 @@ export default class ChatController extends Controller {
           result = this.badRequest(result, ErrorCode[ErrorCode.OrderAssembleFailed]);
           //this.handleWechatResult(res, next, result);
         }
-        /* end of business logic */
-      }
-    );
   }
-
   private saveProductAndOrder(order: IOrder, req: express.Request, res: express.Response, next: express.Next, result: APIResult) {
 
     ProductDAO.find({})
@@ -104,14 +128,12 @@ export default class ChatController extends Controller {
             })
             .catch((err: string) => {
               result = this.internalError(result, err);
-              //this.handleWechatResult(res, next, result);
             });
         }
 
       })
       .catch((err: string) => {
         result = this.internalError(result, err);
-        this.handleWechatResult(res, next, result);
       });
   }
 
@@ -121,11 +143,10 @@ export default class ChatController extends Controller {
       .save()
       .then((order: IOrderModel) => {
         result.payload = order;
-        //this.handleWechatResult(res, next, result);
+        res.reply("你的订单已生成,点击查看:http://ec2-13-58-68-0.us-east-2.compute.amazonaws.com/order/"+order.id);
       })
       .catch((err: string) => {
         result = this.internalError(result, err);
-        //this.handleWechatResult(res, next, result);
       });
   }
 }
