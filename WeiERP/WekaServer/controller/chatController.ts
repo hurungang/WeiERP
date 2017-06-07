@@ -33,7 +33,7 @@ export default class ChatController extends Controller {
     );
   }
 
-  public chat(message:any, req: express.Request, res: express.Response, next: express.Next) {
+  public textChat(message:any, req: express.Request, res: express.Response, next: express.Next) {
     this.safeHandle(req, res, next,
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
