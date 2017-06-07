@@ -25,6 +25,8 @@
     "reflect-metadata": "^0.1.10",
     "segment": "^0.1.3",
     "string-similarity": "^1.1.0",
+    "wechat": "^2.1.0",
+    "wechat-router": "0.0.1",
     "winston": "^2.3.1",
     "winston-daily-rotate-file": "^1.4.6"
   },

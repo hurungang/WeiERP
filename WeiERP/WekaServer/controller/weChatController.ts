@@ -32,6 +32,8 @@ export default class WeChatController extends Controller {
         /* end of business logic */
       }
     );
+
+    
   }
 
   private checkSignature = function (signature, timestamp, nonce, token) {
@@ -48,12 +50,13 @@ export default class WeChatController extends Controller {
   }
 
   
-  public hello(req: express.Request, res: express.Response, next: express.Next) {
+  public chat(req: express.Request, res: express.Response, next: express.Next) {
     this.safeHandle(req, res, next,
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
         /* start of business logic */
-        res.send("success");
+        let message = req.weixin;
+        res.reply("success");
         /* end of business logic */
       }
     );
