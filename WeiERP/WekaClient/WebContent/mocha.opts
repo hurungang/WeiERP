@@ -1,6 +1,6 @@
 --require ts-node/register 
 --require jsdom-global/register
---require ./app/config.ini
+--require ./app/configs/config.ts
 --require ./test/setup.js 
 --recursive
 test/**/*.test.ts

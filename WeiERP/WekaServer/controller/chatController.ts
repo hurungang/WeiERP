@@ -24,7 +24,6 @@ export default class ChatController extends Controller {
         
 
         /* start of business logic */
-        this.handleWechatResult(res, next, result);
         let content = req.body.xml.content[0];
         let fromUserName = req.body.xml.fromusername[0];
         this.handleOrder(content,fromUserName,req,res,next);
