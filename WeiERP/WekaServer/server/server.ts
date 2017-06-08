@@ -63,7 +63,7 @@ export default class Server {
       console.log(err.stack);
       res.status(500).send({"Error" : err.stack});
     });
-    let port = commonConfiguration.ENV=="development" as Environment ? commonConfiguration.SERVER_PORT_DEV : commonConfiguration.SERVER_PORT;
+    let port = process.env.NODE_ENV=="development" as Environment ? commonConfiguration.SERVER_PORT_DEV : commonConfiguration.SERVER_PORT;
     this.app.listen(port, function () {
       logger.info(commonConfiguration.APP_NAME+' listening on port '+port+'!');
     });
