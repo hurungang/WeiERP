@@ -57,7 +57,6 @@ export default class Server {
     this.run();
   }
 
-
   public run() {
     this.app.use(function(err,req,res,next) {
       console.log(err.stack);
