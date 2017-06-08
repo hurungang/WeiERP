@@ -149,7 +149,7 @@ export default class ChatController extends Controller {
                   联系电话:\t${order.id}\r\n
                   订单内容:\r\n
                   ${order.orderItems.map((orderItem)=>`${orderItem.product.productName} - ${orderItem.productQuantity}\r\n`)}
-                  点击查看:http://ec2-13-58-68-0.us-east-2.compute.amazonaws.com/order/${order.id}`);
+                  点击查看:http://ec2-13-58-68-0.us-east-2.compute.amazonaws.com/web/#/order/${order.id}`);
       })
       .catch((err: string) => {
         result = this.internalError(result, err);

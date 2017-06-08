@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "Set NODE_ENV=production & ts-node app.ts",
+    "start": "Set NODE_ENV=production&ts-node app.ts",
     "start:watch": "nodemon -e js,ts,jsx,tsx,ini -w ./ --exec npm run start",
-    "debug": "set NODE_ENV=development && ts-node --inspect app.ts",
+    "debug": "set NODE_ENV=development&ts-node --inspect app.ts",
     "debug:watch": "nodemon -e js,ts,jsx,tsx,ini -w ./ --exec npm run debug",
     "build": "tsc",
     "build:watch": "nodemon -e js,ts,jsx,tsx,ini -w ./ --exec tsc",

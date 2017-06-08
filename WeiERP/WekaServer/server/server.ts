@@ -84,7 +84,7 @@ export default class Server {
   }
 
   public static(){
-    this.app.use (express.static( '../WekaClient/WebContent'));
+    this.app.use('/web',express.static( '../WekaClient/WebContent'));
   }
   public routes() {
     //empty for now
