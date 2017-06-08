@@ -110,6 +110,7 @@ describe("MessageAnalyst Util", () => {
     it("calc commodity name similarity correctly", () => {
       let test: string = "Blackmoor袋鼠精";
       let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
+      console.log(textSection.toString());
       chai.assert.equal(textSection.category, MessageSectionCategory.CommodityName);
     })
     it("calc commodity name similarity correctly", () => {

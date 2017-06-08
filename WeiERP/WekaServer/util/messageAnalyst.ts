@@ -183,11 +183,11 @@ export class TextSection {
     this.similarities = [];
     for(let pattern of this.patterns){
       let similarity = 0;
-      similarity = this.getRangeScore(this.countChinese, pattern.countChinese) +
-        this.getRangeScore(this.countEnglish, pattern.countEnglish) +
-        this.getRangeScore(this.countNumber, pattern.countNumber) +
-        this.getRangeScore(this.countSymbol, pattern.countSymbol)+
-        this.getKeywordScore(pattern.keywords);
+      similarity = this.getRangeScore(this.countChinese, pattern.countChinese)*pattern.countChinese.weight +
+        this.getRangeScore(this.countEnglish, pattern.countEnglish)*pattern.countEnglish.weight +
+        this.getRangeScore(this.countNumber, pattern.countNumber)*pattern.countNumber.weight +
+        this.getRangeScore(this.countSymbol, pattern.countSymbol)*pattern.countSymbol.weight +
+        this.getKeywordScore(pattern.keywords)*pattern.keywordsWeight;
       this.similarities.push({
         category: pattern.category,
         similarity: similarity

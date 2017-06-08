@@ -51,6 +51,8 @@ export default class Server {
     //add routes
     this.routes();
 
+    //add static
+    this.static();
     //add api
     this.run();
   }
@@ -82,6 +84,9 @@ export default class Server {
     this.database = new Database();
   }
 
+  public static(){
+    this.app.use (express.static( '../WekaClient/WebContent'));
+  }
   public routes() {
     //empty for now
     this.app.get('/', function (req, res) {

@@ -19,6 +19,40 @@
             ],
             "port": 9229,
             "protocol": "inspector"
-        }
+        },
+                {
+            "type": "node",
+            "request": "launch",
+            "name": "Test via NPM (WekaServer)",
+            "cwd": "${workspaceRoot}/WekaServer",
+            "runtimeExecutable": "npm",
+            "windows": {
+                "runtimeExecutable": "npm.cmd"
+            },
+            "runtimeArgs": [
+                "run-script",
+                "test"
+            ],
+            "port": 9229,
+            "protocol": "inspector"
+        },
+		{
+			// Name of configuration; appears in the launch configuration drop down menu.
+			"name": "Run mocha(WekaServer)",
+			// Type of configuration. Possible values: "node", "mono".
+			"type": "node",
+			// Workspace relative or absolute path to the program.
+			"program": "${workspaceRoot}/WekaServer/node_modules/mocha/bin/_mocha",
+			// Automatically stop program after launch.
+			"stopOnEntry": true,
+			// Command line arguments passed to the program.
+			"args": ["--opts","mocha.opts","--no-timeouts"],
+			// Workspace relative or absolute path to the working directory of the program being debugged. Default is the current workspace.
+			"cwd": "${workspaceRoot}/WekaServer",
+			// Workspace relative or absolute path to the runtime executable to be used. Default is the runtime executable on the PATH.
+			"runtimeExecutable": null,
+			// Environment variables passed to the program.
+			"env": { "NODE_ENV": "development"}
+		}
     ]
 }
