@@ -16,6 +16,7 @@ export class MessageAnalyst {
     this.message = message;
     this.patterns = patterns;
     let messageSections: string[] = this.message.split(this.regexSymbol);
+    console.log(messageSections);
     this.result = new MessageAnalysisResult();
     for (var message of messageSections) {
       if(message.trim()!=""){
@@ -58,8 +59,10 @@ export class MessageAnalysisResult {
     this.rawTextSections = [];
   }
 
-  public add(textSection: TextSection) {
-    this.rawTextSections.push(textSection);
+  public add(textSection: TextSection, isRaw=true) {
+    if(isRaw){
+      this.rawTextSections.push(textSection);
+    }
     let pattern = commonConfig.MESSAGE_ANALYST_CONFIG.getOrderPattern(textSection.category);
     if(pattern.multiple){
       this.textSections.push(textSection);
@@ -79,7 +82,7 @@ export class MessageAnalysisResult {
       if(!categoryExisted){
         this.textSections.push(pendingAddTextSection);
       }else if(pendingAddTextSection.nextPossibleCategory()){
-        this.add(pendingAddTextSection);
+        this.add(pendingAddTextSection,false);
       }
     }
   }
@@ -183,11 +186,13 @@ export class TextSection {
     this.similarities = [];
     for(let pattern of this.patterns){
       let similarity = 0;
-      similarity = this.getRangeScore(this.countChinese, pattern.countChinese)*pattern.countChinese.weight +
-        this.getRangeScore(this.countEnglish, pattern.countEnglish)*pattern.countEnglish.weight +
-        this.getRangeScore(this.countNumber, pattern.countNumber)*pattern.countNumber.weight +
-        this.getRangeScore(this.countSymbol, pattern.countSymbol)*pattern.countSymbol.weight +
-        this.getKeywordScore(pattern.keywords)*pattern.keywordsWeight;
+      
+      let totalWeight = pattern.countChinese.weight + pattern.countEnglish.weight + pattern.countNumber.weight + pattern.countSymbol.weight + pattern.keywordsWeight;
+      similarity = this.getRangeScore(this.countChinese, pattern.countChinese)*pattern.countChinese.weight/totalWeight +
+        this.getRangeScore(this.countEnglish, pattern.countEnglish)*pattern.countEnglish.weight/totalWeight +
+        this.getRangeScore(this.countNumber, pattern.countNumber)*pattern.countNumber.weight/totalWeight +
+        this.getRangeScore(this.countSymbol, pattern.countSymbol)*pattern.countSymbol.weight/totalWeight +
+        this.getKeywordScore(pattern.keywords)*pattern.keywordsWeight/totalWeight;
       this.similarities.push({
         category: pattern.category,
         similarity: similarity

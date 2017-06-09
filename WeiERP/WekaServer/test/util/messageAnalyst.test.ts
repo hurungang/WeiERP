@@ -39,6 +39,7 @@ describe("MessageAnalyst Util", () => {
     it("get right chinese string sections with space and mixed symbols", () => {
       let test: string = "测试，测试2;Swiss男士综合维生素 2瓶";
       let messageAnalyst = new MessageAnalyst(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
+      console.log(messageAnalyst.result.rawTextSections);
       chai.assert.strictEqual(messageAnalyst.result.rawTextSections.length, 4);
       chai.assert.strictEqual(messageAnalyst.result.rawTextSections[0].text, "测试");
       chai.assert.strictEqual(messageAnalyst.result.rawTextSections[1].text, "测试2");
@@ -113,7 +114,12 @@ describe("MessageAnalyst Util", () => {
       console.log(textSection.toString());
       chai.assert.equal(textSection.category, MessageSectionCategory.CommodityName);
     })
-    it("calc commodity name similarity correctly", () => {
+    it("calc commodity name similarity correctly 2 - no english and no keyword", () => {
+      let test: string = "金维他男士银杏片";
+      let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
+      chai.assert.equal(textSection.category, MessageSectionCategory.CommodityName);
+    })
+    it("calc commodity name similarity correctly 3", () => {
       let test: string = "Swiss男士综合维生素";
       let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
       chai.assert.equal(textSection.category, MessageSectionCategory.CommodityName);

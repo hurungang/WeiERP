@@ -142,13 +142,13 @@ export default class ChatController extends Controller {
       .save()
       .then((order: IOrderModel) => {
         result.payload = order;
-        res.reply(`你的订单已生成,\r\n
-                  订单编号:\t${order.id}\r\n
-                  收货人:\t${order.id}\r\n
-                  收货地址:\t${order.id}\r\n
-                  联系电话:\t${order.id}\r\n
-                  订单内容:\r\n
-                  ${order.orderItems.map((orderItem)=>`${orderItem.product.productName} - ${orderItem.productQuantity}\r\n`)}
+        res.reply(`你的订单已生成,\n
+                  订单编号:\t${order.id}\n
+                  收货人:\t${order.consigneeName}\n
+                  收货地址:\t${order.consigneeAddress}\n
+                  联系电话:\t${order.consigneeAddress}\n
+                  订单内容:\n
+                  ${order.orderItems.map((orderItem)=>`${orderItem.product.productName} - ${orderItem.productQuantity}\n`)}
                   点击查看:http://ec2-13-58-68-0.us-east-2.compute.amazonaws.com/web/#/order/${order.id}`);
       })
       .catch((err: string) => {
