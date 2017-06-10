@@ -32,6 +32,30 @@ export const APP_AUTHENTICATE_USER = (user: User) => {
       });
   }
 }
+export const APP_REGISTER_USER = (user: User) => {
+  return dispatch => {
+    dispatch(APP_PROCEEDING());
+    const request = axios.put(config.runtime.api.authentication,user);
+    request
+      .then(response => {
+        let result: APIResult = response.data as APIResult;
+        if (result.successful) {
+          let user: User = result.payload as User;
+          dispatch(APP_LOGIN(user));
+          dispatch(APP_SET_TOKEN(result.token));
+        } else {
+          let error: Error = { errorCode: ClientErrorCode.USER_INVALID_ERROR, errorDetail: result.errorMessage };
+          dispatch(GENERAL_ERROR(error));
+        }
+        dispatch(APP_PROCEEDING_END());
+      })
+      .catch(response => {
+        let error: Error = { errorCode: ClientErrorCode.USER_API_ERROR, errorDetail: response.message };
+        dispatch(GENERAL_ERROR(error));
+        dispatch(APP_PROCEEDING_END());
+      });
+  }
+}
 export const APP_LOGIN = actionCreator<User>('APP_LOGIN');
 export const APP_LOGOUT = actionCreator<User>('APP_LOGOUT');
 export const APP_SET_TOKEN = actionCreator<string>('APP_SET_TOKEN');

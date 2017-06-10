@@ -2,6 +2,7 @@ use Weka
 
 db.createCollection("users");
 db.users.createIndex( { "name": 1 }, { unique: true, name:"idx_users_name" } );
+db.users.createIndex( { "referenceID": 1 }, { unique: true, name:"idx_users_referenceID" } );
 
 db.createCollection("orders");
 db.createCollection("products");

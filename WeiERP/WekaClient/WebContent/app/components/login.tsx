@@ -3,14 +3,16 @@ import { User } from '../models/modelTypes'
 import { State } from '../reducers/reducerTypes'
 import * as appActions from '../actions/appActions'
 import ErrorAlert from "./elements/errorAlert";
+import { Link } from "react-router";
 
 interface LoginProps {
 	dispatch: any;
 	state: State;
 	register: boolean;
+	location: any;
 }
 
-export default class Login extends React.Component<LoginProps, {}>{
+export default class Login extends React.Component<LoginProps, { formValidated: boolean,formValidationMap: Map<any,boolean>; }>{
 	refs: {
 		[key: string]: (Element);
 		name: (HTMLInputElement);
@@ -18,6 +20,10 @@ export default class Login extends React.Component<LoginProps, {}>{
 		sender: (HTMLInputElement);
 		phone: (HTMLInputElement);
 		address: (HTMLInputElement);
+	}
+	constructor() {
+		super();
+		this.state = { formValidated: true,formValidationMap: new Map<any,boolean>() };
 	}
 
 	handleLogin(event) {
@@ -28,18 +34,34 @@ export default class Login extends React.Component<LoginProps, {}>{
 		};
 		dispatch(appActions.APP_AUTHENTICATE_USER(user));
 	}
-	validatePassword(event) {
 
-	}
-	handleBind(event) {
-		let user: User = {
-			name: this.refs.name.value,
-			password: this.refs.password.value,
-			sender: this.refs.sender.value,
-			phone: this.refs.phone.value,
-			address: this.refs.address.value
+	validatePassword(event) {
+		if (event.target.value != this.refs.password.value) {
+      		let newMap = this.state.formValidationMap.set("validatePasswordError",true);
+			this.setState({ formValidated: false, formValidationMap: newMap });
+		} else {
+      		let newMap = this.state.formValidationMap;
+			newMap.delete("validatePasswordError");
+			this.setState({ formValidated: true, formValidationMap: newMap });
 		}
 	}
+
+	handleRegister(event) {
+		if(this.state.formValidated){
+			let { dispatch } = this.props;
+			let { openid, token } = this.props.location.query;
+			let user: User = {
+				name: this.refs.name.value,
+				password: this.refs.password.value,
+				referenceID: openid,
+				sender: this.refs.sender.value,
+				phone: this.refs.phone.value,
+				address: this.refs.address.value
+			}
+			dispatch(appActions.APP_REGISTER_USER(user));
+		}
+	}
+
 	render() {
 		let { language, error } = this.props.state.appState;
 		let { register } = this.props;
@@ -63,7 +85,7 @@ export default class Login extends React.Component<LoginProps, {}>{
 								{register ?
 									<div>
 										<div>
-											<input type="password" className="form-control" placeholder="Confirm Password"  required={true} onChange={this.validatePassword.bind(this)} />
+											<input type="password" className={this.state.formValidationMap.get("validatePasswordError")?"form-control bad":"form-control"} placeholder="Confirm Password" required={true} onChange={this.validatePassword.bind(this)} />
 										</div>
 										<div>
 											<input type="text" className="form-control" placeholder="Sender Name" ref="sender" required={true} />
@@ -74,15 +96,22 @@ export default class Login extends React.Component<LoginProps, {}>{
 										<div>
 											<input type="text" className="form-control" placeholder="Address" ref="address" required={true} />
 										</div>
+										<div>
+
+											{error ? <ErrorAlert errorSummary={textPac.errorMessage[error.errorCode]} errorDetail={error.errorDetail} /> : ""}
+											<button className="btn btn-success pull-right" disabled={this.state.formValidationMap.size>0}  onClick={this.handleRegister.bind(this)}>Register</button>
+															
+											<Link to="/" >Already registered?</Link>
+										</div>
 									</div>
-									: null}
+									: 
 								<div>
 
 									{error ? <ErrorAlert errorSummary={textPac.errorMessage[error.errorCode]} errorDetail={error.errorDetail} /> : ""}
 									<a className="btn btn-default submit" onClick={this.handleLogin.bind(this)}>Log in</a>
 									<a className="reset_pass" href="#">Lost your password?</a>
 								</div>
-
+								}
 								<div className="clearfix"></div>
 
 								<div className="separator">

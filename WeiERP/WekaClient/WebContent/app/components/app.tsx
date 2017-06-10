@@ -11,6 +11,7 @@ interface AppProps {
 	state: State;
 	dispatch: any;
 	params: any;
+	location: any;
 }
 
 class App extends React.Component<AppProps,{}>{
@@ -35,7 +36,7 @@ class App extends React.Component<AppProps,{}>{
 				  );
 	  }else{
 		  return (
-				  <Login state={state} dispatch={dispatch} register={register}/>
+				  <Login state={state} dispatch={dispatch} register={register} location={this.props.location}/>
 		  )
 	  }
 	  

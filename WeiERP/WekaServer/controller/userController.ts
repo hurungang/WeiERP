@@ -20,17 +20,23 @@ export default class UserController extends Controller implements IController {
             (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
                 /* start of business logic */
-                var newUser = new UserDAO(req.body);
-                newUser
-                    .save()
-                    .then((user: IUserModel) => {
-                        result.payload = user;
-                        this.handleResult(res, next, result);
-                    })
-                    .catch((err: any) => {
-                        result = this.internalError(result, err.toString());
-                        this.handleResult(res, next, result);
-                    });
+                let user:User = req.body;
+                if(user.id||user.referenceID){
+                    this.update(req,res,next);
+                }else{
+
+                    var newUser = new UserDAO(req.body);
+                    newUser
+                        .save()
+                        .then((user: IUserModel) => {
+                            result.payload = user;
+                            this.handleResult(res, next, result);
+                        })
+                        .catch((err: any) => {
+                            result = this.internalError(result, err.toString());
+                            this.handleResult(res, next, result);
+                        });
+                }
                 /* end of business logic */
 
             }
@@ -135,8 +141,17 @@ export default class UserController extends Controller implements IController {
             (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
                 /* start of business logic */
-                let newUser = req.body;
-                var query = { '_id': newUser.id };
+                let newUser:User = req.body;
+                
+                var query = {};
+                if(newUser.id){ 
+                    query = { '_id': newUser.id };
+                }else if(newUser.referenceID){
+                    query = { 'referenceID': newUser.referenceID };
+                }else if(newUser.name){
+                    query = { 'name': newUser.name };                    
+                }
+
                 UserDAO.findOneAndUpdate(query, req.body, { upsert: false, new: true, runValidators: true })
                     .then((user: IUserModel) => {
                         result.payload = user;

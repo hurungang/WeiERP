@@ -9,8 +9,10 @@ import { IProduct, IOrder} from "../model/models";
 import { ObjectID } from "mongodb";
 import { ErrorCode } from "../model/enums";
 import * as OAuth from 'wechat-oauth';
+import * as jwt from 'jsonwebtoken';
 import * as commonConfig from "../config/commonConfig"
-
+import * as serverConfig from "../config/serverConfig"
+import * as messageConfig from "../config/messageConfig"
 
 const logger = new Logger("ChatController");
 
@@ -48,7 +50,7 @@ export default class ChatController extends Controller {
     this.safeHandle(req, res, next,
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
-        var url = this.client.getAuthorizeURL('http://ec2-13-58-68-0.us-east-2.compute.amazonaws.com/wechat/oauth', 'state', 'snsapi_base');
+        var url = this.client.getAuthorizeURL(serverConfig.SERVER_DOMAIN+'/wechat/oauth', 'state', 'snsapi_base');
         /* start of business logic */
         let content = message.Content || '';
         let fromUserName = message.FromUserName;
@@ -67,16 +69,17 @@ export default class ChatController extends Controller {
   
   public oauth(req: express.Request, res: express.Response, next: express.Next) {
     let code = req.query.code;
-    console.log(code);
     this.client.getAccessToken(code, function (err, result) {
       if(result&&result.data){
         var accessToken = result.data.access_token;
         var openid = result.data.openid;
-        console.log(openid);
+        var token = jwt.sign(openid, commonConfig.SECRET_KEY, {
+            expiresIn: commonConfig.TOKEN_EXPIRES_IN_SECONDS
+        });
+        res.redirect(`/web/#/register?openid=${openid}&token=${token}`);
       }else{
-        console.log(err);
+        logger.error(err);
       }
-      res.redirect('/web/#/register')
     });
   }
 
@@ -88,7 +91,6 @@ export default class ChatController extends Controller {
         let searchUser = new User();
         searchUser.referenceID = fromUserName;
         
-        logger.debug("chat:" + JSON.stringify(order));
         if (orderAssembler.successful) {
           //find user, otherwise create new user
           UserDAO.findOne(searchUser)
@@ -170,14 +172,7 @@ export default class ChatController extends Controller {
       .save()
       .then((order: IOrderModel) => {
         result.payload = order;
-        res.reply(`你的订单已生成,
-收货人:\t${order.consigneeName}
-收货地址:\t${order.consigneeAddress}
-联系电话:\t${order.consigneePhone}
-订单内容:
-  ${order.orderItems.map((orderItem)=>`${orderItem.product.productName} - ${orderItem.productQuantity}
-  `)}
-点击查看:http://ec2-13-58-68-0.us-east-2.compute.amazonaws.com/web/#/order/${order.id}`);
+        res.reply(messageConfig.ORDER_REPLY(order));
       })
       .catch((err: string) => {
         result = this.internalError(result, err);

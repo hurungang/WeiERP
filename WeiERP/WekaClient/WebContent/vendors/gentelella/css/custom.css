@@ -4086,11 +4086,11 @@ ul.notifications {
 }
 
 .bad {
-    border: 1px solid #CE5454;
-    box-shadow: 0 0 4px -2px #CE5454;
+    border: 1px solid #CE5454 !important;
+    box-shadow: 0 0 4px -2px #CE5454 !important;
     position: relative;
     left: 0;
-    background: #FFDDDD;
+    background: #FFDDDD !important;
     -moz-animation: .7s 1 shake linear;
     -webkit-animation: .7s 1 shake linear;
 }
