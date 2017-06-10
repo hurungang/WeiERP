@@ -8,6 +8,8 @@
     "start:watch": "nodemon -e js,ts,jsx,tsx,ini -w ./ --exec npm run start",
     "debug": "set NODE_ENV=development&ts-node --inspect app.ts",
     "debug:watch": "nodemon -e js,ts,jsx,tsx,ini -w ./ --exec npm run debug",
+    "prodDebug": "set NODE_ENV=production&ts-node --inspect app.ts",
+    "prodDebug:watch": "nodemon -e js,ts,jsx,tsx,ini -w ./ --exec npm run debug",
     "build": "tsc",
     "build:watch": "nodemon -e js,ts,jsx,tsx,ini -w ./ --exec tsc",
     "test": "mocha --opts mocha.opts",
