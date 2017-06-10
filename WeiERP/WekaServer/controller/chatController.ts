@@ -66,12 +66,16 @@ export default class ChatController extends Controller {
   }
   
   public oauth(req: express.Request, res: express.Response, next: express.Next) {
-    let code = req.params.code;
+    let code = req.query.code;
     console.log(code);
-    this.client.getAccessToken('code', function (err, result) {
-      var accessToken = result.data.access_token;
-      var openid = result.data.openid;
-      console.log(openid);
+    this.client.getAccessToken(code, function (err, result) {
+      if(result&&result.data){
+        var accessToken = result.data.access_token;
+        var openid = result.data.openid;
+        console.log(openid);
+      }else{
+        console.log(err);
+      }
     });
   }
 
