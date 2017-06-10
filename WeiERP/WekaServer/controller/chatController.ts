@@ -76,7 +76,7 @@ export default class ChatController extends Controller {
       }else{
         console.log(err);
       }
-      res.send('web/#/register')
+      res.redirect('/web/#/register')
     });
   }
 
