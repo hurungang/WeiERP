@@ -16,7 +16,7 @@ const appStore = createStore(reducers,applyMiddleware(thunkMiddleware));
 ReactDOM.render(
   <Provider store={appStore}>
   	<Router history={hashHistory}>
-  		<Route path="/" component={App}>
+  		<Route path="/(:register)" component={App}>
 			  <IndexRoute component={Dashboard}/>
   			<Route path="/order" component={OrderPage}/>
   			<Route path="/order/:id" component={OrderPage}/>

@@ -6,3 +6,5 @@ db.users.createIndex( { "name": 1 }, { unique: true, name:"idx_users_name" } );
 db.createCollection("orders");
 db.createCollection("products");
 db.createCollection("consignees");
+db.createCollection("tokens");
+db.tokens.createIndex( { "openid": 1 }, { unique: true, name:"idx_tokens_openid" } );

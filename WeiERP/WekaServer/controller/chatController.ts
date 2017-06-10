@@ -4,18 +4,30 @@ import { IController, Controller } from './controller';
 import OrderAssembler from '../util/orderAssembler'
 import * as StringSimilarity from 'string-similarity'
 import Logger from '../server/logger';
-import { OrderDAO, ProductDAO, IOrderModel, IProductModel,UserDAO,IUserModel } from "../model/schemas";
+import { OrderDAO, ProductDAO, IOrderModel, IProductModel,UserDAO,IUserModel, TokenDAO } from "../model/schemas";
 import { IProduct, IOrder} from "../model/models";
 import { ObjectID } from "mongodb";
 import { ErrorCode } from "../model/enums";
+import OAuth from 'wechat-oauth';
+import * as commonConfig from "../config/commonConfig"
+
 
 const logger = new Logger("ChatController");
 
 export default class ChatController extends Controller {
 
+  client:OAuth;
   constructor() {
     super();
     logger.info("ChatController constructed");
+    this.client = new OAuth(commonConfig.WECHAT_CONFIG.appid,commonConfig.WECHAT_CONFIG.appsecret,function (openid, callback) {
+      // 传入一个根据openid获取对应的全局token的方法
+      // 在getUser时会通过该方法来获取token
+      TokenDAO.getToken(openid, callback);
+    }, function (openid, token, callback) {
+      // 持久化时请注意，每个openid都对应一个唯一的token!
+      TokenDAO.setToken(openid, token, callback);
+    });
   }
 
   public chat(req: express.Request, res: express.Response, next: express.Next) {
@@ -36,11 +48,12 @@ export default class ChatController extends Controller {
     this.safeHandle(req, res, next,
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
+        var url = this.client.getAuthorizeURL('redirectUrl', 'state', 'scope');
         /* start of business logic */
         let content = message.Content || '';
         let fromUserName = message.FromUserName;
         if (/help/.test(content) || /帮助/.test(content) || /HELP/.test(content)) {
-          res.reply('Hi,小编等你很久了\n输入 帮助 或 help 获取帮助');
+          res.reply(url);
         } else if (/里约/.test(content) || /奥运/.test(content) || /奖牌/.test(content) || /2016/.test(content)) {
           res.reply('奥运奖牌');
         } else {
@@ -50,6 +63,16 @@ export default class ChatController extends Controller {
         /* end of business logic */
       }
     );
+  }
+  
+  public oauth(req: express.Request, res: express.Response, next: express.Next) {
+    let code = req.params.code;
+    console.log(code);
+    this.client.getAccessToken('code', function (err, result) {
+      var accessToken = result.data.access_token;
+      var openid = result.data.openid;
+      console.log(openid);
+    });
   }
 
   private handleOrder(content:string, fromUserName:string, req: express.Request, res: express.Response, next: express.Next){

@@ -15,7 +15,8 @@ export const SERVER_PORT_DEV = 3000;
 
 export const WECHAT_CONFIG = {
   token: SECRET_KEY,
-  appid: 'd0208b6099b7ac7802b290ed6b08325b',
+  appid: 'wx2fb5d746e38233de',
+  appsecret: 'd0208b6099b7ac7802b290ed6b08325b',
   encodingAESKey: null,
   checkSignature: true,
 }

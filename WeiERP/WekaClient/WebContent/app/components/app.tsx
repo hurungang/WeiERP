@@ -19,12 +19,15 @@ class App extends React.Component<AppProps,{}>{
 	  let {state,dispatch} = this.props;
 	  //todo: skip login for development, should be removed later
 	  let testUser = {name:'Harry',password:'test'};
-	  dispatch(appActions.APP_AUTHENTICATE_USER(testUser));
+	  //dispatch(appActions.APP_AUTHENTICATE_USER(testUser));
   }
   
   render(){
 	  let {state,dispatch} = this.props;
-	  
+	  let {register} = this.props.params;
+	  if(register){
+		  register = true;
+	  }
 	  let {user} = state.appState;
 	  if(user!=null){
 		  return (
@@ -32,7 +35,7 @@ class App extends React.Component<AppProps,{}>{
 				  );
 	  }else{
 		  return (
-				  <Login state={state} dispatch={dispatch}/>
+				  <Login state={state} dispatch={dispatch} register={register}/>
 		  )
 	  }
 	  

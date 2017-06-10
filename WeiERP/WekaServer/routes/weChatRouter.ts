@@ -14,7 +14,7 @@ export default class WeChatRouter {
     let router = express.Router();
     // let weChatController = new WeChatController();
     let chatController = new ChatController();
-    // router.get('/', weChatController.validate.bind(weChatController));
+    router.get('/oauth', chatController.oauth.bind(chatController));
     // //router.post('/', weChatController.hello.bind(weChatController));
     // router.post('/', chatController.chat.bind(chatController));
     // logger.info('register wechat router');
