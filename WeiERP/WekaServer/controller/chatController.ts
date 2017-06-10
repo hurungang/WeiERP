@@ -8,7 +8,7 @@ import { OrderDAO, ProductDAO, IOrderModel, IProductModel,UserDAO,IUserModel, To
 import { IProduct, IOrder} from "../model/models";
 import { ObjectID } from "mongodb";
 import { ErrorCode } from "../model/enums";
-import OAuth from 'wechat-oauth';
+import * as OAuth from 'wechat-oauth';
 import * as commonConfig from "../config/commonConfig"
 
 
@@ -48,7 +48,7 @@ export default class ChatController extends Controller {
     this.safeHandle(req, res, next,
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
-        var url = this.client.getAuthorizeURL('redirectUrl', 'state', 'scope');
+        var url = this.client.getAuthorizeURL('http://ec2-13-58-68-0.us-east-2.compute.amazonaws.com/wechat/oauth', 'state', 'snsapi_base');
         /* start of business logic */
         let content = message.Content || '';
         let fromUserName = message.FromUserName;
