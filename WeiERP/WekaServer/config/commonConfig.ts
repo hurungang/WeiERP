@@ -52,9 +52,9 @@ export class MESSAGE_ANALYST_CONFIG {
     multiple: false,
   },{
     category: MessageSectionCategory.CommodityName,
-    countEnglish:   {minimalLength: 0,maximalLength: 40,lowerLength: 3,higherLength: 20, weight: 100,},
+    countEnglish:   {minimalLength: 0,maximalLength: 40,lowerLength: 2,higherLength: 20, weight: 100,},
     countNumber:    {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
-    countChinese:   {minimalLength: 4,maximalLength: 40,lowerLength: 3,higherLength: 20, weight: 100,},
+    countChinese:   {minimalLength: 4,maximalLength: 40,lowerLength: 2,higherLength: 20, weight: 100,},
     countSymbol:    {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
     keywords: "护肝片;维生素;",
     keywordsWeight: 10,

@@ -9,7 +9,7 @@ import { IProduct, IOrder} from "../model/models";
 import { ObjectID } from "mongodb";
 import { ErrorCode } from "../model/enums";
 import * as OAuth from 'wechat-oauth';
-import * as jwt from 'jsonwebtoken';
+import * as crypto from 'crypto'
 import * as commonConfig from "../config/commonConfig"
 import * as serverConfig from "../config/serverConfig"
 import * as messageConfig from "../config/messageConfig"
@@ -73,9 +73,12 @@ export default class ChatController extends Controller {
       if(result&&result.data){
         var accessToken = result.data.access_token;
         var openid = result.data.openid;
-        var token = jwt.sign(openid, commonConfig.SECRET_KEY, {
-            expiresIn: commonConfig.TOKEN_EXPIRES_IN_SECONDS
-        });
+        var tmpArr = [token, openid];
+        tmpArr.sort();                           // 1.将token、timestamp、nonce三个参数进行字典序排序
+        var tmpStr = tmpArr.join('');            // 2.将三个参数字符串拼接成一个字符串tmpStr    
+        var shasum = crypto.createHash('sha1');
+        shasum.update(tmpStr);
+        var token = shasum.digest('hex');    // 3.字符串tmpStr进行sha1加密作为token
         res.redirect(`/web/#/register?openid=${openid}&token=${token}`);
       }else{
         logger.error(err);

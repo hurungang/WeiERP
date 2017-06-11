@@ -124,6 +124,12 @@ describe("MessageAnalyst Util", () => {
       let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
       chai.assert.equal(textSection.category, MessageSectionCategory.CommodityName);
     })
+    it("calc commodity name similarity correctly 3", () => {
+      let test: string = "VC泡腾";
+      let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
+      console.log(textSection.toString());
+      chai.assert.equal(textSection.category, MessageSectionCategory.CommodityName);
+    })
     it("calc address similarity correctly", () => {
       let test: string = "成都市温江区碧水新居12栋";
       let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
