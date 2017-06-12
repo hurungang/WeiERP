@@ -138,6 +138,20 @@ describe("MessageAnalyst Util", () => {
       chai.assert.equal(textSection.category, MessageSectionCategory.Address);
       chai.assert.equal(textSection.text, "成都市温江区碧水新居12栋");
     })
+    it("calc address similarity correctly 2", () => {
+      let test: string = "成都市温江区鱼凫路339号静水香榭";
+      let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
+      console.log(textSection);
+      chai.assert.equal(textSection.category, MessageSectionCategory.Address);
+      chai.assert.equal(textSection.text, "成都市温江区鱼凫路339号静水香榭");
+    })
+    it.only("calc product quality similarity correctly 2", () => {
+      let test: string = "1";
+      let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
+      console.log(textSection);
+      chai.assert.equal(textSection.category, MessageSectionCategory.Quantity);
+      chai.assert.equal(textSection.text, "1");
+    })
   })
 }
 )

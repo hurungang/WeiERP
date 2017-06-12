@@ -9,7 +9,7 @@ const logger = new Logger("OrderAssembler");
 export default class OrderAssembler {
     successful: boolean;
     order:Order;
-
+    messageAnalyst:MessageAnalyst;
 
     constructor(orderText: string) {
         this.order = new Order();
@@ -17,12 +17,12 @@ export default class OrderAssembler {
         this.order.rawMessage = orderText;
         this.order.status = StatusCode[StatusCode.Created];
         let patterns = commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS;
-        let messageAnalyst = new MessageAnalyst(orderText, patterns);
-        if (messageAnalyst.validateResult.result) {
-            this.order.consigneeName = this.getTextByCategory(messageAnalyst.result, MessageSectionCategory.Name);
-            this.order.consigneeAddress = this.getTextByCategory(messageAnalyst.result, MessageSectionCategory.Address);
-            this.order.consigneePhone = this.getTextByCategory(messageAnalyst.result, MessageSectionCategory.Mobile);
-            this.order.orderItems = this.getOrderItems(messageAnalyst.result);
+        this.messageAnalyst = new MessageAnalyst(orderText, patterns);
+        if (this.messageAnalyst.validateResult.result) {
+            this.order.consigneeName = this.getTextByCategory(this.messageAnalyst.result, MessageSectionCategory.Name);
+            this.order.consigneeAddress = this.getTextByCategory(this.messageAnalyst.result, MessageSectionCategory.Address);
+            this.order.consigneePhone = this.getTextByCategory(this.messageAnalyst.result, MessageSectionCategory.Mobile);
+            this.order.orderItems = this.getOrderItems(this.messageAnalyst.result);
             this.successful = true;
         }
         logger.debug("OrderAssembler constructed");

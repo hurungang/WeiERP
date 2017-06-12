@@ -121,7 +121,7 @@ export class MessageAnalysisResult {
   }
 }
 export class TextSection {
-  patterns: TextPattern[];
+  //patterns: TextPattern[];
   index: number;
   text: string;
   length: number;
@@ -135,7 +135,7 @@ export class TextSection {
   isPrefix: boolean;
   constructor(text: string, patterns: TextPattern[]) {
     this.text = text;
-    this.patterns = patterns;
+    //this.patterns = patterns;
     this.category = null;
     this.length = this.count(commonConfig.MESSAGE_ANALYST_CONFIG.REGEX_MIXED);
     this.countEnglish = this.count(commonConfig.MESSAGE_ANALYST_CONFIG.REGEX_ENGLISH);
@@ -143,7 +143,7 @@ export class TextSection {
     this.countChinese = this.count(commonConfig.MESSAGE_ANALYST_CONFIG.REGEX_CHINESE);
     this.countSymbol = this.count(commonConfig.MESSAGE_ANALYST_CONFIG.REGEX_SYMBOL);
 
-    this.calcSimilarity();
+    this.calcSimilarity(patterns);
     this.nextPossibleCategory();
   }
 
@@ -184,18 +184,18 @@ export class TextSection {
     }
   }
 
-  private calcSimilarity() {
+  private calcSimilarity(patterns:TextPattern[]) {
     this.similarities = [];
-    for(let pattern of this.patterns){
+    for(let pattern of patterns){
       let similarity = 0;
       
       let totalWeight = pattern.countChinese.weight + pattern.countEnglish.weight + pattern.countNumber.weight + pattern.countSymbol.weight + pattern.keywordsWeight;
 
 
       let matches = this.text.match(pattern.prefix);
-      console.log(matches);
       let trimedText = this.text;
       if(matches&&matches[0]){
+        console.log(matches);
         similarity = pattern.prefixWeight;
         trimedText = this.text.substr(this.text.lastIndexOf(matches[0])+matches[0].length);
       }

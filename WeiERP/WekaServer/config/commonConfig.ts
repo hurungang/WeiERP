@@ -30,7 +30,7 @@ export class MESSAGE_ANALYST_CONFIG {
   static REGEX_SYMBOL = /[$-/:-?{-~!"^_`\[\]|\u3002|\uff1f|\uff01|\uff0c|\u3001|\uff1b|\uff1a|\u201c|\u201d|\u2018|\u2019|\uff08|\uff09|\u300a|\u300b|\u3008|\u3009|\u3010|\u3011|\u300e|\u300f|\u300c|\u300d|\ufe43|\ufe44|\u3014|\u3015|\u2026|\u2014|\uff5e|\ufe4f|\uffe5]/g;
   static ORDER_PATTERNS: TextPattern[] = [{
     category: MessageSectionCategory.Name,
-    prefix: /([姓名]+|[收货人]+|[联系人]+|[买家]+)[是]*/g,
+    prefix: /^((姓名)+|(收货人)+|(联系人)+|(买家)+)(是)*/g,
     prefixWeight: 100,
     countEnglish:   {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 10,},
     countNumber:    {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
@@ -43,7 +43,7 @@ export class MESSAGE_ANALYST_CONFIG {
     multiple: false,
   },{
     category: MessageSectionCategory.Address,
-    prefix: /([收货]*[地址]+)[是]*/g,
+    prefix: /^((收货)*(地址)+)(是)*/g,
     prefixWeight: 100,
     countEnglish:   {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
     countNumber:    {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
@@ -56,7 +56,7 @@ export class MESSAGE_ANALYST_CONFIG {
     multiple: false,
   },{
     category: MessageSectionCategory.CommodityName,
-    prefix: /([商品]+|[产品]+)[是]*/g,
+    prefix: /^((商品)+|(产品)+)(是)*/g,
     prefixWeight: 10,
     countEnglish:   {minimalLength: 0,maximalLength: 40,lowerLength: 2,higherLength: 20, weight: 100,},
     countNumber:    {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
@@ -69,7 +69,7 @@ export class MESSAGE_ANALYST_CONFIG {
     multiple: true,
   },{
     category: MessageSectionCategory.Mobile,
-    prefix: /(([电话]+[号码]*)|([手机]+[号码]*)|[号码]+)[是]*/g,
+    prefix: /^(((电话)+(号码)*)|((手机)+(号码)*)|(号码)+)(是)*/g,
     prefixWeight: 100,
     countEnglish:   {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
     countNumber:    {minimalLength: 8,maximalLength: 20,lowerLength: 8,higherLength: 13, weight: 20,},
@@ -82,7 +82,7 @@ export class MESSAGE_ANALYST_CONFIG {
     multiple: true,
   },{
     category: MessageSectionCategory.Quantity,
-    prefix: /([数量]+|[需]*[要]+)/g,
+    prefix: /^((数量)+|(需)*(要)+)/g,
     prefixWeight: 100,
     countEnglish:   {minimalLength: 0,maximalLength: 0,lowerLength: 0,higherLength: 0, weight: 1,},
     countNumber:    {minimalLength: 1,maximalLength: 3,lowerLength: 1,higherLength: 2, weight: 1,},
