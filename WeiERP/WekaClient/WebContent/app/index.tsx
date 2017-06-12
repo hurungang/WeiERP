@@ -6,7 +6,7 @@ import reducers from './reducers/index';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk'
 //import createLogger from 'redux-logger'
-import {Router, Route, IndexRoute, hashHistory} from 'react-router';
+import {Router, Route, IndexRoute, hashHistory, browserHistory} from 'react-router';
 import Dashboard from './components/dashboard/dashboard'
 import OrderPage from './components/order/order'
 
@@ -15,7 +15,7 @@ const appStore = createStore(reducers,applyMiddleware(thunkMiddleware));
 
 ReactDOM.render(
   <Provider store={appStore}>
-  	<Router history={hashHistory}>
+  	<Router history={browserHistory}>
   		<Route path="/(:register)" component={App}>
 			  <IndexRoute component={Dashboard}/>
   			<Route path="/order" component={OrderPage}/>
