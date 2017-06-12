@@ -121,7 +121,7 @@ describe("OrderAssembler Util", () => {
       chai.assert.strictEqual(orderAssembler.order.consigneeAddress, "四川省成都市温江区碧水新居12#");
     })
     it.only("assemble the right order item when there is leading words for name with notation 2", () => {
-      let test: string = "VC泡腾 3 成都市温江区鱼凫路339号静水香榭 姓名：杨冰洁。     电话13551320222";
+      let test: string = "VC 泡腾 3 成都市温江区鱼凫路339号静水香榭 姓名：杨冰洁。     电话13551320222。";
       let orderAssembler = new OrderAssembler(test);
       //console.log(orderAssembler.messageAnalyst.result.rawTextSections);
       chai.assert.strictEqual(orderAssembler.order.rawMessage, test);
