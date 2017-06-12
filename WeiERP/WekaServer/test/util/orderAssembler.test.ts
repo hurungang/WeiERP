@@ -74,6 +74,52 @@ describe("OrderAssembler Util", () => {
       chai.assert.strictEqual(orderAssembler.order.orderItems[1].productQuantity, 1);
       chai.assert.strictEqual(orderAssembler.order.orderItems[1].product.productName, "Swiss男士综合维生素");
     })
+    it("assemble the right order item when commodity name is very short", () => {
+      let test: string = "测试，13551880577 四川省成都市温江区碧水新居12#;VC泡腾片 2瓶";
+      let orderAssembler = new OrderAssembler(test);
+      chai.assert.strictEqual(orderAssembler.order.rawMessage, test);
+      chai.assert.strictEqual(orderAssembler.order.consigneeName, "测试");
+      chai.assert.strictEqual(orderAssembler.order.consigneeAddress, "四川省成都市温江区碧水新居12#");
+      chai.assert.strictEqual(orderAssembler.order.consigneePhone, "13551880577");
+      chai.assert.strictEqual(orderAssembler.order.orderItems.length, 1);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].productQuantity, 2);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].product.productName, "VC泡腾片");
+    })
+    it("assemble the right order item when there is extra words in, take as commodity name", () => {
+      let test: string = "李四，13551880577 乱入 四川省成都市温江区碧水新居12#;VC泡腾片 2瓶";
+      let orderAssembler = new OrderAssembler(test);
+      console.log(orderAssembler.order.toString());
+      chai.assert.strictEqual(orderAssembler.order.rawMessage, test);
+      chai.assert.strictEqual(orderAssembler.order.consigneeName, "李四");
+      chai.assert.strictEqual(orderAssembler.order.consigneeAddress, "四川省成都市温江区碧水新居12#");
+      chai.assert.strictEqual(orderAssembler.order.consigneePhone, "13551880577");
+      chai.assert.strictEqual(orderAssembler.order.orderItems.length, 2);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].productQuantity, 1);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].product.productName, "乱入");
+    })
+    it("assemble the right order item when there is leading words for name", () => {
+      let test: string = "姓名李四，13551880577 乱入 四川省成都市温江区碧水新居12#;VC泡腾片 2瓶";
+      let orderAssembler = new OrderAssembler(test);
+      chai.assert.strictEqual(orderAssembler.order.rawMessage, test);
+      chai.assert.strictEqual(orderAssembler.order.consigneeName, "李四");
+    })
+    it("assemble the right order item when there is leading words for name with notation", () => {
+      let test: string = "姓名:李四，13551880577 乱入 四川省成都市温江区碧水新居12#;VC泡腾片 2瓶";
+      let orderAssembler = new OrderAssembler(test);
+      chai.assert.strictEqual(orderAssembler.order.rawMessage, test);
+      chai.assert.strictEqual(orderAssembler.order.consigneeName, "李四");
+    })
+    it("assemble the right order item when there is leading words for name with notation", () => {
+      let test: string = "姓名:李四，电话号码13551880577 乱入 地址是四川省成都市温江区碧水新居12#;VC泡腾片 要2瓶";
+      let orderAssembler = new OrderAssembler(test);
+      chai.assert.strictEqual(orderAssembler.order.rawMessage, test);
+      chai.assert.strictEqual(orderAssembler.order.consigneeName, "李四");
+      chai.assert.strictEqual(orderAssembler.order.consigneePhone, "13551880577");
+      chai.assert.strictEqual(orderAssembler.order.orderItems.length, 2);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[1].productQuantity, 2);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[1].product.productName, "VC泡腾片");
+      chai.assert.strictEqual(orderAssembler.order.consigneeAddress, "四川省成都市温江区碧水新居12#");
+    })
   })
 
 }

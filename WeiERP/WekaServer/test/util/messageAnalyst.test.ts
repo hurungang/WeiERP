@@ -39,7 +39,6 @@ describe("MessageAnalyst Util", () => {
     it("get right chinese string sections with space and mixed symbols", () => {
       let test: string = "测试，测试2;Swiss男士综合维生素 2瓶";
       let messageAnalyst = new MessageAnalyst(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
-      console.log(messageAnalyst.result.rawTextSections);
       chai.assert.strictEqual(messageAnalyst.result.rawTextSections.length, 4);
       chai.assert.strictEqual(messageAnalyst.result.rawTextSections[0].text, "测试");
       chai.assert.strictEqual(messageAnalyst.result.rawTextSections[1].text, "测试2");
@@ -111,7 +110,6 @@ describe("MessageAnalyst Util", () => {
     it("calc commodity name similarity correctly", () => {
       let test: string = "Blackmoor袋鼠精";
       let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
-      console.log(textSection.toString());
       chai.assert.equal(textSection.category, MessageSectionCategory.CommodityName);
     })
     it("calc commodity name similarity correctly 2 - no english and no keyword", () => {
@@ -127,13 +125,18 @@ describe("MessageAnalyst Util", () => {
     it("calc commodity name similarity correctly 3", () => {
       let test: string = "VC泡腾";
       let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
-      console.log(textSection.toString());
       chai.assert.equal(textSection.category, MessageSectionCategory.CommodityName);
     })
     it("calc address similarity correctly", () => {
       let test: string = "成都市温江区碧水新居12栋";
       let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
       chai.assert.equal(textSection.category, MessageSectionCategory.Address);
+    })
+    it("calc address similarity correctly when there is prefix", () => {
+      let test: string = "地址是成都市温江区碧水新居12栋";
+      let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
+      chai.assert.equal(textSection.category, MessageSectionCategory.Address);
+      chai.assert.equal(textSection.text, "成都市温江区碧水新居12栋");
     })
   })
 }

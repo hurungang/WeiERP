@@ -16,7 +16,6 @@ export class MessageAnalyst {
     this.message = message;
     this.patterns = patterns;
     let messageSections: string[] = this.message.split(this.regexSymbol);
-    console.log(messageSections);
     this.result = new MessageAnalysisResult();
     for (var message of messageSections) {
       if(message.trim()!=""){
@@ -61,6 +60,7 @@ export class MessageAnalysisResult {
 
   public add(textSection: TextSection, isRaw=true) {
     if(isRaw){
+      textSection.index = this.rawTextSections.length;
       this.rawTextSections.push(textSection);
     }
     let pattern = commonConfig.MESSAGE_ANALYST_CONFIG.getOrderPattern(textSection.category);
@@ -71,7 +71,7 @@ export class MessageAnalysisResult {
       let categoryExisted = false;
       for(let i=0;i<this.textSections.length;i++){
         let savedTextSection = this.textSections[i];
-        if(savedTextSection.category == textSection.category){
+        if(savedTextSection.category == textSection.category && !savedTextSection.isPrefix){
           categoryExisted = true;
           if(savedTextSection.similarity<textSection.similarity){
             pendingAddTextSection = savedTextSection;
@@ -98,7 +98,7 @@ export class MessageAnalysisResult {
   public getByCategory(category:MessageSectionCategory): TextSection[]{
     let categoryResult:TextSection[] = [];
     for(let section of this.textSections){
-      if(section.category == category){
+      if(section.category == category && !section.isPrefix){
         categoryResult.push(section);
       }
     }
@@ -122,6 +122,7 @@ export class MessageAnalysisResult {
 }
 export class TextSection {
   patterns: TextPattern[];
+  index: number;
   text: string;
   length: number;
   countEnglish: number;
@@ -131,6 +132,7 @@ export class TextSection {
   similarities: Similarity[];
   category: MessageSectionCategory;
   similarity: number;
+  isPrefix: boolean;
   constructor(text: string, patterns: TextPattern[]) {
     this.text = text;
     this.patterns = patterns;
@@ -188,11 +190,26 @@ export class TextSection {
       let similarity = 0;
       
       let totalWeight = pattern.countChinese.weight + pattern.countEnglish.weight + pattern.countNumber.weight + pattern.countSymbol.weight + pattern.keywordsWeight;
-      similarity = this.getRangeScore(this.countChinese, pattern.countChinese)*pattern.countChinese.weight/totalWeight +
-        this.getRangeScore(this.countEnglish, pattern.countEnglish)*pattern.countEnglish.weight/totalWeight +
-        this.getRangeScore(this.countNumber, pattern.countNumber)*pattern.countNumber.weight/totalWeight +
-        this.getRangeScore(this.countSymbol, pattern.countSymbol)*pattern.countSymbol.weight/totalWeight +
-        this.getKeywordScore(pattern.keywords)*pattern.keywordsWeight/totalWeight;
+
+
+      let matches = this.text.match(pattern.prefix);
+      console.log(matches);
+      let trimedText = this.text;
+      if(matches&&matches[0]){
+        similarity = pattern.prefixWeight;
+        trimedText = this.text.substr(this.text.lastIndexOf(matches[0])+matches[0].length);
+      }
+      if(trimedText&&trimedText.trim().length>0){
+        this.text = trimedText;
+        similarity = similarity + 
+          this.getRangeScore(this.countChinese, pattern.countChinese)*pattern.countChinese.weight/totalWeight +
+          this.getRangeScore(this.countEnglish, pattern.countEnglish)*pattern.countEnglish.weight/totalWeight +
+          this.getRangeScore(this.countNumber, pattern.countNumber)*pattern.countNumber.weight/totalWeight +
+          this.getRangeScore(this.countSymbol, pattern.countSymbol)*pattern.countSymbol.weight/totalWeight +
+          this.getKeywordScore(pattern.keywords)*pattern.keywordsWeight/totalWeight;
+      }else{
+        this.isPrefix = true;
+      }
       this.similarities.push({
         category: pattern.category,
         similarity: similarity
@@ -203,9 +220,15 @@ export class TextSection {
       })
     }
   }
-  private getKeywordScore(keywords:string){
-    let keywordSearch = new KeywordSearchUtil(this.text,keywords);
-    return keywordSearch.getMatchCounts();
+  private getKeywordScore(keywords:RegExp|string){
+    if(keywords==null){
+      return 0;
+    }else if(keywords instanceof  RegExp){
+      return keywords.test(this.text)?1:0;
+    }else{
+      let keywordSearch = new KeywordSearchUtil(this.text,keywords);
+      return keywordSearch.getMatchCounts();
+    }
   }
   
   private getRangeScore(count: number, countRange: MatchPattern) {
@@ -225,7 +248,7 @@ export class TextSection {
   }
 
   public toString(){
-    let resultString = "{category:"+MessageSectionCategory[this.category]+",text:"+this.text+",similarities:[";
+    let resultString = "{category:"+MessageSectionCategory[this.category]+",text:"+this.text+",isPrefix:"+this.isPrefix+",similarities:[";
     for(let tempSimilarity of this.similarities){
       resultString += "{category:"+MessageSectionCategory[tempSimilarity.category]+",similarity:"+tempSimilarity.similarity+"}";
     }
@@ -235,12 +258,14 @@ export class TextSection {
 }
 
 export interface TextPattern {
+  prefix: RegExp;
+  prefixWeight: number,
   category: MessageSectionCategory;
   countEnglish: MatchPattern;
   countNumber: MatchPattern;
   countChinese: MatchPattern;
   countSymbol: MatchPattern;
-  keywords: string;
+  keywords: RegExp|string;
   keywordsWeight: number;
   required: boolean;
   priority: number;

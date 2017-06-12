@@ -45,8 +45,10 @@ export default class OrderAssembler {
             let tempProduct:Product = new Product();
                 tempProduct.productName = commodities[i].text;
             let tempQuantity = 1;
-            if(commodityQuantities.length>i){
-                tempQuantity = parseInt(commodityQuantities[i].text);
+            for(let commodityQuantity of commodityQuantities){
+                if(commodityQuantity.index==commodities[i].index+1){
+                    tempQuantity = parseInt(commodityQuantity.text);
+                }
             }
             let tempOrderItem:OrderItem = new OrderItem();
             tempOrderItem.product = tempProduct;
