@@ -1,6 +1,7 @@
 import { HTTPStatusCode, StatusCode } from './enums'
 import { Type } from "class-transformer"
 import 'reflect-metadata';
+import { Moment } from "moment/moment";
 
 export class DataItem {
   id?:string;
@@ -198,3 +199,9 @@ export interface BulkActionPayload{
 }
 
 export type Environment = "production" | "development";
+
+export interface OAuthToken{
+  token:string;
+  user:User;
+  expiredAfter: Moment;
+}

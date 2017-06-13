@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { APIResult, BulkActionPayload, User, Product } from '../model/models';
+import { APIResult, BulkActionPayload, User, Product, OAuthToken } from '../model/models';
 import { IUserModel, UserDAO, ConsigneeDAO, ProductDAO } from '../model/schemas';
 import { IController, Controller } from './controller';
 import Logger from '../server/logger';
@@ -68,6 +68,10 @@ export default class UserController extends Controller implements IController {
             (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
                 /* start of business logic */
                 let endUser = req.body;
+                if(endUser.token){
+                    let globalOAuthTokens:Map<string,OAuthToken> = req.app.get("GlobalOAuthTokens");
+                    endUser = globalOAuthTokens.get(endUser.token);
+                }
                 let logonUser: IUserModel;
                 UserDAO.findOne({ name: endUser.name, password: endUser.password }).exec()
                     .then((user: IUserModel) => {
@@ -85,13 +89,17 @@ export default class UserController extends Controller implements IController {
                         }
                     })
                     .then((consignees: any) => {
-                        logonUser.consignees = consignees;
-                        return ProductDAO.find({ user: logonUser._id }).exec();
+                        if(logonUser){
+                            logonUser.consignees = consignees;
+                            return ProductDAO.find({ user: logonUser._id }).exec();
+                        }
                     })
                     .then((products: any) => {
-                        logonUser.products = products;
-                        result.payload = logonUser;
-                        this.handleResult(res, next, result);
+                        if(logonUser){
+                            logonUser.products = products;
+                            result.payload = logonUser;
+                            this.handleResult(res, next, result);
+                        }
                     })
                     .catch((err: any) => {
                         result = this.internalError(result, err.toString());

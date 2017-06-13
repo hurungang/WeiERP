@@ -11,6 +11,7 @@ export default class AuthenticationRouter{
     let userController = new UserController();
     
     router.post('/', userController.authenticate.bind(userController));
+    router.get('/', userController.authenticate.bind(userController));
     router.put('/', userController.create.bind(userController));
     logger.info('register authentication router');
     return router;

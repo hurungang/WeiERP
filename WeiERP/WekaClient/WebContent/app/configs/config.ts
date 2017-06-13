@@ -9,9 +9,9 @@ let config: Config = new Config();
 config.runtime = {
     mode: "TEST", //TEST|PRODUCTION
     api: {
-        order: '/order/',
-        user: "/user",
-        authentication: "/authentication",
+        order: 'http://localhost:3000/order/',
+        user: "http://localhost:3000/user",
+        authentication: "http://localhost:3000/authentication",
     },
 };
 let localization = new Localization("Chinese");

@@ -4,25 +4,27 @@ import { IController, Controller } from './controller';
 import OrderAssembler from '../util/orderAssembler'
 import * as StringSimilarity from 'string-similarity'
 import Logger from '../server/logger';
-import { OrderDAO, ProductDAO, IOrderModel, IProductModel,UserDAO,IUserModel, TokenDAO } from "../model/schemas";
-import { IProduct, IOrder} from "../model/models";
+import { OrderDAO, ProductDAO, IOrderModel, IProductModel, UserDAO, IUserModel, TokenDAO } from "../model/schemas";
+import { IProduct, IOrder, OAuthToken } from "../model/models";
 import { ObjectID } from "mongodb";
 import { ErrorCode } from "../model/enums";
 import * as OAuth from 'wechat-oauth';
-import * as crypto from 'crypto'
+import DataUtil from '../util/dataUtil'
 import * as commonConfig from "../config/commonConfig"
 import * as serverConfig from "../config/serverConfig"
 import * as messageConfig from "../config/messageConfig"
+import * as moment from 'moment'
 
 const logger = new Logger("ChatController");
+const GlobalOAuthTokens: Map<string,OAuthToken> = new Map<string,OAuthToken>();
 
 export default class ChatController extends Controller {
 
-  client:OAuth;
+  client: OAuth;
   constructor() {
     super();
     logger.info("ChatController constructed");
-    this.client = new OAuth(commonConfig.WECHAT_CONFIG.appid,commonConfig.WECHAT_CONFIG.appsecret,function (openid, callback) {
+    this.client = new OAuth(commonConfig.WECHAT_CONFIG.appid, commonConfig.WECHAT_CONFIG.appsecret, function (openid, callback) {
       // 传入一个根据openid获取对应的全局token的方法
       // 在getUser时会通过该方法来获取token
       TokenDAO.getToken(openid, callback);
@@ -35,22 +37,22 @@ export default class ChatController extends Controller {
   public chat(req: express.Request, res: express.Response, next: express.Next) {
     this.safeHandle(req, res, next,
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
-        
+
 
         /* start of business logic */
         let content = req.body.xml.content[0];
         let fromUserName = req.body.xml.fromusername[0];
-        this.handleOrder(content,fromUserName,req,res,next);
+        this.handleOrder(content, fromUserName, req, res, next);
         /* end of business logic */
       }
     );
   }
 
-  public textChat(message:any, req: express.Request, res: express.Response, next: express.Next) {
+  public textChat(message: any, req: express.Request, res: express.Response, next: express.Next) {
     this.safeHandle(req, res, next,
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
-        var url = this.client.getAuthorizeURL(serverConfig.SERVER_DOMAIN+'/wechat/oauth', 'state', 'snsapi_base');
+        var url = this.client.getAuthorizeURL(serverConfig.SERVER_DOMAIN + '/wechat/oauth', 'state', 'snsapi_base');
         /* start of business logic */
         let content = message.Content || '';
         let fromUserName = message.FromUserName;
@@ -60,66 +62,87 @@ export default class ChatController extends Controller {
           res.reply('奥运奖牌');
         } else {
           //res.reply('正在生成订单，请稍侯...');
-          this.handleOrder(content,fromUserName,req,res,next);
+          this.handleOrder(content, fromUserName, req, res, next);
         }
         /* end of business logic */
       }
     );
   }
-  
+
   public oauth(req: express.Request, res: express.Response, next: express.Next) {
     let code = req.query.code;
     this.client.getAccessToken(code, function (err, result) {
-      if(result&&result.data){
-        var accessToken = result.data.access_token;
-        var openid = result.data.openid;
-        var tmpArr = [token, openid];
-        tmpArr.sort();                           // 1.将token、timestamp、nonce三个参数进行字典序排序
-        var tmpStr = tmpArr.join('');            // 2.将三个参数字符串拼接成一个字符串tmpStr    
-        var shasum = crypto.createHash('sha1');
-        shasum.update(tmpStr);
-        var token = shasum.digest('hex');    // 3.字符串tmpStr进行sha1加密作为token
-        res.redirect(`/web/#/register?openid=${openid}&token=${token}`);
-      }else{
+      if (result && result.data) {
+        let accessToken = result.data.access_token;
+        let openid = result.data.openid;
+        let token = DataUtil.encrypt(openid);
+        let searchUser = new User();
+        searchUser.referenceID = openid;
+        UserDAO.findOne(searchUser)
+          .then((user: IUserModel) => {
+            if (user == null) {
+              let tempUser = new UserDAO(searchUser);
+              tempUser.name = tempUser.referenceID;
+              tempUser.save().exec();
+            } else {
+              let needRegister = true;
+              if(user.name&&user.password){
+                needRegister = false;
+              }
+              GlobalOAuthTokens.set(token,{token:token,user:User,expiredAfter:moment().add(30,"m")});
+              res.redirect(`/web/#/?${needRegister?"register=true":""}&token=${token}`);
+            }
+          })
+          .then((user: IUserModel) => {
+            if(user){
+              GlobalOAuthTokens.set(token,{token:token,user:User,expiredAfter:moment().add(30,"m")});
+              res.redirect(`/web/#/?register=true&token=${token}`);
+            }
+          })
+          .catch((err: string) => {
+            result = this.internalError(result, err);
+            res.redirect(`/web/error`);
+          });;
+      } else {
         logger.error(err);
       }
     });
   }
 
-  private handleOrder(content:string, fromUserName:string, req: express.Request, res: express.Response, next: express.Next){
-        let result = new APIResult();
-        let orderAssembler = new OrderAssembler(content);
-        //find Product
-        let order = orderAssembler.order;
-        let searchUser = new User();
-        searchUser.referenceID = fromUserName;
-        
-        if (orderAssembler.successful) {
-          //find user, otherwise create new user
-          UserDAO.findOne(searchUser)
-            .then((user: IUserModel) => {
-              if (user == null) {
-                let tempUser = new UserDAO(searchUser);
-                tempUser.name = tempUser.referenceID;
-                tempUser.save()
-                .then((savedUser:IUserModel)=>{
-                  order.user = savedUser;
-                  this.saveProductAndOrder(order, req, res, next, result);
-                })
-                .catch((err: string) => {
-                  result = this.internalError(result, err);
-                  //this.handleWechatResult(res, next, result);
-                });
-              } else {
-                order.user = user;
-                this.saveProductAndOrder(order, req, res, next, result);
-              }
-            })
+  private handleOrder(content: string, fromUserName: string, req: express.Request, res: express.Response, next: express.Next) {
+    let result = new APIResult();
+    let orderAssembler = new OrderAssembler(content);
+    //find Product
+    let order = orderAssembler.order;
+    let searchUser = new User();
+    searchUser.referenceID = fromUserName;
 
-        } else {
-          result = this.badRequest(result, ErrorCode[ErrorCode.OrderAssembleFailed]);
-          //this.handleWechatResult(res, next, result);
-        }
+    if (orderAssembler.successful) {
+      //find user, otherwise create new user
+      UserDAO.findOne(searchUser)
+        .then((user: IUserModel) => {
+          if (user == null) {
+            let tempUser = new UserDAO(searchUser);
+            tempUser.name = tempUser.referenceID;
+            tempUser.save()
+              .then((savedUser: IUserModel) => {
+                order.user = savedUser;
+                this.saveProductAndOrder(order, req, res, next, result);
+              })
+              .catch((err: string) => {
+                result = this.internalError(result, err);
+                //this.handleWechatResult(res, next, result);
+              });
+          } else {
+            order.user = user;
+            this.saveProductAndOrder(order, req, res, next, result);
+          }
+        })
+
+    } else {
+      result = this.badRequest(result, ErrorCode[ErrorCode.OrderAssembleFailed]);
+      //this.handleWechatResult(res, next, result);
+    }
   }
   private saveProductAndOrder(order: IOrder, req: express.Request, res: express.Response, next: express.Next, result: APIResult) {
 

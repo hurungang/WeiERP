@@ -13,7 +13,7 @@ import UserRouter from '../routes/userRouter'
 import WeChatRouter from '../routes/weChatRouter'
 import AuthenticationRouter from '../routes/authenticationRouter'
 import Logger from './logger'
-import { Environment } from "../model/models";
+import { Environment, OAuthToken } from "../model/models";
 
 
 const logger = new Logger("Server");
@@ -85,6 +85,11 @@ export default class Server {
 
   public static(){
     this.app.use('/web',express.static( '../WekaClient/WebContent'));
+  }
+
+  public global(){
+    let globalOAuthTokens: Map<string,OAuthToken> = new Map<string,OAuthToken>();
+    this.app.set("GlobalOAuthTokens",globalOAuthTokens);
   }
   public routes() {
     //empty for now

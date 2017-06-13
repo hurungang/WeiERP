@@ -1,5 +1,6 @@
 import { Consignee, ConsigneeAddress, TableHeader, ComputedColumn } from "../models/modelTypes";
 
+
 export default class DataUtils {
 
   //filter all properties by keyword, return the list has one or more properties contains the keyword
@@ -74,4 +75,5 @@ export default class DataUtils {
     });
     return newData;
   }
+
 }
