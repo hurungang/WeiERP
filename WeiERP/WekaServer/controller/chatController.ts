@@ -91,7 +91,6 @@ export default class ChatController extends Controller {
             }
           })
           .catch((err: string) => {
-            result = this.internalError(result, err);
             res.redirect(`/web/error`);
           });;
       } else {
