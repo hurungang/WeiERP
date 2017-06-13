@@ -53,6 +53,10 @@ export default class Server {
 
     //add static
     this.static();
+
+    //add global variables
+    this.global();
+    
     //add api
     this.run();
   }

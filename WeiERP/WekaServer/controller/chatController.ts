@@ -184,10 +184,13 @@ export default class ChatController extends Controller {
 
   private saveOrder(order: IOrder, req: express.Request, res: express.Response, next: express.Next, result: APIResult) {
     var newOrder = new OrderDAO(order);
+    let globalOAuthTokens:Map<string,OAuthToken> = req.app.get("GlobalOAuthTokens");
     newOrder
       .save()
       .then((order: IOrderModel) => {
         result.payload = order;
+        
+        globalOAuthTokens.set(DataUtil.encrypt(order.user.referenceID),{token:DataUtil.encrypt(order.user.referenceID),user:User,expiredAfter:moment().add(30,"m")});
         res.reply(messageConfig.ORDER_REPLY(order));
       })
       .catch((err: string) => {
