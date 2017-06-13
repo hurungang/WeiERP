@@ -16,22 +16,12 @@ import * as messageConfig from "../config/messageConfig"
 import * as moment from 'moment'
 
 const logger = new Logger("ChatController");
-const GlobalOAuthTokens: Map<string,OAuthToken> = new Map<string,OAuthToken>();
 
 export default class ChatController extends Controller {
 
-  client: OAuth;
   constructor() {
     super();
     logger.info("ChatController constructed");
-    this.client = new OAuth(commonConfig.WECHAT_CONFIG.appid, commonConfig.WECHAT_CONFIG.appsecret, function (openid, callback) {
-      // 传入一个根据openid获取对应的全局token的方法
-      // 在getUser时会通过该方法来获取token
-      TokenDAO.getToken(openid, callback);
-    }, function (openid, token, callback) {
-      // 持久化时请注意，每个openid都对应一个唯一的token!
-      TokenDAO.setToken(openid, token, callback);
-    });
   }
 
   public chat(req: express.Request, res: express.Response, next: express.Next) {
@@ -52,7 +42,7 @@ export default class ChatController extends Controller {
     this.safeHandle(req, res, next,
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
-        var url = this.client.getAuthorizeURL(serverConfig.SERVER_DOMAIN + '/wechat/oauth', 'state', 'snsapi_base');
+        var url = serverConfig.OAUTH_CLIENT.getAuthorizeURL(serverConfig.SERVER_DOMAIN + '/wechat/oauth', 'state', 'snsapi_base');
         /* start of business logic */
         let content = message.Content || '';
         let fromUserName = message.FromUserName;
@@ -71,12 +61,13 @@ export default class ChatController extends Controller {
 
   public oauth(req: express.Request, res: express.Response, next: express.Next) {
     let code = req.query.code;
-    this.client.getAccessToken(code, function (err, result) {
+    serverConfig.OAUTH_CLIENT.getAccessToken(code, function (err, result) {
       if (result && result.data) {
         let accessToken = result.data.access_token;
         let openid = result.data.openid;
         let token = DataUtil.encrypt(openid);
         let searchUser = new User();
+        let globalOAuthTokens:Map<string,OAuthToken> = req.app.get("GlobalOAuthTokens");
         searchUser.referenceID = openid;
         UserDAO.findOne(searchUser)
           .then((user: IUserModel) => {
@@ -89,13 +80,13 @@ export default class ChatController extends Controller {
               if(user.name&&user.password){
                 needRegister = false;
               }
-              GlobalOAuthTokens.set(token,{token:token,user:User,expiredAfter:moment().add(30,"m")});
+              globalOAuthTokens.set(token,{token:token,user:User,expiredAfter:moment().add(30,"m")});
               res.redirect(`/web/#/?${needRegister?"register=true":""}&token=${token}`);
             }
           })
           .then((user: IUserModel) => {
             if(user){
-              GlobalOAuthTokens.set(token,{token:token,user:User,expiredAfter:moment().add(30,"m")});
+              globalOAuthTokens.set(token,{token:token,user:User,expiredAfter:moment().add(30,"m")});
               res.redirect(`/web/#/?register=true&token=${token}`);
             }
           })
