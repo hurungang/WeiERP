@@ -46,12 +46,9 @@ export default class Main extends React.Component<MainProps,{}>{
 		        {/*top navigation -->*/}
 		        
 		        {/*<!-- page content*/}
-		        <ReactCSSTransitionGroup
-	            transitionName="pageBodyTransition"
-	                transitionEnterTimeout={500}
-	                transitionLeaveTimeout={300}>
+		        <div>
 		        	{this.renderPageBody()}
-		        </ReactCSSTransitionGroup>
+		        </div>
 		        {/*page content -->*/}
 		
 		        {/*<!-- footer content*/}
