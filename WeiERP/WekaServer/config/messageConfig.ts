@@ -1,10 +1,10 @@
 import * as serverConfig from "../config/serverConfig"
 import { OAUTH_CLIENT } from "../config/serverConfig";
-import { Order } from "../model/models";
+import { IOrderModel } from "../model/schemas";
 import DataUtil from '../util/dataUtil'
 
 
-export const ORDER_REPLY = (order:Order) => `你的订单已生成,
+export const ORDER_REPLY = (order:IOrderModel) => `你的订单已生成,
 收货人:\t${order.consigneeName}
 收货地址:\t${order.consigneeAddress}
 联系电话:\t${order.consigneePhone}
