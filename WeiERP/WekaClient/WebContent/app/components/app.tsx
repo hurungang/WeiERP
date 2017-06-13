@@ -20,7 +20,7 @@ class App extends React.Component<AppProps,{}>{
 	  let {state,dispatch} = this.props;
 	  //todo: skip login for development, should be removed later
 	  let testUser = {name:'Harry',password:'test'};
-	  let {token} = this.props.location.query;
+	  let token = this.props.location.query.state;
 	  //dispatch(appActions.APP_AUTHENTICATE_USER(testUser));
 	  if(token){
 	  	dispatch(appActions.APP_AUTHENTICATE_USER_VIA_TOKEN(token));
