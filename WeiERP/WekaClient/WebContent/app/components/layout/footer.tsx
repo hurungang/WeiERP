@@ -26,7 +26,9 @@ export default class Footer extends React.Component<FooterProps,{}>{
 console.log = function(message) {
     console['olog'](message);
     let element = document.getElementById('debugDiv');
-		element.innerHTML = element.innerHTML + '<p>' + message + '</p>';
+		if(element){
+			element.innerHTML = element.innerHTML + '<p>' + message + '</p>';
+		}
 };
 
 console.error = console.debug = console.info =  console.log
