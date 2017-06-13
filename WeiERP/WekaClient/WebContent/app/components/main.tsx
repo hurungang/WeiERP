@@ -19,6 +19,7 @@ export default class Main extends React.Component<MainProps,{}>{
 	renderPageBody(){
 	  let {state,dispatch,params} = this.props;
 	  let {isAppProceeding} = state.appState;
+		console.log("appProceeding:"+isAppProceeding);
 	  if(isAppProceeding){
 	    return <div className="right_col loader" role="main">Loading ... </div>
 	  }else{
