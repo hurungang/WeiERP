@@ -115,8 +115,8 @@ export default class Invoice extends React.Component<InvoiceProps, InvoiceState>
 
   render() {
     let { order, onClose, onSave, language, user } = this.props;
-    let orderCreateTime = order.createTime ? order.createTime.toLocaleString() : "";
-    let orderPaidTime = order.paidTime ? order.paidTime.toLocaleString() : "";
+    let orderCreateTime = order.createTime ? dateFormater(order.createTime,language.timeFormat) : "";
+    let orderPaidTime = order.paidTime ? dateFormater(order.paidTime,language.timeFormat) : "";
     let paid = order.paid ? order.paid : 0;
     let tax = order.tax ? order.tax : 0;
     let shipping = order.shipping ? order.shipping : 0;
