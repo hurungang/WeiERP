@@ -53,6 +53,7 @@ let orderReducer : Reducer<OrderState> = (state : OrderState = INITIAL_ORDER_STA
 		let id:string = action.payload;
 		if(orderList.data&&orderList.data.length>1){
 			let currentOrder:Order = orderList.data.find(element=>element.id==id);
+			console.log("currentOrder.createTime:"+currentOrder.createTime);
 			newState = Object.assign({},state,{
 				currentOrder: currentOrder,
 			});
