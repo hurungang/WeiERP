@@ -23,11 +23,11 @@ export default class Footer extends React.Component<FooterProps,{}>{
     else
         console['olog'] = function() {};
 
-console.log = function(message) {
-    console['olog'](message);
+console.log = function(message,...restArgs) {
+    console['olog'](message,...restArgs);
     let element = document.getElementById('debugDiv');
 		if(element){
-			element.innerHTML = element.innerHTML + '<p>' + message + '</p>';
+			element.innerHTML = element.innerHTML + '<p>' + message + restArgs + '</p>';
 		}
 };
 
