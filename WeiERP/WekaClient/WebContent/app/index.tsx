@@ -17,7 +17,7 @@ const logger = createLogger({
 		return action.type;
 	},
 	stateTransformer: (state: State) => {
-		return JSON.stringify(state.appState);
+		return JSON.stringify(state.orderState.currentOrder);
 	}
 });
 const appStore = createStore(reducers, applyMiddleware(thunkMiddleware, logger));
