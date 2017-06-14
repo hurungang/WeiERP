@@ -258,7 +258,7 @@ export default class Invoice extends React.Component<InvoiceProps, InvoiceState>
                 </div>
                 {/*<!-- /.col -->*/}
                 <div className="col-xs-6">
-                  <p className="lead">{language.textPackage.order.createTime}: {dateFormater(orderCreateTime, language.timeFormat)}</p>
+                  <p className="lead">{language.textPackage.order.createTime}: {orderCreateTime}</p>
                   <div className="table-responsive">
                     <table className="table">
                       <tbody>
