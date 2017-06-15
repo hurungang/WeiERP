@@ -45,6 +45,7 @@ let appReducer : Reducer<AppState> = (state : AppState = INITIAL_APP_STATE, acti
 		});
 	}else if(isType(action, APP_LOGIN)){
 		let user:User = action.payload;
+		(window as any).sessionStorage.setItem("user", user);
 		newState = Object.assign(new AppState(),state,{
 			user: user,
 		});
@@ -54,6 +55,7 @@ let appReducer : Reducer<AppState> = (state : AppState = INITIAL_APP_STATE, acti
 		});
 	}else if(isType(action, APP_SET_TOKEN)){
 		let token = action.payload;
+		(window as any).sessionStorage.setItem("token", token);
 		newState = Object.assign(new AppState(),state,{
 			token: token,
 		});
