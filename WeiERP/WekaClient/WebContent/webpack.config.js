@@ -1,6 +1,14 @@
 var path = require('path');
 var IgnorePlugin = require("webpack").IgnorePlugin;
+var UglifyJsPlugin = require("webpack").optimize.UglifyJsPlugin;
+var PROD = (process.env.NODE_ENV === 'production')
 
+let plugins = [new IgnorePlugin(/cptable/)];
+if(PROD){
+    plugins = [new IgnorePlugin(/cptable/),new UglifyJsPlugin({
+      sourceMap: true, minimize: true, compress: { warnings: false }
+    })];
+}
 module.exports = {
     entry: [
         'babel-polyfill', './app/index.tsx'
@@ -34,7 +42,7 @@ module.exports = {
         noParse: [/jszip.js$/],
     },
     //plugins:[new IgnorePlugin(/(ycptable|mime-db|har-schema|react-native-fs|react-native-fetch-blob|^es6-promise$|^net$|^tls$|^forever-agent$|^tough-cookie$|^path$)/)]
-    plugins: [new IgnorePlugin(/cptable/)],
+    plugins:plugins,
     //    // When importing a module whose path matches one of the following, just
     //    // assume a corresponding global variable exists and use that instead.
     //    // This is important because it allows us to avoid bundling all of our

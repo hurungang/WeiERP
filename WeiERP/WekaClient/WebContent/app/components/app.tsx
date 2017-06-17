@@ -21,17 +21,17 @@ class App extends React.Component<AppProps, {}>{
 		//todo: skip login for development, should be removed later
 		let testUser = { name: 'Harry', password: 'test' };
 
-		let sessionUser = (window as any).sessionStorage.getItem("user");
-		let sessionToken = (window as any).sessionStorage.getItem("token");
-		if (sessionUser && sessionToken) {
-			dispatch(appActions.APP_LOGIN(sessionUser));
-			dispatch(appActions.APP_SET_TOKEN(sessionToken));
+		let { token } = this.props.location.query;
+		//dispatch(appActions.APP_AUTHENTICATE_USER(testUser));
+		if (token) {
+			dispatch(appActions.APP_AUTHENTICATE_USER_VIA_TOKEN(token));
 		} else {
 
-			let { token } = this.props.location.query;
-			//dispatch(appActions.APP_AUTHENTICATE_USER(testUser));
-			if (token) {
-				dispatch(appActions.APP_AUTHENTICATE_USER_VIA_TOKEN(token));
+			let sessionUser = (window as any).sessionStorage.getItem("user");
+			let sessionToken = (window as any).sessionStorage.getItem("token");
+			if (sessionUser && sessionToken) {
+				dispatch(appActions.APP_LOGIN(sessionUser));
+				dispatch(appActions.APP_SET_TOKEN(sessionToken));
 			}
 		}
 	}

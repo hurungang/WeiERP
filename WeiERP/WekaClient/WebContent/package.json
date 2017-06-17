@@ -6,6 +6,7 @@
   "main": "index.js",
   "repository": "",
   "scripts": {
+    "prodBuild": "set NODE_ENV=production&webpack",
     "build": "webpack",
     "build:watch": "nodemon -e js,ts,jsx,tsx,ini -w app --exec npm run build",
     "start": "webpack-dev-server --port 8000 --hot --inline",
