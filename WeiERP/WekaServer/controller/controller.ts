@@ -40,13 +40,13 @@ export class Controller {
     result.successful = (result.statusCode == HTTPStatusCode.OK)? true : false
     res.send(result.successful?"success":result.errorMessage);
   }
-  public internalError(result: APIResult, error: string): APIResult {
+  public internalError(result: APIResult, error?: string): APIResult {
     result.statusCode = HTTPStatusCode.InternalServerError;
     result.errorMessage = error;
     return result;
   }
 
-  public badRequest(result: APIResult, error: string): APIResult {
+  public badRequest(result: APIResult, error?: string): APIResult {
     result.statusCode = HTTPStatusCode.BadRequest;
     result.errorMessage = error;
     return result;

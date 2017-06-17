@@ -190,7 +190,7 @@ export default class ChatController extends Controller {
       .then((order: IOrderModel) => {
         result.payload = order;
         
-        globalOAuthTokens.set(DataUtil.encrypt(order.user.referenceID),{token:DataUtil.encrypt(order.user.referenceID),user:User,expiredAfter:moment().add(30,"m")});
+        globalOAuthTokens.set(DataUtil.encrypt(order.user.referenceID),{token:DataUtil.encrypt(order.user.referenceID),user:order.user,expiredAfter:moment().add(30,"m")});
         res.reply(messageConfig.ORDER_REPLY(order));
       })
       .catch((err: string) => {

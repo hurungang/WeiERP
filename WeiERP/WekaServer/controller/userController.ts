@@ -70,9 +70,14 @@ export default class UserController extends Controller implements IController {
                 let endUser = req.body;
                 if(endUser.token){
                     let globalOAuthTokens:Map<string,OAuthToken> = req.app.get("GlobalOAuthTokens");
-                    endUser = globalOAuthTokens.get(endUser.token);
+                    let authObj = globalOAuthTokens.get(endUser.token);
+                    if(authObj){
+                        endUser = authObj.user;
+                    }
                 }
                 let logonUser: IUserModel;
+                if(endUser.name&&endUser.password){
+
                 UserDAO.findOne({ name: endUser.name, password: endUser.password }).exec()
                     .then((user: IUserModel) => {
                         if (user) {
@@ -105,6 +110,11 @@ export default class UserController extends Controller implements IController {
                         result = this.internalError(result, err.toString());
                         this.handleResult(res, next, result);
                     });
+                }
+                else{
+                        result = this.badRequest(result);
+                        this.handleResult(res, next, result);
+                }
                 /* end of business logic */
             }
         );
