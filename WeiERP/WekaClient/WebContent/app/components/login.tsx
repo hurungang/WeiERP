@@ -10,6 +10,7 @@ interface LoginProps {
 	state: State;
 	register: boolean;
 	location: any;
+	registerToken?: string;
 }
 
 export default class Login extends React.Component<LoginProps, { formValidated: boolean,formValidationMap: Map<any,boolean>; }>{
@@ -50,13 +51,13 @@ export default class Login extends React.Component<LoginProps, { formValidated: 
 		if(this.state.formValidated){
 			let { dispatch } = this.props;
 			let { openid, token } = this.props.location.query;
-			let user: User = {
+			let user = {
 				name: this.refs.name.value,
 				password: this.refs.password.value,
-				referenceID: openid,
 				sender: this.refs.sender.value,
 				phone: this.refs.phone.value,
-				address: this.refs.address.value
+				address: this.refs.address.value,
+				registerToken: token,
 			}
 			dispatch(appActions.APP_REGISTER_USER(user));
 		}
@@ -64,8 +65,21 @@ export default class Login extends React.Component<LoginProps, { formValidated: 
 
 	render() {
 		let { language, error } = this.props.state.appState;
-		let { register } = this.props;
+		let { register, registerToken } = this.props;
 		let textPac = language.textPackage;
+		let title = textPac.user.loginTitle;
+		let buttonText = textPac.button.login;
+		if(register){
+			title = textPac.user.registerTitle;
+			buttonText = textPac.button.register;
+			let isBind = false;
+			if(registerToken){
+				isBind = true;
+				title = textPac.user.bindTitle;
+				buttonText = textPac.button.bind;
+			}
+		}
+		
 		return (
 			<div className="login">
 				<a className="hiddenanchor" id="signup"></a>
@@ -75,31 +89,31 @@ export default class Login extends React.Component<LoginProps, { formValidated: 
 					<div className="animate form login_form">
 						<section className="login_content">
 							<form>
-								<h1>Login Form</h1>
+								<h1>{title}</h1>
 								<div>
-									<input type="text" className="form-control" placeholder="Username" defaultValue="Harry" ref="name" required={true} />
+									<input type="text" className="form-control" placeholder={textPac.user.name} defaultValue="Harry" ref="name" required={true} />
 								</div>
 								<div>
-									<input type="password" className="form-control" placeholder="Password" ref="password" required={true} />
+									<input type="password" className="form-control" placeholder={textPac.user.password} ref="password" required={true} />
 								</div>
 								{register ?
 									<div>
 										<div>
-											<input type="password" className={this.state.formValidationMap.get("validatePasswordError")?"form-control bad":"form-control"} placeholder="Confirm Password" required={true} onChange={this.validatePassword.bind(this)} />
+											<input type="password" className={this.state.formValidationMap.get("validatePasswordError")?"form-control bad":"form-control"} placeholder={textPac.user.passwordConfirm} required={true} onChange={this.validatePassword.bind(this)} />
 										</div>
 										<div>
-											<input type="text" className="form-control" placeholder="Sender Name" ref="sender" required={true} />
+											<input type="text" className="form-control" placeholder={textPac.user.senderName} ref="sender" required={true} />
 										</div>
 										<div>
-											<input type="text" className="form-control" placeholder="Phone Number" ref="phone" required={true} />
+											<input type="text" className="form-control" placeholder={textPac.user.phone} ref="phone" required={true} />
 										</div>
 										<div>
-											<input type="text" className="form-control" placeholder="Address" ref="address" required={true} />
+											<input type="text" className="form-control" placeholder={textPac.user.address} ref="address" required={true} />
 										</div>
 										<div>
 
 											{error ? <ErrorAlert errorSummary={textPac.errorMessage[error.errorCode]} errorDetail={error.errorDetail} /> : ""}
-											<button className="btn btn-success pull-right" disabled={this.state.formValidationMap.size>0}  onClick={this.handleRegister.bind(this)}>Register</button>
+											<button className="btn btn-success pull-right" disabled={this.state.formValidationMap.size>0}  onClick={this.handleRegister.bind(this)}>{buttonText}</button>
 															
 											<Link to="/" >Already registered?</Link>
 										</div>
@@ -108,7 +122,7 @@ export default class Login extends React.Component<LoginProps, { formValidated: 
 								<div>
 
 									{error ? <ErrorAlert errorSummary={textPac.errorMessage[error.errorCode]} errorDetail={error.errorDetail} /> : ""}
-									<a className="btn btn-default submit" onClick={this.handleLogin.bind(this)}>Log in</a>
+									<a className="btn btn-default submit" onClick={this.handleLogin.bind(this)}>{buttonText}</a>
 									<a className="reset_pass" href="#">Lost your password?</a>
 								</div>
 								}

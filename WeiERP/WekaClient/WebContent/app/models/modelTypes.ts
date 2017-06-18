@@ -70,7 +70,17 @@ export class TextPackage {
   }
   orderHeader: TableHeader;
   orderExportHeader: TableHeader;
-
+  user: {
+    bindTitle: string;
+    registerTitle: string;
+    loginTitle: string;
+    name: string;
+    password: string;
+    passwordConfirm: string;
+    senderName: string;
+    phone: string;
+    address: string;
+  }
   order: {
     id: string;
     user: string;
@@ -136,6 +146,10 @@ export class TextPackage {
     refresh: string;
     addOrderItem: string;
     export: string;
+    login: string;
+    logout: string;
+    register: string;
+    bind: string;
   };
   timeRangePicker: {
     format: string,

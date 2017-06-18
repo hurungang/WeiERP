@@ -42,6 +42,17 @@ Chinese.textPackage.paginator = {
     pageRange: new TextFormater("{1} - {2}/共{3}"),
     entriesSelectArray: [{ name: 1, value: 1 }, { name: 10, value: 10 }, { name: 25, value: 25 }, { name: 50, value: 50 }, { name: 100, value: 100 }],
 }
+Chinese.textPackage.user = {
+    bindTitle: "绑定用户",
+    registerTitle: "注册用户",
+    loginTitle: "登录",
+    name: "姓名(必填)",
+    password: "密码(必填)",
+    passwordConfirm: "确认密码(必填)",
+    senderName: "默认发货人(选填)",
+    phone: "默认联系电话(选填)",
+    address: "默认发货地址(选填)"
+}
 Chinese.textPackage.order = {
     id: "订单号",
     user: "用户",
@@ -137,7 +148,11 @@ Chinese.textPackage.button = {
     bulkAction: "批量操作",
     refresh: "刷新",
     addOrderItem: "增加订单项",
-    export: "导出"
+    export: "导出",
+    login: "登录",
+    logout: "注销",
+    register: "注册",
+    bind: "绑定",
 };
 Chinese.textPackage.errorMessage = {
     [ClientErrorCode.ORDER_API_ERROR]: "订单接口错误",

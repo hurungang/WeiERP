@@ -21,27 +21,26 @@ class App extends React.Component<AppProps, {}>{
 		//todo: skip login for development, should be removed later
 		//let testUser = { name: 'Harry', password: 'test' };
 
-		let { token } = this.props.location.query;
-		//dispatch(appActions.APP_AUTHENTICATE_USER(testUser));
-		if (token) {
-			dispatch(appActions.APP_AUTHENTICATE_USER_VIA_TOKEN(token));
-		} else {
+		let { register, token } = this.props.location.query;
+		if (!register) {
+			//dispatch(appActions.APP_AUTHENTICATE_USER(testUser));
+			if (token) {
+				dispatch(appActions.APP_AUTHENTICATE_USER_VIA_TOKEN(token));
+			} else {
 
-			let sessionUser = (window as any).sessionStorage.getItem("user");
-			let sessionToken = (window as any).sessionStorage.getItem("token");
-			if (sessionUser && sessionToken) {
-				dispatch(appActions.APP_LOGIN(sessionUser));
-				dispatch(appActions.APP_SET_TOKEN(sessionToken));
+				let sessionUser = (window as any).sessionStorage.getItem("user");
+				let sessionToken = (window as any).sessionStorage.getItem("token");
+				if (sessionUser && sessionToken) {
+					dispatch(appActions.APP_LOGIN(sessionUser));
+					dispatch(appActions.APP_SET_TOKEN(sessionToken));
+				}
 			}
 		}
 	}
 
 	render() {
 		let { state, dispatch } = this.props;
-		let { register } = this.props.location.query;
-		if (register) {
-			register = true;
-		}
+		let { register, token } = this.props.location.query;
 		let { user } = state.appState;
 		if (user != null) {
 			return (
@@ -49,7 +48,7 @@ class App extends React.Component<AppProps, {}>{
 			);
 		} else {
 			return (
-				<Login state={state} dispatch={dispatch} register={register} location={this.props.location} />
+				<Login state={state} dispatch={dispatch} register={register?true:false} location={this.props.location} registerToken={token}/>
 			)
 		}
 

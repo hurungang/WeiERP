@@ -20,10 +20,14 @@ export default class UserController extends Controller implements IController {
             (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
                 /* start of business logic */
-                let user:User = req.body;
-                if(user.id||user.referenceID){
-                    this.update(req,res,next);
-                }else{
+                let user: User = req.body;
+                let tempUser = this.getUserByToken(req);
+                if (tempUser) {
+                    user.referenceID = tempUser.referenceID;
+                }
+                if (user.id || user.referenceID) {
+                    this.update(req, res, next);
+                } else {
 
                     var newUser = new UserDAO(req.body);
                     newUser
@@ -63,57 +67,66 @@ export default class UserController extends Controller implements IController {
         );
     }
 
+    private getUserByToken(req: express.Request):User {
+        let tempUser;
+        let token = req.body.token;
+        if (token) {
+            let globalOAuthTokens: Map<string, OAuthToken> = req.app.get("GlobalOAuthTokens");
+            let authObj = globalOAuthTokens.get(token);
+            if (authObj) {
+                tempUser = authObj.user;
+            }
+        }
+        return tempUser;
+    }
     public authenticate(req, res, next) {
         this.safeHandle(req, res, next,
             (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
                 /* start of business logic */
                 let endUser = req.body;
-                if(endUser.token){
-                    let globalOAuthTokens:Map<string,OAuthToken> = req.app.get("GlobalOAuthTokens");
-                    let authObj = globalOAuthTokens.get(endUser.token);
-                    if(authObj){
-                        endUser = authObj.user;
-                    }
+                let tempUser = this.getUserByToken(req);
+                if (tempUser) {
+                    endUser = tempUser;
                 }
                 let logonUser: IUserModel;
-                if(endUser.name&&endUser.password){
+                if (endUser.name && endUser.password) {
 
-                UserDAO.findOne({ name: endUser.name, password: endUser.password }).exec()
-                    .then((user: IUserModel) => {
-                        if (user) {
-                            result.payload = user;
-                            var token = jwt.sign(user, commonConfiguration.SECRET_KEY, {
-                                expiresIn: commonConfiguration.TOKEN_EXPIRES_IN_SECONDS
-                            });
-                            result.token = token;
-                            logonUser = user;
-                            return ConsigneeDAO.find({ user: user._id }).exec();
-                        } else {
-                            this.unauthorizedRequest(result, null);
+                    UserDAO.findOne({ name: endUser.name, password: endUser.password }).exec()
+                        .then((user: IUserModel) => {
+                            if (user) {
+                                result.payload = user;
+                                var token = jwt.sign(user, commonConfiguration.SECRET_KEY, {
+                                    expiresIn: commonConfiguration.TOKEN_EXPIRES_IN_SECONDS
+                                });
+                                result.token = token;
+                                logonUser = user;
+                                return ConsigneeDAO.find({ user: user._id }).exec();
+                            } else {
+                                this.unauthorizedRequest(result, null);
+                                this.handleResult(res, next, result);
+                            }
+                        })
+                        .then((consignees: any) => {
+                            if (logonUser) {
+                                logonUser.consignees = consignees;
+                                return ProductDAO.find({ user: logonUser._id }).exec();
+                            }
+                        })
+                        .then((products: any) => {
+                            if (logonUser) {
+                                logonUser.products = products;
+                                result.payload = logonUser;
+                                this.handleResult(res, next, result);
+                            }
+                        })
+                        .catch((err: any) => {
+                            result = this.internalError(result, err.toString());
                             this.handleResult(res, next, result);
-                        }
-                    })
-                    .then((consignees: any) => {
-                        if(logonUser){
-                            logonUser.consignees = consignees;
-                            return ProductDAO.find({ user: logonUser._id }).exec();
-                        }
-                    })
-                    .then((products: any) => {
-                        if(logonUser){
-                            logonUser.products = products;
-                            result.payload = logonUser;
-                            this.handleResult(res, next, result);
-                        }
-                    })
-                    .catch((err: any) => {
-                        result = this.internalError(result, err.toString());
-                        this.handleResult(res, next, result);
-                    });
+                        });
                 }
-                else{
-                        result = this.badRequest(result);
-                        this.handleResult(res, next, result);
+                else {
+                    result = this.badRequest(result);
+                    this.handleResult(res, next, result);
                 }
                 /* end of business logic */
             }
@@ -159,15 +172,15 @@ export default class UserController extends Controller implements IController {
             (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 
                 /* start of business logic */
-                let newUser:User = req.body;
-                
+                let newUser: User = req.body;
+
                 var query = {};
-                if(newUser.id){ 
+                if (newUser.id) {
                     query = { '_id': newUser.id };
-                }else if(newUser.referenceID){
+                } else if (newUser.referenceID) {
                     query = { 'referenceID': newUser.referenceID };
-                }else if(newUser.name){
-                    query = { 'name': newUser.name };                    
+                } else if (newUser.name) {
+                    query = { 'name': newUser.name };
                 }
 
                 UserDAO.findOneAndUpdate(query, req.body, { upsert: false, new: true, runValidators: true })
