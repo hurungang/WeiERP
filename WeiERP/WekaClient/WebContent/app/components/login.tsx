@@ -113,7 +113,7 @@ export default class Login extends React.Component<LoginProps, { formValidated: 
 										<div>
 
 											{error ? <ErrorAlert errorSummary={textPac.errorMessage[error.errorCode]} errorDetail={error.errorDetail} /> : ""}
-											<button className="btn btn-success pull-right" disabled={this.state.formValidationMap.size>0}  onClick={this.handleRegister.bind(this)}>{buttonText}</button>
+											<button type="button" className="btn btn-success pull-right" disabled={this.state.formValidationMap.size>0}  onClick={this.handleRegister.bind(this)}>{buttonText}</button>
 															
 											<Link to="/" >Already registered?</Link>
 										</div>
