@@ -57,7 +57,7 @@ export default class Login extends React.Component<LoginProps, { formValidated: 
 				sender: this.refs.sender.value,
 				phone: this.refs.phone.value,
 				address: this.refs.address.value,
-				registerToken: token,
+				token: token,
 			}
 			dispatch(appActions.APP_REGISTER_USER(user));
 		}
