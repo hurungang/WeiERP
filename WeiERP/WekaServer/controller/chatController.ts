@@ -61,6 +61,7 @@ export default class ChatController extends Controller {
 
   public oauth(req: express.Request, res: express.Response, next: express.Next) {
     let code = req.query.code;
+    let path = req.params.path;
     serverConfig.OAUTH_CLIENT.getAccessToken(code, function (err, result) {
       if (result && result.data) {
         let accessToken = result.data.access_token;
@@ -81,7 +82,7 @@ export default class ChatController extends Controller {
                 needRegister = false;
               }
               globalOAuthTokens.set(token,{token:token,user:User,expiredAfter:moment().add(30,"m")});
-              res.redirect(`/web/#/?token=${token}${needRegister?"&register=true":""}`);
+              res.redirect(`${path}?token=${token}${needRegister?"&register=true":""}`);
             }
           })
           .then((user: IUserModel) => {
@@ -92,11 +93,11 @@ export default class ChatController extends Controller {
                 needRegister = false;
               }
               globalOAuthTokens.set(token,{token:token,user:User,expiredAfter:moment().add(30,"m")});
-              res.redirect(`/web/#/?token=${token}${needRegister?"&register=true":""}`);
+              res.redirect(`${path}?token=${token}${needRegister?"&register=true":""}`);
             }
           })
           .catch((err: string) => {
-            res.redirect(`/web/error`);
+            res.redirect(`${path}`);
           });;
       } else {
         logger.error(err);

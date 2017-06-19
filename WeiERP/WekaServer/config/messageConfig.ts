@@ -13,5 +13,5 @@ export const ORDER_REPLY = (order:IOrderModel) => {
 订单内容:
   ${order.orderItems.map((orderItem)=>`${orderItem.product.productName} - ${orderItem.productQuantity}
   `)}
-点击查看:${serverConfig.SERVER_DOMAIN}/web/#/order/${order.id}?token=${DataUtil.encrypt(order.user.referenceID)}`;
+点击查看:${serverConfig.OAUTH_CLIENT.getAuthorizeURL(serverConfig.SERVER_DOMAIN + '/wechat/oauth/web/#/order/'+order.id, '', 'snsapi_base')}`;
 }
