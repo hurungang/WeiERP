@@ -75,6 +75,7 @@ export default class UserController extends Controller implements IController {
             let authObj = globalOAuthTokens.get(token);
             if (authObj) {
                 tempUser = authObj.user;
+                globalOAuthTokens.delete(token);
             }
         }
         return tempUser;

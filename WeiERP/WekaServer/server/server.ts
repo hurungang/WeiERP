@@ -14,7 +14,7 @@ import WeChatRouter from '../routes/weChatRouter'
 import AuthenticationRouter from '../routes/authenticationRouter'
 import Logger from './logger'
 import { Environment, OAuthToken } from "../model/models";
-
+import * as moment from 'moment'
 
 const logger = new Logger("Server");
 
@@ -94,6 +94,7 @@ export default class Server {
   public global(){
     let globalOAuthTokens: Map<string,OAuthToken> = new Map<string,OAuthToken>();
     this.app.set("GlobalOAuthTokens",globalOAuthTokens);
+    this.cleanToken();
   }
   public routes() {
     //empty for now
@@ -108,5 +109,15 @@ export default class Server {
     router.use("/wechat",new WeChatRouter());
     this.app.use(router);
       
+  }
+  public cleanToken(){
+    let globalOAuthTokens: Map<string,OAuthToken> = this.app.get("GlobalOAuthTokens");
+    globalOAuthTokens.forEach((value,key)=>{
+      let authToken = value;
+      if(authToken.expiredAfter.isBefore(moment())){
+        globalOAuthTokens.delete(key);
+      }
+    });
+    setTimeout(this.cleanToken.bind(this),60000)
   }
 }
