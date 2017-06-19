@@ -82,7 +82,7 @@ export default class ChatController extends Controller {
                 needRegister = false;
               }
               globalOAuthTokens.set(token,{token:token,user:User,expiredAfter:moment().add(30,"m")});
-              res.redirect(`${path}?token=${token}${needRegister?"&register=true":""}`);
+              res.redirect(`/${path}?token=${token}${needRegister?"&register=true":""}`);
             }
           })
           .then((user: IUserModel) => {
@@ -93,11 +93,11 @@ export default class ChatController extends Controller {
                 needRegister = false;
               }
               globalOAuthTokens.set(token,{token:token,user:User,expiredAfter:moment().add(30,"m")});
-              res.redirect(`${path}?token=${token}${needRegister?"&register=true":""}`);
+              res.redirect(`/${path}?token=${token}${needRegister?"&register=true":""}`);
             }
           })
           .catch((err: string) => {
-            res.redirect(`${path}`);
+            res.redirect(`/${path}`);
           });;
       } else {
         logger.error(err);
