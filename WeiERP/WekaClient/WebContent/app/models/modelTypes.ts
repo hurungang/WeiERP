@@ -2,8 +2,10 @@ import { ClientErrorCode } from './enums'
 import { plainToClass } from "class-transformer"
 import { DataItem } from 'WekaServer/model/models'
 import TextFormater from "../utils/textFormater";
+import { ErrorCode } from "WekaServer/model/enums";
 
-export { Order, OrderItem, Product, User, DataItem, Consignee, APIResult, BulkActionPayload } from 'WekaServer/model/models'
+export { Order, OrderItem, Product, User, DataItem, Consignee, APIResult, BulkActionPayload } from 'WekaServer/model/models';
+export { ErrorCode } from "WekaServer/model/enums";
 
 export class Localization {
   defaultLanguage: string;
@@ -204,6 +206,7 @@ export interface Menu {
 
 
 export class Error {
+  serverErrorCode?: ErrorCode
   errorCode: ClientErrorCode;
   errorDetail?: string;
 }

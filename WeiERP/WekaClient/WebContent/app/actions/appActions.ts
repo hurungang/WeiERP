@@ -20,7 +20,7 @@ export const APP_AUTHENTICATE_USER = (user: User) => {
           dispatch(APP_LOGIN(user));
           dispatch(APP_SET_TOKEN(result.token));
         } else {
-          let error: Error = { errorCode: ClientErrorCode.USER_INVALID_ERROR, errorDetail: result.errorMessage };
+          let error: Error = { errorCode: ClientErrorCode.USER_INVALID_ERROR,serverErrorCode: result.errorCode, errorDetail: result.errorMessage };
           dispatch(GENERAL_ERROR(error));
         }
         dispatch(APP_PROCEEDING_END());
@@ -46,7 +46,7 @@ export const APP_AUTHENTICATE_USER_VIA_TOKEN = (token: String) => {
           dispatch(APP_LOGIN(user));
           dispatch(APP_SET_TOKEN(result.token));
         } else {
-          let error: Error = { errorCode: ClientErrorCode.USER_INVALID_ERROR, errorDetail: result.errorMessage };
+          let error: Error = { errorCode: ClientErrorCode.USER_INVALID_ERROR,serverErrorCode: result.errorCode, errorDetail: result.errorMessage };
           dispatch(GENERAL_ERROR(error));
         }
         dispatch(APP_PROCEEDING_END());
@@ -71,7 +71,7 @@ export const APP_REGISTER_USER = (user: User) => {
           dispatch(APP_LOGIN(user));
           dispatch(APP_SET_TOKEN(result.token));
         } else {
-          let error: Error = { errorCode: ClientErrorCode.USER_INVALID_ERROR, errorDetail: result.errorMessage };
+          let error: Error = { errorCode: ClientErrorCode.USER_INVALID_ERROR, serverErrorCode: result.errorCode, errorDetail: result.errorMessage };
           dispatch(GENERAL_ERROR(error));
         }
         dispatch(APP_PROCEEDING_END());

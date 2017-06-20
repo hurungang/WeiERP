@@ -1,4 +1,4 @@
-import { HTTPStatusCode, StatusCode } from './enums'
+import { HTTPStatusCode, StatusCode, ErrorCode } from './enums'
 import { Type } from "class-transformer"
 import 'reflect-metadata';
 import { Moment } from "moment/moment";
@@ -12,6 +12,7 @@ export class APIResult {
   successful: Boolean = true;
   statusCode?: HTTPStatusCode = HTTPStatusCode.OK;
   errorMessage?: string;
+  errorCode?: ErrorCode;
   payload: any;
   token?: string;
   formatError(){};

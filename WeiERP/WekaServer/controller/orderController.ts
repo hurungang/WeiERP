@@ -5,6 +5,7 @@ import { IController, Controller } from './controller';
 import * as StringSimilarity from 'string-similarity'
 import Logger from '../server/logger';
 import { ObjectID } from "mongodb";
+import { ErrorCode } from "../model/enums";
 
 const logger = new Logger("OrderController");
 
@@ -52,7 +53,7 @@ export default class OrderController extends Controller implements IController {
               this.handleResult(res, next, result);
             })
             .catch((err: any) => {
-              result = this.internalError(result, err.toString());
+              result = this.internalError(result, ErrorCode.OrderListFailed, err.toString());
               this.handleResult(res, next, result);
             });
         } else {
@@ -82,7 +83,7 @@ export default class OrderController extends Controller implements IController {
               this.handleResult(res, next, result);
             })
             .catch((err: any) => {
-              result = this.internalError(result, err.toString());
+              result = this.internalError(result, ErrorCode.OrderGetFailed, err.toString());
               this.handleResult(res, next, result);
             });
         } else {
@@ -156,7 +157,7 @@ export default class OrderController extends Controller implements IController {
                           this.handleResult(res, next, result);
                         })
                         .catch((err: any) => {
-                          result = this.internalError(result, err);
+                          result = this.internalError(result, ErrorCode.OrderCreateProductFailed, err.toString());
                           this.handleResult(res, next, result);
                         });
                     } else {
@@ -169,7 +170,7 @@ export default class OrderController extends Controller implements IController {
                           this.handleResult(res, next, result);
                         })
                         .catch((err: any) => {
-                          result = this.internalError(result, err);
+                          result = this.internalError(result, ErrorCode.OrderUpdateFailed, err.toString());
                           this.handleResult(res, next, result);
                         });
 
@@ -181,7 +182,7 @@ export default class OrderController extends Controller implements IController {
               }
             })
             .catch((err: any) => {
-              result = this.internalError(result, err.toString());
+              result = this.internalError(result, ErrorCode.OrderCreateAssigneeFailed, err.toString());
               this.handleResult(res, next, result);
             });
 
@@ -212,12 +213,12 @@ export default class OrderController extends Controller implements IController {
                   this.handleResult(res, next, result);
                 })
                 .catch((err: any) => {
-                  result = this.internalError(result, err.toString());
+                  result = this.internalError(result, ErrorCode.OrderListFailed, err.toString());
                   this.handleResult(res, next, result);
                 });
             })
             .catch((err: any) => {
-              result = this.internalError(result, err.toString());
+              result = this.internalError(result, ErrorCode.OrderBulkUpdateFailed, err.toString());
               this.handleResult(res, next, result);
             });
         } else {
@@ -240,11 +241,11 @@ export default class OrderController extends Controller implements IController {
           var query = { '_id': req.params.id, user: new ObjectID.createFromHexString(req.user._id) };
           OrderDAO.find(query).remove().exec()
             .then((writeResult) => {
-                result.payload = writeResult;
-                this.handleResult(res, next, result);
+              result.payload = writeResult;
+              this.handleResult(res, next, result);
             })
             .catch((err: any) => {
-              result = this.internalError(result, err.toString());
+              result = this.internalError(result, ErrorCode.OrderDeleteFailed, err.toString());
               this.handleResult(res, next, result);
             });
         } else {

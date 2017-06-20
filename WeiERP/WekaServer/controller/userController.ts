@@ -5,6 +5,7 @@ import { IController, Controller } from './controller';
 import Logger from '../server/logger';
 import * as jwt from 'jsonwebtoken';
 import * as commonConfiguration from '../config/commonConfig';
+import { ErrorCode } from "../model/enums";
 
 const logger = new Logger("UserController");
 
@@ -37,7 +38,7 @@ export default class UserController extends Controller implements IController {
                             this.handleResult(res, next, result);
                         })
                         .catch((err: any) => {
-                            result = this.internalError(result, err.toString());
+                            result = this.internalError(result, ErrorCode.UserCreateFailed, err.toString());
                             this.handleResult(res, next, result);
                         });
                 }
@@ -58,7 +59,7 @@ export default class UserController extends Controller implements IController {
                         this.handleResult(res, next, result);
                     })
                     .catch((err: any) => {
-                        result = this.internalError(result, err.toString());
+                        result = this.internalError(result, ErrorCode.UserListFailed, err.toString());
                         this.handleResult(res, next, result);
                     });
                 /* end of business logic */
@@ -103,7 +104,7 @@ export default class UserController extends Controller implements IController {
                                 logonUser = user;
                                 return ConsigneeDAO.find({ user: user._id }).exec();
                             } else {
-                                this.unauthorizedRequest(result, null);
+                                this.unauthorizedRequest(result);
                                 this.handleResult(res, next, result);
                             }
                         })
@@ -121,7 +122,7 @@ export default class UserController extends Controller implements IController {
                             }
                         })
                         .catch((err: any) => {
-                            result = this.internalError(result, err.toString());
+                            result = this.internalError(result,ErrorCode.UserAuthenticateFailed, err.toString());
                             this.handleResult(res, next, result);
                         });
                 }
@@ -158,7 +159,7 @@ export default class UserController extends Controller implements IController {
                         this.handleResult(res, next, result);
                     })
                     .catch((err: any) => {
-                        result = this.internalError(result, err.toString());
+                        result = this.internalError(result,ErrorCode.UserGetFailed, err.toString());
                         this.handleResult(res, next, result);
                     });
                 /* end of business logic */
@@ -190,7 +191,7 @@ export default class UserController extends Controller implements IController {
                         this.handleResult(res, next, result);
                     })
                     .catch((err: any) => {
-                        result = this.internalError(result, err.toString());
+                        result = this.internalError(result, ErrorCode.UserUpdateFailed,err.toString());
                         this.handleResult(res, next, result);
                     });
                 /* end of business logic */
@@ -220,7 +221,7 @@ export default class UserController extends Controller implements IController {
                             });
                     })
                     .catch((err: any) => {
-                        result = this.internalError(result, err.toString());
+                        result = this.internalError(result, ErrorCode.UserBulkUpdateFailed,err.toString());
                         this.handleResult(res, next, result);
                     });
                 /* end of business logic */
@@ -241,7 +242,7 @@ export default class UserController extends Controller implements IController {
                         this.handleResult(res, next, result);
                     })
                     .catch((err: any) => {
-                        result = this.internalError(result, err.toString());
+                        result = this.internalError(result, ErrorCode.UserDeleteFailed,err.toString());
                         this.handleResult(res, next, result);
                     });
                 /* end of business logic */

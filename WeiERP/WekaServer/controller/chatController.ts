@@ -126,7 +126,7 @@ export default class ChatController extends Controller {
                 this.saveProductAndOrder(order, req, res, next, result);
               })
               .catch((err: string) => {
-                result = this.internalError(result, err);
+                result = this.internalError(result,ErrorCode.ChatCreateUserFailed, err);
                 //this.handleWechatResult(res, next, result);
               });
           } else {
@@ -136,7 +136,7 @@ export default class ChatController extends Controller {
         })
 
     } else {
-      result = this.badRequest(result, ErrorCode[ErrorCode.OrderAssembleFailed]);
+      result = this.badRequest(result, ErrorCode.OrderAssembleFailed);
       //this.handleWechatResult(res, next, result);
     }
   }
@@ -178,13 +178,13 @@ export default class ChatController extends Controller {
               }
             })
             .catch((err: string) => {
-              result = this.internalError(result, err);
+              result = this.internalError(result,ErrorCode.ChatCreateProductFailed, err);
             });
         }
 
       })
       .catch((err: string) => {
-        result = this.internalError(result, err);
+        result = this.internalError(result,ErrorCode.ChatFindProductFailed, err);
       });
   }
 
@@ -200,7 +200,7 @@ export default class ChatController extends Controller {
         res.reply(messageConfig.ORDER_REPLY(order));
       })
       .catch((err: string) => {
-        result = this.internalError(result, err);
+        result = this.internalError(result,ErrorCode.ChatSaveOrderFailed, err);
       });
   }
 }

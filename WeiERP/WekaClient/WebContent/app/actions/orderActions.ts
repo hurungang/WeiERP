@@ -25,7 +25,7 @@ export const LOAD_ORDER_LIST = (id: string, token:string) => {
             dispatch(SHOW_ORDER_BY_ID(id));
           }
         }else{
-          let error: Error = { errorCode: ClientErrorCode.ORDER_API_ERROR, errorDetail: result.errorMessage };
+          let error: Error = { errorCode: ClientErrorCode.ORDER_API_ERROR,serverErrorCode: result.errorCode, errorDetail: result.errorMessage };
           dispatch(GENERAL_ERROR(error));
         }
         dispatch(ORDER_PROCEEDING_END());
@@ -57,7 +57,7 @@ export const BULK_CHANGE_ORDERS = (payload:BulkActionPayload, token:string) => {
 
           dispatch(LOAD_ORDER_LIST_RECEIVED(orderList));
         }else{
-          let error: Error = { errorCode: ClientErrorCode.ORDER_API_ERROR, errorDetail: result.errorMessage };
+          let error: Error = { errorCode: ClientErrorCode.ORDER_API_ERROR,serverErrorCode: result.errorCode, errorDetail: result.errorMessage };
           dispatch(GENERAL_ERROR(error));
         }
         dispatch(ORDER_PROCEEDING_END());
@@ -82,7 +82,7 @@ export const SAVE_ORDER = (order: Order, token: string) => {
 
           dispatch(SAVE_ORDER_RECEIVED(savedOrder));
         }else{
-          let error: Error = { errorCode: ClientErrorCode.ORDER_API_ERROR, errorDetail: result.errorMessage };
+          let error: Error = { errorCode: ClientErrorCode.ORDER_API_ERROR,serverErrorCode: result.errorCode, errorDetail: result.errorMessage };
           dispatch(GENERAL_ERROR(error));
         }
         dispatch(ORDER_PROCEEDING_END());

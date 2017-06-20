@@ -1,7 +1,7 @@
 import * as express from 'express';
-import { HTTPStatusCode } from '../model/enums';
+import { HTTPStatusCode, ErrorCode } from '../model/enums';
 import Logger from '../server/logger'
-import { APIResult } from '../model/models'
+import { APIResult, Environment } from '../model/models'
 
 export interface IController {
   create(req: any, res: any, next: any);
@@ -40,15 +40,21 @@ export class Controller {
     result.successful = (result.statusCode == HTTPStatusCode.OK)? true : false
     res.send(result.successful?"success":result.errorMessage);
   }
-  public internalError(result: APIResult, error?: string): APIResult {
+  public internalError(result: APIResult, errorCode?: ErrorCode, errorMessage?:string): APIResult {
     result.statusCode = HTTPStatusCode.InternalServerError;
-    result.errorMessage = error;
+    result.errorCode = errorCode;
+    if(process.env.NODE_ENV as Environment != "production"){
+      result.errorMessage = errorMessage; 
+    }
     return result;
   }
 
-  public badRequest(result: APIResult, error?: string): APIResult {
+  public badRequest(result: APIResult, errorCode?: ErrorCode, errorMessage?:string): APIResult {
     result.statusCode = HTTPStatusCode.BadRequest;
-    result.errorMessage = error;
+    result.errorCode = errorCode;
+    if(process.env.NODE_ENV as Environment != "production"){
+      result.errorMessage = errorMessage; 
+    }
     return result;
   }
 
