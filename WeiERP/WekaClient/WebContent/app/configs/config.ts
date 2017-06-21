@@ -1,4 +1,4 @@
-import { Config, Language, Localization, OrderItem } from '../models/modelTypes';
+import { Config, Language, Localization, OrderItem, ErrorCode } from '../models/modelTypes';
 import * as moment from 'moment';
 import { ClientErrorCode } from "../models/enums";
 import TextFormater from "../utils/textFormater";
@@ -158,6 +158,20 @@ Chinese.textPackage.errorMessage = {
     [ClientErrorCode.ORDER_API_ERROR]: "订单接口错误",
     [ClientErrorCode.USER_INVALID_ERROR]: "用户验证失败,请检查用户名密码",
     [ClientErrorCode.USER_API_ERROR]: "用户接口错误",
+    [ErrorCode.OrderBulkUpdateFailed]: "订单批量更新时发生内部错误",
+    [ErrorCode.OrderCreateAssigneeFailed]: "订单操作中创建收货人存档时发生内部错误",
+    [ErrorCode.OrderCreateProductFailed]: "订单操作中创建商品存档时发生内部错误",
+    [ErrorCode.OrderDeleteFailed]: "订单删除时发生内部错误",
+    [ErrorCode.OrderGetFailed]: "订单查询时发生内部错误",
+    [ErrorCode.OrderListFailed]: "订单批量查询时发生内部错误",
+    [ErrorCode.OrderUpdateFailed]: "订单更新时发生内部错误",
+    [ErrorCode.UserAuthenticateFailed]: "认证用户时发生内部错误",
+    [ErrorCode.UserBulkUpdateFailed]: "批量更新用户时发生内部错误",
+    [ErrorCode.UserCreateFailed]: "创建用户时发生内部错误",
+    [ErrorCode.UserDeleteFailed]: "删除用户时发生内部错误",
+    [ErrorCode.UserGetFailed]: "查询用户时发生内部错误",
+    [ErrorCode.UserListFailed]: "批量查询用户时发生内部错误",
+    [ErrorCode.UserUpdateFailed]: "更新用户信息时发生内部错误",
 }
 
 Chinese.textPackage.timeRangePicker = {
