@@ -54,8 +54,11 @@ export default class UserController extends Controller implements IController {
 
                 /* start of business logic */
                 UserDAO.find({}).populate("user").exec()
-                    .then((users: any) => {
-                        result.payload = users;
+                    .then((user: any) => {
+                        result.payload = user;
+                        result.token = jwt.sign(user, commonConfiguration.SECRET_KEY, {
+                            expiresIn: commonConfiguration.TOKEN_EXPIRES_IN_SECONDS
+                        });
                         this.handleResult(res, next, result);
                     })
                     .catch((err: any) => {
@@ -97,10 +100,9 @@ export default class UserController extends Controller implements IController {
                         .then((user: IUserModel) => {
                             if (user) {
                                 result.payload = user;
-                                var token = jwt.sign(user, commonConfiguration.SECRET_KEY, {
+                                result.token = jwt.sign(user, commonConfiguration.SECRET_KEY, {
                                     expiresIn: commonConfiguration.TOKEN_EXPIRES_IN_SECONDS
                                 });
-                                result.token = token;
                                 logonUser = user;
                                 return ConsigneeDAO.find({ user: user._id }).exec();
                             } else {
@@ -188,6 +190,9 @@ export default class UserController extends Controller implements IController {
                 UserDAO.findOneAndUpdate(query, req.body, { upsert: false, new: true, runValidators: true })
                     .then((user: IUserModel) => {
                         result.payload = user;
+                        result.token = jwt.sign(user, commonConfiguration.SECRET_KEY, {
+                                    expiresIn: commonConfiguration.TOKEN_EXPIRES_IN_SECONDS
+                                });
                         this.handleResult(res, next, result);
                     })
                     .catch((err: any) => {

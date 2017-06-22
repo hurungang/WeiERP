@@ -37,6 +37,7 @@ export enum ErrorCode{
   UserUpdateFailed,
   UserBulkUpdateFailed,
   UserDeleteFailed,
+  UnauthorizedRequest,
 }
 
 export enum StatusCode{

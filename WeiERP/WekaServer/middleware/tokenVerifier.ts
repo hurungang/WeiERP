@@ -1,6 +1,8 @@
 import * as jwt from 'jsonwebtoken'
 import * as commonConfiguration from '../config/commonConfig';
 import { IUserModel } from "../model/schemas";
+import { APIResult } from "../model/models";
+import { HTTPStatusCode, ErrorCode } from "../model/enums";
 
 export default function(req, res, next) {
 
@@ -11,9 +13,14 @@ export default function(req, res, next) {
   if (token) {
 
     // verifies secret and checks exp
-    jwt.verify(token, commonConfiguration.SECRET_KEY, function(err, decoded) {      
+    jwt.verify(token, commonConfiguration.SECRET_KEY, function(err, decoded) {  
       if (err) {
-        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+        let result:APIResult = new APIResult();
+        result.statusCode = HTTPStatusCode.Unauthorized;
+        result.errorCode = ErrorCode.UnauthorizedRequest;
+        result.errorMessage = err;
+        result.successful = false;
+        return res.json(result);    
       } else {
         // if everything is good, save to request for use in other routes
         req.user = decoded._doc as IUserModel;    

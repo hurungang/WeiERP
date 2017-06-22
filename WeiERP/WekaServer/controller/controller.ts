@@ -60,6 +60,7 @@ export class Controller {
 
   public unauthorizedRequest(result: APIResult, error?: string): APIResult {
     result.statusCode = HTTPStatusCode.Unauthorized;
+    result.errorCode = ErrorCode.UnauthorizedRequest;
     result.errorMessage = error;
     return result;
   }

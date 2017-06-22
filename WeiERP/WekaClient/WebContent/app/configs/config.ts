@@ -172,6 +172,7 @@ Chinese.textPackage.errorMessage = {
     [ErrorCode.UserGetFailed]: "查询用户时发生内部错误",
     [ErrorCode.UserListFailed]: "批量查询用户时发生内部错误",
     [ErrorCode.UserUpdateFailed]: "更新用户信息时发生内部错误",
+    [ErrorCode.UnauthorizedRequest]:"用户无权进行此操作",
 }
 
 Chinese.textPackage.timeRangePicker = {
