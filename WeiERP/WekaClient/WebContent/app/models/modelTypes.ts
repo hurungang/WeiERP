@@ -107,6 +107,7 @@ export class TextPackage {
     defaultEntriesPerPage: number;
     bulkSend: string;
     bulkChangeStatus: string;
+    bulkDelete: string;
     statuses: {
       [status: string]: string;
     },

@@ -77,6 +77,7 @@ Chinese.textPackage.order = {
     defaultEntriesPerPage: 25,
     bulkSend: "加入发货单",
     bulkChangeStatus: "修改状态",
+    bulkDelete: "批量删除",
     statuses: {
         [StatusCode[StatusCode.Created]]: "待处理",
         [StatusCode[StatusCode.Paid]]: "已支付",

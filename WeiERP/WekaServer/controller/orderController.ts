@@ -46,7 +46,7 @@ export default class OrderController extends Controller implements IController {
 
         /* start of business logic */
         if (req.user) {
-          let queryObject = { user: new ObjectID.createFromHexString(req.user._id) };
+          let queryObject = { user: new ObjectID.createFromHexString(req.user._id), isDeleted: {$ne: true} };
           OrderDAO.find(queryObject).populate("user").populate("orderItems.product").exec()
             .then((orders: any) => {
               result.payload = orders;

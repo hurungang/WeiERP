@@ -47,7 +47,7 @@ export default class OrderPage extends React.Component<OrderPageProps, {}>{
 		dispatch(OrderActions.ADD_ORDER());
 	}
 
-	handleBulkStatusAction(applyChange:{},selectedItem:any[]) {
+	handleBulkUpdateAction(applyChange:{},selectedItem:any[]) {
 		let { dispatch, state } = this.props;
 		let {token} = state.appState;
 		let idList:string[] = selectedItem.map((item)=>{
@@ -69,11 +69,13 @@ export default class OrderPage extends React.Component<OrderPageProps, {}>{
 		let textPac = language.textPackage;
 		let tableActions:TableAction = {
 			bulkActions: [{
+				[textPac.order.bulkDelete]:this.handleBulkUpdateAction.bind(this,{isDeleted:true}),
+				},{
 				[textPac.order.bulkChangeStatus]:null,
-				[textPac.order.changeStatusButtons[StatusCode[StatusCode.Created]]]:this.handleBulkStatusAction.bind(this,{status:StatusCode[StatusCode.Created]}),
-				[textPac.order.changeStatusButtons[StatusCode[StatusCode.Paid]]]:this.handleBulkStatusAction.bind(this,{status:StatusCode[StatusCode.Paid]}),
-				[textPac.order.changeStatusButtons[StatusCode[StatusCode.Printed]]]:this.handleBulkStatusAction.bind(this,{status:StatusCode[StatusCode.Printed]}),
-				[textPac.order.changeStatusButtons[StatusCode[StatusCode.Sent]]]:this.handleBulkStatusAction.bind(this,{status:StatusCode[StatusCode.Sent]}),
+				[textPac.order.changeStatusButtons[StatusCode[StatusCode.Created]]]:this.handleBulkUpdateAction.bind(this,{status:StatusCode[StatusCode.Created]}),
+				[textPac.order.changeStatusButtons[StatusCode[StatusCode.Paid]]]:this.handleBulkUpdateAction.bind(this,{status:StatusCode[StatusCode.Paid]}),
+				[textPac.order.changeStatusButtons[StatusCode[StatusCode.Printed]]]:this.handleBulkUpdateAction.bind(this,{status:StatusCode[StatusCode.Printed]}),
+				[textPac.order.changeStatusButtons[StatusCode[StatusCode.Sent]]]:this.handleBulkUpdateAction.bind(this,{status:StatusCode[StatusCode.Sent]}),
 
 			},
 			{
