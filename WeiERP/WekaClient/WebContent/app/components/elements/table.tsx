@@ -12,7 +12,7 @@ interface TableProps {
 }
 
 export default class Table extends React.Component<TableProps,{}>{
-
+	refs: {dataTable:any};
   handleChange(){
 		let {list} = this.props;
 		this.props.onChange();
@@ -25,13 +25,18 @@ export default class Table extends React.Component<TableProps,{}>{
 		this.forceUpdate();
 	}
 
+	componentDidMount(){
+		// 	this.refs.dataTable.DataTable( {
+		// 		responsive: true
+		// } );
+	}
   render(){
 	let {list,header,idColumn,onDataRowClick} = this.props;
 	let checkAll = list.find((item)=>!item.selected)?false:true;
     return (
-    		<table className="table table-striped table-bordered dt-responsive nowrap">
+    		<table ref="dataTable" className="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed">
             <thead>
-              <tr className="headings">
+              <tr>
                 <th>
                   <div className="icheckbox_flat-green"><input type="checkbox" checked={checkAll} className="flat" onChange={this.selectAll.bind(this)}/></div>
                 </th>

@@ -112,7 +112,7 @@ Chinese.textPackage.orderExportHeader = {
 }
 
 Chinese.textPackage.orderHeader = {
-    id: Chinese.textPackage.order.id,
+    //id: Chinese.textPackage.order.id,
     consigneeName: Chinese.textPackage.order.consigneeName,
     consigneeAddress: Chinese.textPackage.order.consigneeAddress,
     consigneePhone: Chinese.textPackage.order.consigneePhone,
