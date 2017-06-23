@@ -74,6 +74,7 @@ Chinese.textPackage.order = {
     subtotal: "小计",
     total: "合计",
     idColumn: "id",
+    agent: "代理",
     defaultEntriesPerPage: 25,
     bulkSend: "加入发货单",
     bulkChangeStatus: "修改状态",
@@ -128,6 +129,9 @@ Chinese.textPackage.orderItem = {
     productCost: "商品成本",
     productOrderPrice: "订单价格",
     subtotal: "小计",
+    bulkAction: "对选中的订单项",
+    bulkDelete: "批量删除",
+    bulkSplit: "拆分成新订单"
 };
 Chinese.textPackage.product = {
     id: "商品号",

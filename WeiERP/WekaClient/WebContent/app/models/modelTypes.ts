@@ -1,4 +1,4 @@
-import { ClientErrorCode } from './enums'
+import { ClientErrorCode, SuccessCode } from './enums'
 import { plainToClass } from "class-transformer"
 import { DataItem } from 'WekaServer/model/models'
 import TextFormater from "../utils/textFormater";
@@ -104,6 +104,7 @@ export class TextPackage {
     subtotal: string;
     total: string;
     idColumn: string;
+    agent: string;
     defaultEntriesPerPage: number;
     bulkSend: string;
     bulkChangeStatus: string;
@@ -127,6 +128,9 @@ export class TextPackage {
     productCost: string;
     productOrderPrice: string;
     subtotal: string;
+    bulkAction: string;
+    bulkSplit: string;
+    bulkDelete: string;
   };
   product: {
     id: string;
@@ -212,6 +216,10 @@ export class Error {
   errorDetail?: string;
 }
 
+export class Success {
+  successCode: SuccessCode
+}
+
 export class Paginator {
   disableNext: boolean;
   disablePrevious: boolean;
@@ -287,4 +295,5 @@ export interface ConsigneeAddress {
   consigneeName: string,
   consigneePhone: string,
   consigneeAddress: string,
+  isAgent: boolean,
 }

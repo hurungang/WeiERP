@@ -4,10 +4,10 @@ import {
   IActionCreator, actionCreator,
 } from './actionTypes';
 import { DataList, Order, Error,APIResult, BulkActionPayload } from '../models/modelTypes';
-import { ClientErrorCode } from '../models/enums';
+import { ClientErrorCode, SuccessCode } from '../models/enums';
 import { plainToClass } from "class-transformer"
 import config from '../configs/config'
-import { GENERAL_ERROR } from "./appActions";
+import { GENERAL_ERROR, GENERAL_SUCCESS } from "./appActions";
 import DataUtils from "../utils/dataUtils"
 
 export const LOAD_ORDER_LIST = (id: string, token:string) => {
@@ -73,7 +73,33 @@ export const BULK_CHANGE_ORDERS = (payload:BulkActionPayload, token:string) => {
 export const SAVE_ORDER = (order: Order, token: string) => {
   return dispatch => {
     dispatch(ORDER_PROCEEDING());
-    const request = order.id===undefined?axios.post(config.runtime.api.order,order,DataUtils.buildJWTAxiosData(token)):axios.put(config.runtime.api.order,order,DataUtils.buildJWTAxiosData(token));
+    const request = axios.post(config.runtime.api.order,order,DataUtils.buildJWTAxiosData(token));
+    request
+      .then(response => {
+        let result: APIResult = response.data as APIResult;
+        if(result.successful){
+          let savedOrder: Order = plainToClass(Order,result.payload as Order);
+
+          dispatch(SAVE_ORDER_RECEIVED(savedOrder));
+          dispatch(GENERAL_SUCCESS(SuccessCode.ORDER_SAVE_SUCCESS));
+        }else{
+          let error: Error = { errorCode: ClientErrorCode.ORDER_API_ERROR,serverErrorCode: result.errorCode, errorDetail: result.errorMessage };
+          dispatch(GENERAL_ERROR(error));
+        }
+        dispatch(ORDER_PROCEEDING_END());
+      })
+      .catch((response) => {
+        let error: Error = { errorCode: ClientErrorCode.ORDER_API_ERROR, errorDetail: response.message };
+        dispatch(GENERAL_ERROR(error));
+        dispatch(ORDER_PROCEEDING_END());
+      });
+  }
+};
+
+export const SPLIT_ORDER = (order: Order, token: string) => {
+  return dispatch => {
+    dispatch(ORDER_PROCEEDING());
+    const request = axios.put(config.runtime.api.order,order,DataUtils.buildJWTAxiosData(token));
     request
       .then(response => {
         let result: APIResult = response.data as APIResult;
@@ -94,5 +120,4 @@ export const SAVE_ORDER = (order: Order, token: string) => {
       });
   }
 };
-
 export const SAVE_ORDER_RECEIVED = actionCreator<Order>('SAVE_ORDER_RECEIVED');

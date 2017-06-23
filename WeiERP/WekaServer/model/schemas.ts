@@ -5,7 +5,8 @@ let orderItemSchema: mongoose.Schema = new mongoose.Schema({
   product: { type: mongoose.Schema.Types.ObjectId, ref: 'products' },
   productQuantity: Number,
   productCost: Number,
-  productOrderPrice: Number
+  productOrderPrice: Number,
+  isDeleted: Boolean,
 });
 
 let orderSchema: mongoose.Schema = new mongoose.Schema({
@@ -25,7 +26,9 @@ let orderSchema: mongoose.Schema = new mongoose.Schema({
   status: String,
   rawMessage: String,
   orderItems: [orderItemSchema],
-  comments: String
+  comments: String,
+  agent: String,
+  isDeleted: Boolean,
 });
 
 let consigneeSchema: mongoose.Schema = new mongoose.Schema({
@@ -34,6 +37,8 @@ let consigneeSchema: mongoose.Schema = new mongoose.Schema({
   consigneeAddresses: [String],
   consigneePhone: String,
   createTime: Date,
+  isAgent: Boolean,
+  isDeleted: Boolean,
 })
 
 let productSchema: mongoose.Schema = new mongoose.Schema({
@@ -46,6 +51,7 @@ let productSchema: mongoose.Schema = new mongoose.Schema({
   productUnit: String,
   createTime: Date,
   stock: Number,
+  isDeleted: Boolean,
 });
 
 let userSchema: mongoose.Schema = new mongoose.Schema({
@@ -60,7 +66,8 @@ let userSchema: mongoose.Schema = new mongoose.Schema({
   sender: String,
   createTime: Date,
   consignees: [consigneeSchema],
-  products: [productSchema]
+  products: [productSchema],
+  isDeleted: Boolean,
 });
 
 let manifestSchema: mongoose.Schema = new mongoose.Schema({
@@ -68,6 +75,7 @@ let manifestSchema: mongoose.Schema = new mongoose.Schema({
   comments: String,
   createTime: Date,
   shipTime: Date,
+  isDeleted: Boolean,
 })
 
 

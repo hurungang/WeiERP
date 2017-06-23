@@ -27,12 +27,16 @@ class App extends React.Component<AppProps, {}>{
 			if (token) {
 				dispatch(appActions.APP_AUTHENTICATE_USER_VIA_TOKEN(token));
 			} else {
+				try{
+				let sessionUser = JSON.parse((window as any).sessionStorage.getItem("user"));
 
-				let sessionUser = (window as any).sessionStorage.getItem("user");
 				let sessionToken = (window as any).sessionStorage.getItem("token");
 				if (sessionUser && sessionToken) {
 					dispatch(appActions.APP_LOGIN(sessionUser));
 					dispatch(appActions.APP_SET_TOKEN(sessionToken));
+				}
+				}catch(err){
+					//took no action, app will show login page
 				}
 			}
 		}

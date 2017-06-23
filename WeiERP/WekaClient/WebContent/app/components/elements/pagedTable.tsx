@@ -68,6 +68,7 @@ export default class PagedTable extends React.Component<PagedTableProps, PagedTa
         let newState = { ...this.state, selectedItems: selectedItems };
         this.setState(newState);
     }
+    
     handleExport(dataList:any[]) {
         let fileName = Date.now();
         let { exportHeader } = this.props;
@@ -118,10 +119,10 @@ export default class PagedTable extends React.Component<PagedTableProps, PagedTa
                                         {
                                             actions.bulkActions.map((bulkActionGroup, index) => {
                                                 return Object.keys(bulkActionGroup).map((key, index2) => {
-                                                    if (index2 == 0) {
+                                                    if (!bulkActionGroup[key]) {
                                                         return <li key={index + "_" + index2} className="text-divider">{key}</li>
                                                     } else {
-                                                        return <li key={index + "_" + index2}><a onClick={bulkActionGroup[key] ? bulkActionGroup[key].bind(this, selectedItems) : null}>{key}</a></li>
+                                                        return <li key={index + "_" + index2}><a onClick={bulkActionGroup[key].bind(this, selectedItems)}>{key}</a></li>
 
                                                     }
                                                 })

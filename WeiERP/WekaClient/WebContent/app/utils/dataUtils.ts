@@ -43,17 +43,20 @@ export default class DataUtils {
   }
 
   public static buildConsigneeAddressList(consignees: Consignee[]): ConsigneeAddress[] {
-    let addressList = []
-    addressList = consignees.reduce((addressList, consignee) => {
-      return addressList.concat(consignee.consigneeAddresses.map((address) => {
-        return {
-          addressString: `${consignee.consigneeName}-${consignee.consigneePhone}-${address}`,
-          consigneeName: consignee.consigneeName,
-          consigneePhone: consignee.consigneePhone,
-          consigneeAddress: address,
-        } as ConsigneeAddress;
-      }));
-    }, addressList);
+    let addressList = [];
+    if(consignees){
+      addressList = consignees.reduce((addressList, consignee) => {
+        return addressList.concat(consignee.consigneeAddresses.map((address) => {
+          return {
+            addressString: `${consignee.consigneeName}-${consignee.consigneePhone}-${address}`,
+            consigneeName: consignee.consigneeName,
+            consigneePhone: consignee.consigneePhone,
+            consigneeAddress: address,
+            isAgent: consignee.isAgent,
+          } as ConsigneeAddress;
+        }));
+      }, addressList);
+    }
     return addressList;
   }
 

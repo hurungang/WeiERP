@@ -12,7 +12,7 @@ export default class AuthenticationRouter{
     
     router.post('/', userController.authenticate.bind(userController));
     router.get('/', userController.authenticate.bind(userController));
-    router.put('/', userController.create.bind(userController));
+    router.put('/', userController.save.bind(userController));
     logger.info('register authentication router');
     return router;
   }

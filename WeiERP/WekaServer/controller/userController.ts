@@ -16,7 +16,7 @@ export default class UserController extends Controller implements IController {
         logger.info("UserController constructed");
     }
 
-    public create(req: express.Request, res: express.Response, next: express.Next) {
+    public save(req: express.Request, res: express.Response, next: express.Next) {
         this.safeHandle(req, res, next,
             (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
 

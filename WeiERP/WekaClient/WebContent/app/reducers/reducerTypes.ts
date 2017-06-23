@@ -8,7 +8,7 @@ export interface Reducer<T> {
 export class AppState {
 	user: User;
 	isSmallMenuMode: boolean;
-	error?: Error;
+	alerts?: any[];
 	isAppProceeding: boolean;
   language: Language;
 	token: string;
@@ -17,7 +17,7 @@ export class AppState {
 export class OrderState {
 	currentOrder?: any;
 	orderList?: DataList<Order>;
-	error?: Error;
+	alerts?: any[];
 	isOrderProceeding: boolean;
 }
 

@@ -2,7 +2,7 @@ import {Reducer,OrderState} from './reducerTypes';
 import {Action,
 	isType
 	} from '../actions/actionTypes';
-import {Order,DataList,Error} from '../models/modelTypes';
+import { Order, DataList, Error, Success } from '../models/modelTypes';
 import {
 	LOAD_ORDER_LIST_RECEIVED,
 	ORDER_PROCEEDING,
@@ -13,7 +13,7 @@ import {
 	SAVE_ORDER_RECEIVED,
     ADD_ORDER,
 } from '../actions/orderActions'
-import { GENERAL_ERROR } from "../actions/appActions";
+import { GENERAL_ERROR, GENERAL_SUCCESS } from "../actions/appActions";
 
 export const INITIAL_ORDER_STATE : OrderState = {
 	currentOrder:null,
@@ -22,12 +22,25 @@ export const INITIAL_ORDER_STATE : OrderState = {
 }
 
 let orderReducer : Reducer<OrderState> = (state : OrderState = INITIAL_ORDER_STATE, action:Action<any>) => {
-	let newState:OrderState = state;
+	let newState:OrderState = Object.assign({},state,{
+			alerts: [],
+		});
 	if(isType(action, GENERAL_ERROR)){
 		//
+		let {alerts} = newState;
 		let error:Error = action.payload;
+		alerts.push(error);
 		newState = Object.assign({},state,{
-			error: error,
+			alerts: alerts,
+		});
+	}else if(isType(action, GENERAL_SUCCESS)){
+		//
+		let {alerts} = newState;
+		let success:Success = new Success();
+		success.successCode = action.payload;
+		alerts.push(success);
+		newState = Object.assign({},state,{
+			alerts: alerts,
 		});
 	}else if(isType(action, LOAD_ORDER_LIST_RECEIVED)){
 		//
@@ -67,7 +80,7 @@ let orderReducer : Reducer<OrderState> = (state : OrderState = INITIAL_ORDER_STA
 		let orderList = newState.orderList;
 		orderList.addOrReplace(savedOrder);
 		newState = Object.assign({},state,{
-			currentOrder: null,
+			//currentOrder: null,
 		});
 	}else if(isType(action, ADD_ORDER)){
 		let order = new Order();

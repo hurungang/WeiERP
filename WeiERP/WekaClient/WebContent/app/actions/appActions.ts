@@ -5,7 +5,7 @@ import {
 } from "./actionTypes"
 import { User, Error, APIResult } from '../models/modelTypes'
 import config from '../configs/config'
-import { ClientErrorCode } from "../models/enums";
+import { ClientErrorCode, SuccessCode } from "../models/enums";
 
 export const APP_TOGGLE_MENU = actionCreator<void>('APP_TOGGLE_MENU');
 export const APP_AUTHENTICATE_USER = (user: User) => {
@@ -90,3 +90,4 @@ export const APP_PROCEEDING = actionCreator<User>('APP_PROCEEDING');
 export const APP_PROCEEDING_END = actionCreator<User>('APP_PROCEEDING_END');
 export const APP_CHANGE_LANGUAGE = actionCreator<string>('APP_CHANGE_LANGUAGE');
 export const GENERAL_ERROR = actionCreator<Error>('GENERAL_ERROR');
+export const GENERAL_SUCCESS = actionCreator<SuccessCode>('GENERAL_SUCCESS');

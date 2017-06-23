@@ -12,7 +12,7 @@ export default class UserRouter extends ProtectedRouter{
     let userController = new UserController();
     
     router.get('/', userController.list.bind(userController));
-    router.post('/', userController.create.bind(userController));
+    router.post('/', userController.save.bind(userController));
     router.put('/', userController.update.bind(userController));
     router.patch('/', userController.bulkUpdate.bind(userController));
     router.get('/:id', userController.getById.bind(userController));

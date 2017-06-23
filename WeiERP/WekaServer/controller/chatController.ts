@@ -140,6 +140,7 @@ export default class ChatController extends Controller {
       //this.handleWechatResult(res, next, result);
     }
   }
+  
   private saveProductAndOrder(order: IOrder, req: express.Request, res: express.Response, next: express.Next, result: APIResult) {
 
     ProductDAO.find({})

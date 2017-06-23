@@ -23,7 +23,7 @@ describe("App Reducers",()=>{
     let error:Error = new Error();
     error.errorCode = ClientErrorCode.ORDER_API_ERROR;
     let newState:OrderState = orderReducers(INITIAL_ORDER_STATE,GENERAL_ERROR(error));
-    chai.assert.strictEqual(newState.error,error);
+    chai.assert.strictEqual(newState.alerts[0],error);
   })
   
   it("LOAD_ORDER_LIST_RECEIVED",()=>{

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import * as dateFormater from 'dateformat'
-import { Order, OrderItem, Language, Product, User } from '../../models/modelTypes'
+import { Order, OrderItem, Language, Product, User, TableAction, Consignee } from '../../models/modelTypes'
 import EditableSelect from "../elements/editableSelect";
 import DataUtils from "../../utils/dataUtils";
+import * as OrderActions from '../../actions/orderActions';
 
 interface InvoiceProps {
   order: Order;
@@ -10,9 +11,11 @@ interface InvoiceProps {
   onSave: any;
   language: Language;
   user: User;
+  dispatch: any;
 }
 interface InvoiceState {
-  formValidationMap: Map<any,boolean>;
+  formValidationMap: Map<any, boolean>;
+  selectedOrderItems: OrderItem[];
 }
 export default class Invoice extends React.Component<InvoiceProps, InvoiceState>{
   refs: {
@@ -22,14 +25,15 @@ export default class Invoice extends React.Component<InvoiceProps, InvoiceState>
     consigneeName: EditableSelect;
     consigneePhone: EditableSelect;
     consigneeAddress: EditableSelect;
+    agentName: EditableSelect;
     comments: HTMLInputElement;
     tax: HTMLInputElement;
     shipping: HTMLInputElement;
     paid: HTMLInputElement;
   }
-  constructor(){
+  constructor() {
     super();
-    this.state = {formValidationMap: new Map<any,boolean>()};
+    this.state = { formValidationMap: new Map<any, boolean>(),selectedOrderItems:[] };
   }
   handleOrderChange() {
     let { order } = this.props;
@@ -52,24 +56,38 @@ export default class Invoice extends React.Component<InvoiceProps, InvoiceState>
   handleConsigneeChange() {
     let { order } = this.props;
     let data = this.refs.consigneeName.data;
-    if(!data){
+    if (!data) {
       data = this.refs.consigneePhone.data;
     }
-    if(!data){
+    if (!data) {
       this.refs.consigneeAddress.data;
     }
 
-    if(data){
+    if (data) {
       order.consigneeName = data.consigneeName;
       order.consigneePhone = data.consigneePhone;
       order.consigneeAddress = data.consigneeAddress;
       this.refs.consigneeName.remount();
       this.refs.consigneePhone.remount();
       this.refs.consigneeAddress.remount();
-    }else{
+    } else {
       order.consigneeName = this.refs.consigneeName.value;
       order.consigneePhone = this.refs.consigneePhone.value;
       order.consigneeAddress = this.refs.consigneeAddress.value;
+    }
+    this.forceUpdate();
+  }
+
+  
+  handleAgentChange() {
+    let { order } = this.props;
+    let data = this.refs.agentName.data;
+    
+    if (data) {
+      order.agent = data.consigneeName;
+      this.refs.agentName.remount();
+    }else{
+      order.agent = this.refs.agentName.value;
     }
     this.forceUpdate();
   }
@@ -100,9 +118,9 @@ export default class Invoice extends React.Component<InvoiceProps, InvoiceState>
     let productName = event.target.value;
     if (productName == null || productName.trim() == "") {
       event.target.className = event.target.className + " bad";
-      this.state.formValidationMap.set(event.target,false);
+      this.state.formValidationMap.set(event.target, false);
     } else {
-      event.target.className.replace("bad","");
+      event.target.className.replace("bad", "");
       this.state.formValidationMap.delete(event.target);
       orderItem.product = user.products.find((product) => product.productName == productName);
       if (!orderItem.product) {
@@ -113,22 +131,64 @@ export default class Invoice extends React.Component<InvoiceProps, InvoiceState>
     this.forceUpdate();
   }
 
+  handleOrderItemChange() {
+    let { order } = this.props;
+    let selectedOrderItems = order.orderItems.filter((item:any) => item.selected);
+    let newState = { ...this.state, selectedOrderItems: selectedOrderItems };
+    this.setState(newState);
+  }
+
+  handleBulkDeleteAction() {
+    let { order } = this.props;
+    order.orderItems = order.orderItems.filter((item:any)=>!item.selected);
+    this.forceUpdate();
+  }
+  
+  handleBulkSplitAction() {
+    let {selectedOrderItems} = this.state;
+    let {dispatch,order} = this.props;
+    //dispatch(OrderActions.SPLIT_ORDER(order,selectedOrderItems))
+  }
+
+  handleSelectAll(event:any){
+		let {order} = this.props;
+		order.orderItems.map((item: any)=>item.selected=event.target.checked);
+		this.handleOrderItemChange();
+	}
+  
+  handleSelected(orderItem: any,event: any){
+		orderItem.selected = event.target.checked;
+		this.handleOrderItemChange();
+	}
+
   render() {
     let { order, onClose, onSave, language, user } = this.props;
-    let orderCreateTime = order.createTime ? dateFormater(order.createTime,language.timeFormat) : "";
-    let orderPaidTime = order.paidTime ? dateFormater(order.paidTime,language.timeFormat) : "";
+    let {selectedOrderItems} = this.state;
+    let textPac = language.textPackage;
+    let orderCreateTime = order.createTime ? dateFormater(order.createTime, language.timeFormat) : "";
+    let orderPaidTime = order.paidTime ? dateFormater(order.paidTime, language.timeFormat) : "";
     let paid = order.paid ? order.paid : 0;
     let tax = order.tax ? order.tax : 0;
     let shipping = order.shipping ? order.shipping : 0;
-    let productNames = user.products.map((product) => {
-      return product.productName
-    })
 
     let consigneeAddresses = DataUtils.buildConsigneeAddressList(user.consignees);
+    let agentList = consigneeAddresses.filter((consignee)=>consignee.isAgent);
     // consigneeAddresses = consigneeAddresses.filter((address)=>{
     //   return (!order.consigneeName||address.addressString.includes(order.consigneeName))&&
     //   (!order.consigneePhone||address.addressString.includes(order.consigneePhone))
     // })
+    
+	  let checkAll = order.orderItems.find((item:any)=>!item.selected)?false:true;
+
+    const orderItemActions: TableAction = {
+      bulkActions: [{
+        [textPac.orderItem.bulkAction]: null,
+        [textPac.orderItem.bulkSplit]: this.handleBulkSplitAction.bind(this),
+        [textPac.orderItem.bulkDelete]: this.handleBulkDeleteAction.bind(this),
+      }],
+      createAction: this.handleAddOrderItem.bind(this),
+    }
+
     if (user) {
       order.senderName = order.senderName ? order.senderName : user.sender ? user.sender : user.name ? user.name : "";
       order.senderAddress = order.senderAddress ? order.senderAddress : user.address ? user.address : "";
@@ -193,6 +253,13 @@ export default class Invoice extends React.Component<InvoiceProps, InvoiceState>
                     <span className="fa fa-home form-control-feedback left" aria-hidden="true"></span>
                   </div>
                 </div>
+                <div className="col-sm-6 invoice-col">
+                  <p className="lead">{language.textPackage.order.agent}</p>
+                  <div className="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                    <EditableSelect ref="agentName" onChange={this.handleAgentChange.bind(this)} optionList={agentList} textName="consigneeName" valueName="addressString" className="form-control has-feedback-left" defaultValue={order.agent} />
+                    <span className="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                  </div>
+                </div>
               </div>
               {/*<!-- /.row -->*/}
 
@@ -202,6 +269,7 @@ export default class Invoice extends React.Component<InvoiceProps, InvoiceState>
                   <table className="table table-striped">
                     <thead>
                       <tr>
+                        <th><div className="icheckbox_flat-green"><input type="checkbox" checked={checkAll} className="flat" onChange={this.handleSelectAll.bind(this)} /></div></th>
                         <th>{language.textPackage.orderItem.productQuantity}</th>
                         <th>{language.textPackage.orderItem.product}</th>
                         <th>{language.textPackage.product.productPrice}</th>
@@ -216,7 +284,10 @@ export default class Invoice extends React.Component<InvoiceProps, InvoiceState>
                         let productQuantity = orderItem.productQuantity ? orderItem.productQuantity : 0;
                         let orderItemSubtotal = productOrderPrice * productQuantity;
                         return (
-                          <tr key={`tr_${index}`}>
+                          <tr key={`tr_${orderItem.id}`}>
+                            <td className="a-center ">
+                              <div className="icheckbox_flat-green"><input type="checkbox" className="flat" checked={(orderItem as any).selected ? true : false} onChange={this.handleSelected.bind(this,orderItem)} /></div>
+                            </td>
                             <td>
                               <input type="text" onChange={this.handleOrderQuantityChange.bind(this, orderItem)} placeholder={productQuantity.toFixed(0)} className="form-control" defaultValue={productQuantity.toFixed(0)} />
                             </td>
@@ -235,7 +306,36 @@ export default class Invoice extends React.Component<InvoiceProps, InvoiceState>
                         <td colSpan={5}>
 
                           <div className="col-xs-12 no-print">
-                            <button className="btn btn-success pull-right" onClick={this.handleAddOrderItem.bind(this)}><i className="fa fa-add"></i> {language.textPackage.button.addOrderItem}</button>
+
+                            {
+                              (orderItemActions && selectedOrderItems && selectedOrderItems.length > 0) ?
+                                //when some rows selected
+                                <div className="btn-group">
+                                  <button type="button" className="btn btn-success">
+                                    <i className="fa fa-cubes"></i> {language.textPackage.button.bulkAction}</button>
+                                  <button type="button" className="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <span className="caret"></span>
+                                  </button>
+                                  <ul className="dropdown-menu" role="menu">
+                                    {
+                                      orderItemActions.bulkActions.map((bulkActionGroup, index) => {
+                                        return Object.keys(bulkActionGroup).map((key, index2) => {
+                                          if (!bulkActionGroup[key]) {
+                                            return <li key={index + "_" + index2} className="text-divider">{key}</li>
+                                          } else {
+                                            return <li key={index + "_" + index2}><a onClick={bulkActionGroup[key].bind(this, selectedOrderItems)}>{key}</a></li>
+
+                                          }
+                                        })
+                                      })
+                                    }
+                                  </ul>
+                                </div>
+                                :
+                                //when now rows selected
+                                <button type="button" className="btn btn-success" onClick={orderItemActions.createAction.bind(this)}>
+                                  <i className="fa fa-plus"></i> {language.textPackage.button.create}</button>
+                            }
                           </div>
                         </td>
                       </tr>
@@ -300,7 +400,7 @@ export default class Invoice extends React.Component<InvoiceProps, InvoiceState>
               <div className="row no-print">
                 <div className="col-xs-12">
                   <button className="btn btn-default" onClick={window.print}><i className="fa fa-print"></i> {language.textPackage.button.print}</button>
-                  <button className="btn btn-success pull-right"  disabled={this.state.formValidationMap.size>0?true:false} onClick={onSave}><i className="fa fa-save"></i> {language.textPackage.button.save}</button>
+                  <button className="btn btn-success pull-right" disabled={this.state.formValidationMap.size > 0 ? true : false} onClick={onSave}><i className="fa fa-save"></i> {language.textPackage.button.save}</button>
                 </div>
               </div>
             </section>

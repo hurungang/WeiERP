@@ -36,6 +36,8 @@ export interface IOrder {
   rawMessage: string;
   orderItems: IOrderItem[];
   comments?: string;
+  isDeleted?: boolean;
+  agent?: string;
 }
 
 export interface IOrderItem {
@@ -43,7 +45,8 @@ export interface IOrderItem {
   product: IProduct;
   productQuantity: number;
   productCost?: number;
-  productOrderPrice?: number
+  productOrderPrice?: number;
+  isDeleted?: boolean;
 }
 
 export interface IProduct {
@@ -56,6 +59,7 @@ export interface IProduct {
   productPrice?: number;
   productUnit?: string;
   createTime?: Date;
+  isDeleted?: boolean;
 }
 export interface IUser {
   id?: string;
@@ -71,14 +75,17 @@ export interface IUser {
   createTime?: Date;
   consignees?: Consignee[];
   products?: Product[];
+  isDeleted?: boolean;
 }
 
 export interface IConsignee {
-  user: IUser,
-  consigneeName: string,
-  consigneeAddresses: string[],
-  consigneePhone: string,
-  createTime: Date,
+  user: IUser;
+  consigneeName: string;
+  consigneeAddresses: string[];
+  consigneePhone: string;
+  createTime: Date;
+  isAgent?: boolean;
+  isDeleted?: boolean;
 }
 
 export interface IManifest {
@@ -87,6 +94,7 @@ export interface IManifest {
   comments: string;
   createTime: Date;
   shipTime: Date;
+  isDeleted?: boolean;
 }
 
 export class Order extends DataItem implements IOrder {
@@ -112,6 +120,8 @@ export class Order extends DataItem implements IOrder {
   @Type(() => OrderItem)
   orderItems: OrderItem[];
   comments?: string;
+  isDeleted?: boolean;
+  agent?: string;
 
   constructor(){
     super();
@@ -145,7 +155,8 @@ export class OrderItem implements IOrderItem {
   product: Product;
   productQuantity: number;
   productCost?: number;
-  productOrderPrice?: number
+  productOrderPrice?: number;
+  isDeleted?: boolean;
 }
 
 export class Product implements IProduct {
@@ -159,6 +170,7 @@ export class Product implements IProduct {
   productUnit?: string;
   @Type(() => Date)
   createTime?: Date;
+  isDeleted?: boolean;
 }
 
 export class Consignee implements IConsignee {
@@ -167,6 +179,8 @@ export class Consignee implements IConsignee {
   consigneeAddresses: string[];
   consigneePhone: string;
   createTime: Date;
+  isAgent?: boolean;
+  isDeleted?: boolean;
 }
 
 export class ModelWrapper{
@@ -192,6 +206,7 @@ export class User extends ModelWrapper implements IUser {
   consignees?: Consignee[];
   @Type(()=>Product)
   products?: Product[];
+  isDeleted?: boolean;
 }
 
 export interface BulkActionPayload{

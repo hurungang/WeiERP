@@ -4,8 +4,8 @@ import Logger from '../server/logger'
 import { APIResult, Environment } from '../model/models'
 
 export interface IController {
-  create(req: any, res: any, next: any);
-  update(req: any, res: any, next: any);
+  save(req: any, res: any, next: any);
+  change?(req: any, res: any, next: any);
   deleteById(req: any, res: any, next: any);
   list(req: any, res: any, next: any);
   getById(req: any, res: any, next: any);

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { State } from '../../reducers/reducerTypes';
-import { Order, Error, TableAction,BulkActionPayload } from '../../models/modelTypes';
+import { Order, Error, TableAction, BulkActionPayload, Success } from '../../models/modelTypes';
 import Invoice from '../order/invoice';
 import * as OrderActions from '../../actions/orderActions';
-import ErrorAlert from "../elements/errorAlert";
+import Alert from "../elements/alert";
 import OrderList from "./orderList";
 import { StatusCode } from "WekaServer/model/enums";
 
@@ -63,11 +63,11 @@ export default class OrderPage extends React.Component<OrderPageProps, {}>{
 	}
 
 	render() {
-		let { state } = this.props;
-		let { orderList, error, isOrderProceeding, currentOrder } = state.orderState;
+		let { state, dispatch } = this.props;
+		let { orderList, alerts, isOrderProceeding, currentOrder } = state.orderState;
 		let {user,language} = state.appState;
 		let textPac = language.textPackage;
-		let tableActions:TableAction = {
+		const tableActions:TableAction = {
 			bulkActions: [{
 				[textPac.order.bulkDelete]:this.handleBulkUpdateAction.bind(this,{isDeleted:true}),
 				},{
@@ -94,9 +94,16 @@ export default class OrderPage extends React.Component<OrderPageProps, {}>{
 		else {
 					return (
 						<div className="row">
-							{error?<ErrorAlert errorSummary={textPac.errorMessage[error.errorCode]} errorDetail={textPac.errorMessage[error.serverErrorCode]} />:""}
+							{alerts.map((alert)=>{
+								if(alert instanceof Error){
+									return <Alert summary={textPac.errorMessage[alert.errorCode]} detail={textPac.errorMessage[alert.serverErrorCode]} type="error"/>
+								}
+								if(alert instanceof Success){
+									return <Alert summary={textPac.errorMessage[alert.successCode]} type="success"/>
+								}
+							})}
 							{orderList&&!currentOrder?<OrderList orderList={orderList} onOrderRowClick={this.handleOrderRowClick.bind(this)} language={language} actions={tableActions}/>:""}
-							{currentOrder?< Invoice order={currentOrder} user={user} onClose={this.handleInvoiceCloseClick.bind(this)} onSave={this.handleOrderSave.bind(this, currentOrder)} language={language} />:""}
+							{currentOrder?< Invoice order={currentOrder} dispatch={dispatch} user={user} onClose={this.handleInvoiceCloseClick.bind(this)} onSave={this.handleOrderSave.bind(this, currentOrder)} language={language} />:""}
 							{/* show selected order detail(invoice)*/}
 						</div>
 					);

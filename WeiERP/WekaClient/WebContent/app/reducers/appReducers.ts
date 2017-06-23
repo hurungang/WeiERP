@@ -12,11 +12,12 @@ import {APP_TOGGLE_MENU,
 	APP_CHANGE_LANGUAGE,
 	APP_SET_TOKEN,
 	GENERAL_ERROR,
-    APP_LOGOUT,
+	APP_LOGOUT,
+    GENERAL_SUCCESS,
 } from '../actions/appActions'
 import {Reducer,AppState} from './reducerTypes';
 import config from '../configs/config'
-import {Error, User} from '../models/modelTypes';
+import { Error, User, Success } from '../models/modelTypes';
 
 const defaultLanguage = config.localization.defaultLanguage;
 
@@ -29,12 +30,25 @@ export const INITIAL_APP_STATE : AppState = Object.assign(new AppState(),{
 });
 
 let appReducer : Reducer<AppState> = (state : AppState = INITIAL_APP_STATE, action:Action<any>) => {
-	let newState:AppState = state;
+	let newState:AppState = Object.assign({},state,{
+			alerts: [],
+		});
 	if(isType(action, GENERAL_ERROR)){
 		//
+		let {alerts} = newState;
 		let error:Error = action.payload;
+		alerts.push(error);
 		newState = Object.assign({},state,{
-			error: error,
+			alerts: alerts,
+		});
+	}else if(isType(action, GENERAL_SUCCESS)){
+		//
+		let {alerts} = newState;
+		let success:Success = new Success();
+		success.successCode = action.payload;
+		alerts.push(success);
+		newState = Object.assign({},state,{
+			alerts: alerts,
 		});
 	}
 	else if(isType(action, APP_TOGGLE_MENU)){
@@ -45,7 +59,7 @@ let appReducer : Reducer<AppState> = (state : AppState = INITIAL_APP_STATE, acti
 		});
 	}else if(isType(action, APP_LOGIN)){
 		let user:User = action.payload;
-		(window as any).sessionStorage.setItem("user", user);
+		(window as any).sessionStorage.setItem("user", JSON.stringify(user));
 		newState = Object.assign(new AppState(),state,{
 			user: user,
 		});

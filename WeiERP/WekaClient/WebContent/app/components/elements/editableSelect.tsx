@@ -43,6 +43,9 @@ export default class EditableSelect extends React.Component<EditableSelectProps,
     }
     render() {
         let { size = 20, name, optionList, valueName, textName, defaultValue, className, onChange } = this.props;
+        if(!name){
+            name = `uid_${new Date().getTime()}`;
+        }
         return (
             // non-html5 implementation
             //        <div style={{position:"relative",width:width,fontSize:"14px",}}>
@@ -56,9 +59,9 @@ export default class EditableSelect extends React.Component<EditableSelectProps,
             <div>
                 <input key={this.state.key} list={`${name}_list`} ref="textInput" name={name} size={size} defaultValue={defaultValue} className={className} onChange={this.handleChange.bind(this)} />
                 <datalist id={`${name}_list`}>
-                    {optionList.map((option, index) => {
+                    {optionList?optionList.map((option, index) => {
                         return <option key={index} value={option[valueName]}>{option[textName]}</option>;
-                    })}
+                    }):null}
                 </datalist>
             </div>
         );
