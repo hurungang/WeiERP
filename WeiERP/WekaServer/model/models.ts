@@ -2,6 +2,7 @@ import { HTTPStatusCode, StatusCode, ErrorCode } from './enums'
 import { Type } from "class-transformer"
 import 'reflect-metadata';
 import { Moment } from "moment/moment";
+import { ObjectID } from "mongodb";
 
 export class DataItem {
   id?:string;
@@ -19,6 +20,7 @@ export class APIResult {
 }
 
 export interface IOrder {
+  _id?: ObjectID;
   id?: string;
   user: IUser;
   consigneeName: string;
@@ -41,6 +43,7 @@ export interface IOrder {
 }
 
 export interface IOrderItem {
+  _id?: ObjectID;
   id?: string;
   product: IProduct;
   productQuantity: number;
@@ -50,6 +53,7 @@ export interface IOrderItem {
 }
 
 export interface IProduct {
+  _id?: ObjectID;
   id?: string;
   user: IUser;
   productName: string;
@@ -62,6 +66,7 @@ export interface IProduct {
   isDeleted?: boolean;
 }
 export interface IUser {
+  _id?: ObjectID;
   id?: string;
   name: string;
   email?: string;
@@ -79,6 +84,8 @@ export interface IUser {
 }
 
 export interface IConsignee {
+  _id?: ObjectID;
+  id?: string;
   user: IUser;
   consigneeName: string;
   consigneeAddresses: string[];
@@ -89,6 +96,7 @@ export interface IConsignee {
 }
 
 export interface IManifest {
+  _id?: ObjectID;
   id?: string;
   name: string;
   comments: string;
@@ -174,6 +182,7 @@ export class Product implements IProduct {
 }
 
 export class Consignee implements IConsignee {
+  id?: string;
   user: IUser;
   consigneeName: string;
   consigneeAddresses: string[];

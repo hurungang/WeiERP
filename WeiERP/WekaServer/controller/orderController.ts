@@ -122,7 +122,7 @@ export default class OrderController extends Controller implements IController {
           consigneeDAO = new ConsigneeDAO(consignee);
         } else {
           let foundAddress = foundConsignee.consigneeAddresses.find((address) => {
-            return StringSimilarity.compareTwoStrings(address, newOrder.consigneeAddress) > 0.8
+            return StringSimilarity.compareTwoStrings(address, newOrder.consigneeAddress) > 0.9
           })
           if (!foundAddress) {
             foundConsignee.consigneeAddresses = foundConsignee.consigneeAddresses.concat(newOrder.consigneeAddress);

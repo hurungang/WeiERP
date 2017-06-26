@@ -4,8 +4,8 @@ import { IController, Controller } from './controller';
 import OrderAssembler from '../util/orderAssembler'
 import * as StringSimilarity from 'string-similarity'
 import Logger from '../server/logger';
-import { OrderDAO, ProductDAO, IOrderModel, IProductModel, UserDAO, IUserModel, TokenDAO } from "../model/schemas";
-import { IProduct, IOrder, OAuthToken } from "../model/models";
+import { OrderDAO, ProductDAO, IOrderModel, IProductModel, UserDAO, IUserModel, TokenDAO, ConsigneeDAO } from "../model/schemas";
+import { IProduct, IOrder, OAuthToken, Consignee, IConsignee } from "../model/models";
 import { ObjectID } from "mongodb";
 import { ErrorCode } from "../model/enums";
 import * as OAuth from 'wechat-oauth';
@@ -68,7 +68,7 @@ export default class ChatController extends Controller {
         let openid = result.data.openid;
         let token = DataUtil.encrypt(openid);
         let searchUser = new User();
-        let globalOAuthTokens:Map<string,OAuthToken> = req.app.get("GlobalOAuthTokens");
+        let globalOAuthTokens: Map<string, OAuthToken> = req.app.get("GlobalOAuthTokens");
         searchUser.referenceID = openid;
         UserDAO.findOne(searchUser)
           .then((user: IUserModel) => {
@@ -78,22 +78,22 @@ export default class ChatController extends Controller {
               tempUser.save().exec();
             } else {
               let needRegister = true;
-              if(user.name&&user.password){
+              if (user.name && user.password) {
                 needRegister = false;
               }
-              globalOAuthTokens.set(token,{token:token,user:user,expiredAfter:moment().add(5,"m")});
-              res.redirect(`/web/#/${path}?token=${token}${needRegister?"&register=true":""}`);
+              globalOAuthTokens.set(token, { token: token, user: user, expiredAfter: moment().add(5, "m") });
+              res.redirect(`/web/#/${path}?token=${token}${needRegister ? "&register=true" : ""}`);
             }
           })
           .then((user: IUserModel) => {
-            if(user){
-              globalOAuthTokens.set(token,{token:token,user:user,expiredAfter:moment().add(5,"m")});
+            if (user) {
+              globalOAuthTokens.set(token, { token: token, user: user, expiredAfter: moment().add(5, "m") });
               let needRegister = true;
-              if(user.name&&user.password){
+              if (user.name && user.password) {
                 needRegister = false;
               }
-              globalOAuthTokens.set(token,{token:token,user:user,expiredAfter:moment().add(5,"m")});
-              res.redirect(`/web/#/${path}?token=${token}${needRegister?"&register=true":""}`);
+              globalOAuthTokens.set(token, { token: token, user: user, expiredAfter: moment().add(5, "m") });
+              res.redirect(`/web/#/${path}?token=${token}${needRegister ? "&register=true" : ""}`);
             }
           })
           .catch((err: string) => {
@@ -126,7 +126,7 @@ export default class ChatController extends Controller {
                 this.saveProductAndOrder(order, req, res, next, result);
               })
               .catch((err: string) => {
-                result = this.internalError(result,ErrorCode.ChatCreateUserFailed, err);
+                result = this.internalError(result, ErrorCode.ChatCreateUserFailed, err);
                 //this.handleWechatResult(res, next, result);
               });
           } else {
@@ -140,35 +140,101 @@ export default class ChatController extends Controller {
       //this.handleWechatResult(res, next, result);
     }
   }
-  
+
   private saveProductAndOrder(order: IOrder, req: express.Request, res: express.Response, next: express.Next, result: APIResult) {
 
-    ProductDAO.find({})
-      .then((productList: IProductModel[]) => {
-        //look up product, otherwise create new project
-        let productsToCreate: IProduct[] = [];
+    let consignee = new Consignee();
+    if(order.consigneePhone){
+      consignee.consigneePhone = order.consigneePhone;
+    }
+    else if(order.consigneeName){
+      consignee.consigneeName = order.consigneeName;
+    }else{
+      consignee.id = "-1"; //so app will not fetch any consignee to use
+    }
+    consignee.user = order.user;
+    ConsigneeDAO.findOne(consignee).exec()
+      .then((foundConsignee : IConsignee) => {
+        let consigneeDAO;
+        if (!foundConsignee) {
+          consignee.consigneeAddresses = [order.consigneeAddress];
+          consignee.consigneeName = order.consigneeName;
+          consigneeDAO = new ConsigneeDAO(consignee);
+        } else {
+          if(!order.consigneeName){
+            order.consigneeName = foundConsignee.consigneeName;
+          }
+          if(!order.consigneeAddress){
+            order.consigneeAddress = foundConsignee.consigneeAddresses?foundConsignee.consigneeAddresses[0]:null;
+          }
+          if(!order.consigneePhone){
+            order.consigneePhone = foundConsignee.consigneePhone;
+          }
+          
+          let foundAddress = foundConsignee.consigneeAddresses.find((address) => {
+            return StringSimilarity.compareTwoStrings(address, order.consigneeAddress) > 0.9
+          })
+          if (!foundAddress) {
+            foundConsignee.consigneeAddresses = foundConsignee.consigneeAddresses.concat(order.consigneeAddress);
+          }
+          consigneeDAO = new ConsigneeDAO(foundConsignee);
+        }
+        return consigneeDAO.save();
+      })
+      .then(() => {
+
+        // ProductDAO.find({ user: order.user })
+        //   .then((productList: IProductModel[]) => {
+        //     //look up product, otherwise create new project
+        //     let productsToCreate: IProduct[] = [];
+        //     for (let tempOrderItem of order.orderItems) {
+        //       let tempProduct = tempOrderItem.product;
+        //       let tempProductName = tempProduct.productName;
+        //       let similarity = 0;
+        //       for (let product of productList) {
+        //         let tempSimilarity = StringSimilarity.compareTwoStrings(product.productName, tempProductName);
+        //         if (tempSimilarity > similarity) {
+        //           similarity = tempSimilarity;
+        //           tempProduct = product;
+        //         }
+        //       }
+        //       if (similarity > 0.95) {
+        //         tempOrderItem.product = tempProduct;
+        //       } else {
+        //         let newProduct = { _id: new ObjectID(), ...tempOrderItem.product };
+        //         newProduct.createTime = new Date();
+        //         newProduct.user = order.user;
+        //         tempOrderItem.product = tempProduct;
+        //         productsToCreate.push(newProduct);
+        //       }
+        //     }
+        let promiseRing = [];
         for (let tempOrderItem of order.orderItems) {
           let tempProduct = tempOrderItem.product;
           let tempProductName = tempProduct.productName;
-          let similarity = 0;
-          for (let product of productList) {
-            let tempSimilarity = StringSimilarity.compareTwoStrings(product.productName, tempProductName);
-            if (tempSimilarity > similarity) {
-              similarity = tempSimilarity;
-              tempProduct = product;
-            }
-          }
-          if (similarity > 0.5) {
-            tempOrderItem.product = tempProduct;
-          } else {
-            let newProduct = { _id: new ObjectID(), ...tempOrderItem.product };
-            newProduct.createTime = new Date();
-            newProduct.user = order.user;
-            tempOrderItem.product = tempProduct;
-            productsToCreate.push(newProduct);
-          }
+          promiseRing.push(
+            new Promise((resolve, reject) => ProductDAO.findOne({ user: new ObjectID.createFromHexString(order.user.id), productName: tempProductName })
+              .then((foundProduct: IProductModel) => {
+                if (foundProduct) {
+                  tempProduct._id = foundProduct._id;
+                  resolve();
+                } else {
+                  tempProduct._id = new ObjectID();
+                  tempProduct.createTime = new Date();
+                  tempProduct.user = order.user;
+                  resolve(new ProductDAO(tempProduct));
+                }
+              })
+              .catch((err) => {
+                reject(err);
+              })
+            )
+          );
         }
-
+        return Promise.all(promiseRing);
+      })
+      .then((productsToCreate) => {
+        productsToCreate = productsToCreate.filter((productToCreate)=>productToCreate);
         if (productsToCreate.length == 0) {
           this.saveOrder(order, req, res, next, result)
         } else {
@@ -179,29 +245,29 @@ export default class ChatController extends Controller {
               }
             })
             .catch((err: string) => {
-              result = this.internalError(result,ErrorCode.ChatCreateProductFailed, err);
+              result = this.internalError(result, ErrorCode.ChatCreateProductFailed, err);
             });
         }
 
       })
       .catch((err: string) => {
-        result = this.internalError(result,ErrorCode.ChatFindProductFailed, err);
+        result = this.internalError(result, ErrorCode.ChatFindProductFailed, err);
       });
   }
 
   private saveOrder(order: IOrder, req: express.Request, res: express.Response, next: express.Next, result: APIResult) {
     var newOrder = new OrderDAO(order);
-    let globalOAuthTokens:Map<string,OAuthToken> = req.app.get("GlobalOAuthTokens");
+    let globalOAuthTokens: Map<string, OAuthToken> = req.app.get("GlobalOAuthTokens");
     newOrder
       .save()
       .then((order: IOrderModel) => {
         result.payload = order;
-        
-        globalOAuthTokens.set(DataUtil.encrypt(order.user.referenceID),{token:DataUtil.encrypt(order.user.referenceID),user:order.user,expiredAfter:moment().add(30,"m")});
+
+        globalOAuthTokens.set(DataUtil.encrypt(order.user.referenceID), { token: DataUtil.encrypt(order.user.referenceID), user: order.user, expiredAfter: moment().add(30, "m") });
         res.reply(messageConfig.ORDER_REPLY(order));
       })
       .catch((err: string) => {
-        result = this.internalError(result,ErrorCode.ChatSaveOrderFailed, err);
+        result = this.internalError(result, ErrorCode.ChatSaveOrderFailed, err);
       });
   }
 }

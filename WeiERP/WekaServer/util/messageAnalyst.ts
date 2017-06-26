@@ -195,7 +195,6 @@ export class TextSection {
       let matches = this.text.match(pattern.prefix);
       let trimedText = this.text;
       if(matches&&matches[0]){
-        console.log(matches);
         similarity = pattern.prefixWeight;
         trimedText = this.text.substr(this.text.lastIndexOf(matches[0])+matches[0].length);
       }

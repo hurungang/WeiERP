@@ -8,8 +8,8 @@ const logger = new Logger("OrderAssembler");
 
 export default class OrderAssembler {
     successful: boolean;
-    order:Order;
-    messageAnalyst:MessageAnalyst;
+    order: Order;
+    messageAnalyst: MessageAnalyst;
 
     constructor(orderText: string) {
         this.order = new Order();
@@ -40,19 +40,35 @@ export default class OrderAssembler {
     private getOrderItems(result: MessageAnalysisResult) {
         let commodities = result.getByCategory(MessageSectionCategory.CommodityName);
         let commodityQuantities = result.getByCategory(MessageSectionCategory.Quantity);
+        let commodityNameAndQuantities = result.getByCategory(MessageSectionCategory.CommodityNameAndQuantity);
         let tempOrderItems = [];
-        for (let i=0;i<commodities.length;i++) {
-            let tempProduct:Product = new Product();
-                tempProduct.productName = commodities[i].text;
+        for (let nameAndQuantity of commodityNameAndQuantities) {
+            let quantityRegex = commonConfig.MESSAGE_ANALYST_CONFIG.REGEX_QUANTITY;
+            let matches = nameAndQuantity.text.match(quantityRegex);
+            if (matches && matches[0]) {
+                let quantityText = nameAndQuantity.text.substr(nameAndQuantity.text.lastIndexOf(matches[0]));
+                let nameText = nameAndQuantity.text.substr(0, nameAndQuantity.text.lastIndexOf(matches[0]));
+                let tempQuantity = parseInt(quantityText);
+                let tempOrderItem: OrderItem = new OrderItem();
+                let tempProduct: Product = new Product();
+                tempProduct.productName = nameText;
+                tempOrderItem.product = tempProduct;
+                tempOrderItem.productQuantity = tempQuantity;
+                tempOrderItems.push(tempOrderItem);
+            }
+        }
+        for (let i = 0; i < commodities.length; i++) {
+            let tempProduct: Product = new Product();
+            tempProduct.productName = commodities[i].text;
             let tempQuantity = 1;
-            for(let commodityQuantity of commodityQuantities){
-                if(commodityQuantity.index==commodities[i].index+1){
+            for (let commodityQuantity of commodityQuantities) {
+                if (commodityQuantity.index == commodities[i].index + 1) {
                     tempQuantity = parseInt(commodityQuantity.text);
                 }
             }
-            let tempOrderItem:OrderItem = new OrderItem();
+            let tempOrderItem: OrderItem = new OrderItem();
             tempOrderItem.product = tempProduct;
-            tempOrderItem.productQuantity=tempQuantity;
+            tempOrderItem.productQuantity = tempQuantity;
             tempOrderItems.push(tempOrderItem);
         }
         return tempOrderItems;

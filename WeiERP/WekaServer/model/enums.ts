@@ -11,7 +11,8 @@ export enum MessageSectionCategory{
   Mobile,
   CommodityName,
   Quantity,
-  Other
+  Other,
+  CommodityNameAndQuantity,
 }
 
 

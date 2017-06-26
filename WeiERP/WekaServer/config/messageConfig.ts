@@ -6,7 +6,7 @@ import DataUtil from '../util/dataUtil'
 
 export const ORDER_REPLY = (order:IOrderModel) => {
   
-  return `你的订单已生成,
+  return `你的订单已生成, 系统可能对收货信息和商品做了自动匹配，如有需要请修改
 收货人:\t${order.consigneeName}
 收货地址:\t${order.consigneeAddress}
 联系电话:\t${order.consigneePhone}

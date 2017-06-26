@@ -46,7 +46,7 @@ describe("MessageAnalyst Util", () => {
       chai.assert.strictEqual(messageAnalyst.result.rawTextSections[3].text, "2瓶");
     })
     
-    it("validate false when missing address", () => {
+    it.skip("validate false when missing address", () => {
       let test: string = "测试，测试2;Swiss男士综合维生素 2瓶";
       let messageAnalyst = new MessageAnalyst(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
       chai.assert.strictEqual(messageAnalyst.validateResult.result, false);
@@ -117,12 +117,17 @@ describe("MessageAnalyst Util", () => {
       let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
       chai.assert.equal(textSection.category, MessageSectionCategory.CommodityName);
     })
-    it("calc commodity name similarity correctly 3", () => {
+    it("calc commodity name similarity correctly 3 - english and chinese", () => {
       let test: string = "Swiss男士综合维生素";
       let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
       chai.assert.equal(textSection.category, MessageSectionCategory.CommodityName);
     })
-    it("calc commodity name similarity correctly 3", () => {
+    it("calc commodity name and quantity similarity correctly 4 - english and chinese and quanlity", () => {
+      let test: string = "VC泡腾片3瓶";
+      let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
+      chai.assert.equal(textSection.category, MessageSectionCategory.CommodityNameAndQuantity);
+    })
+    it("calc commodity name and quantity similarity correctly 3", () => {
       let test: string = "VC泡腾";
       let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
       chai.assert.equal(textSection.category, MessageSectionCategory.CommodityName);
@@ -145,12 +150,18 @@ describe("MessageAnalyst Util", () => {
       chai.assert.equal(textSection.category, MessageSectionCategory.Address);
       chai.assert.equal(textSection.text, "成都市温江区鱼凫路339号静水香榭");
     })
-    it.only("calc product quality similarity correctly 2", () => {
+    it("calc product quality similarity correctly 2", () => {
       let test: string = "1";
+      let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
+      chai.assert.equal(textSection.category, MessageSectionCategory.Quantity);
+      chai.assert.equal(textSection.text, "1");
+    })
+    it("calc product quality similarity correctly 3 with unit following", () => {
+      let test: string = "10瓶";
       let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
       console.log(textSection);
       chai.assert.equal(textSection.category, MessageSectionCategory.Quantity);
-      chai.assert.equal(textSection.text, "1");
+      chai.assert.equal(textSection.text, "10瓶");
     })
   })
 }

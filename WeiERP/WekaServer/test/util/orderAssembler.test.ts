@@ -120,7 +120,7 @@ describe("OrderAssembler Util", () => {
       chai.assert.strictEqual(orderAssembler.order.orderItems[1].product.productName, "VC泡腾片");
       chai.assert.strictEqual(orderAssembler.order.consigneeAddress, "四川省成都市温江区碧水新居12#");
     })
-    it.only("assemble the right order item when there is leading words for name with notation 2", () => {
+    it.skip("assemble the right order item when there is leading words for name with notation 2", () => {
       let test: string = "VC 泡腾 3 成都市温江区鱼凫路339号静水香榭 姓名：杨冰洁。     电话13551320222。";
       let orderAssembler = new OrderAssembler(test);
       //console.log(orderAssembler.messageAnalyst.result.rawTextSections);
@@ -130,6 +130,30 @@ describe("OrderAssembler Util", () => {
       chai.assert.strictEqual(orderAssembler.order.orderItems.length, 1);
       chai.assert.strictEqual(orderAssembler.order.orderItems[0].productQuantity, 3);
       chai.assert.strictEqual(orderAssembler.order.orderItems[0].product.productName, "VC泡腾");
+      chai.assert.strictEqual(orderAssembler.order.consigneeAddress, "成都市温江区鱼凫路339号静水香榭");
+    })
+    it("assemble the right order item when the commodity name and quanlity put together", () => {
+      let test: string = "VC泡腾片3瓶 成都市温江区鱼凫路339号静水香榭 姓名：杨冰洁。     电话13551320222。";
+      let orderAssembler = new OrderAssembler(test);
+      //console.log(orderAssembler.messageAnalyst.result.rawTextSections);
+      chai.assert.strictEqual(orderAssembler.order.rawMessage, test);
+      chai.assert.strictEqual(orderAssembler.order.consigneeName, "杨冰洁");
+      chai.assert.strictEqual(orderAssembler.order.consigneePhone, "13551320222");
+      chai.assert.strictEqual(orderAssembler.order.orderItems.length, 1);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].productQuantity, 3);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].product.productName, "VC泡腾片");
+      chai.assert.strictEqual(orderAssembler.order.consigneeAddress, "成都市温江区鱼凫路339号静水香榭");
+    })
+    it("assemble the right order item when the commodity name and quanlity put together without unit", () => {
+      let test: string = "VC泡腾片3 成都市温江区鱼凫路339号静水香榭 姓名：杨冰洁。     电话13551320222。";
+      let orderAssembler = new OrderAssembler(test);
+      //console.log(orderAssembler.messageAnalyst.result.rawTextSections);
+      chai.assert.strictEqual(orderAssembler.order.rawMessage, test);
+      chai.assert.strictEqual(orderAssembler.order.consigneeName, "杨冰洁");
+      chai.assert.strictEqual(orderAssembler.order.consigneePhone, "13551320222");
+      chai.assert.strictEqual(orderAssembler.order.orderItems.length, 1);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].productQuantity, 3);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].product.productName, "VC泡腾片");
       chai.assert.strictEqual(orderAssembler.order.consigneeAddress, "成都市温江区鱼凫路339号静水香榭");
     })
   })
