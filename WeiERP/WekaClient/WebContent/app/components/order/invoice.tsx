@@ -4,6 +4,7 @@ import { Order, OrderItem, Language, Product, User, TableAction, Consignee } fro
 import EditableSelect from "../elements/editableSelect";
 import DataUtils from "../../utils/dataUtils";
 import * as OrderActions from '../../actions/orderActions';
+import { State } from "../../reducers/reducerTypes";
 
 interface InvoiceProps {
   order: Order;
@@ -12,6 +13,7 @@ interface InvoiceProps {
   language: Language;
   user: User;
   dispatch: any;
+  state: State;
 }
 interface InvoiceState {
   formValidationMap: Map<any, boolean>;
@@ -145,9 +147,12 @@ export default class Invoice extends React.Component<InvoiceProps, InvoiceState>
   }
   
   handleBulkSplitAction() {
-    let {selectedOrderItems} = this.state;
-    let {dispatch,order} = this.props;
-    //dispatch(OrderActions.SPLIT_ORDER(order,selectedOrderItems))
+    let {dispatch,order,state} = this.props;
+		let {token} = state.appState;
+    let newOrder = {...order,id:null,_id:null};
+    order.orderItems = order.orderItems.filter((item:any)=>!item.selected);
+    newOrder.orderItems = newOrder.orderItems.filter((item:any)=>item.selected);
+    dispatch(OrderActions.SPLIT_ORDER(order, newOrder,token ))
   }
 
   handleSelectAll(event:any){

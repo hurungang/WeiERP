@@ -103,7 +103,7 @@ export default class OrderPage extends React.Component<OrderPageProps, {}>{
 								}
 							})}
 							{orderList&&!currentOrder?<OrderList orderList={orderList} onOrderRowClick={this.handleOrderRowClick.bind(this)} language={language} actions={tableActions}/>:""}
-							{currentOrder?< Invoice order={currentOrder} dispatch={dispatch} user={user} onClose={this.handleInvoiceCloseClick.bind(this)} onSave={this.handleOrderSave.bind(this, currentOrder)} language={language} />:""}
+							{currentOrder?< Invoice order={currentOrder} state={state} dispatch={dispatch} user={user} onClose={this.handleInvoiceCloseClick.bind(this)} onSave={this.handleOrderSave.bind(this, currentOrder)} language={language} />:""}
 							{/* show selected order detail(invoice)*/}
 						</div>
 					);

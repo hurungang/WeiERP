@@ -71,7 +71,11 @@ export default class OrderList extends React.Component<OrderListProps, OrderList
             }
 
         let filterOrderList = orderList.data.filter((order) => {
-            return ((!orderStatus || order.status === orderStatus) && startDate.isSameOrBefore(order.createTime) && endDate.isSameOrAfter(order.createTime));
+            return ((!orderStatus || order.status === orderStatus) 
+            && (
+                (!order.updateTime && startDate.isSameOrBefore(order.createTime) && endDate.isSameOrAfter(order.createTime))
+                ||             (order.updateTime && startDate.isSameOrBefore(order.updateTime) && endDate.isSameOrAfter(order.updateTime))
+            ));
         })
 
         return (

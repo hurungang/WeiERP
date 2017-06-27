@@ -47,3 +47,7 @@ export enum StatusCode{
   Paid,
   Printed
 }
+
+export enum ChangeTypes{
+  SplitOrder,
+}

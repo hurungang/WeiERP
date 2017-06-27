@@ -1,8 +1,7 @@
-import { HTTPStatusCode, StatusCode, ErrorCode } from './enums'
+import { HTTPStatusCode, StatusCode, ErrorCode, ChangeTypes } from './enums'
 import { Type } from "class-transformer"
 import 'reflect-metadata';
 import { Moment } from "moment/moment";
-import { ObjectID } from "mongodb";
 
 export class DataItem {
   id?:string;
@@ -20,7 +19,7 @@ export class APIResult {
 }
 
 export interface IOrder {
-  _id?: ObjectID;
+  _id?: any;
   id?: string;
   user: IUser;
   consigneeName: string;
@@ -38,12 +37,14 @@ export interface IOrder {
   rawMessage: string;
   orderItems: IOrderItem[];
   comments?: string;
+  updateTime?: Date;
+  isPaidUp?: boolean;
   isDeleted?: boolean;
   agent?: string;
 }
 
 export interface IOrderItem {
-  _id?: ObjectID;
+  _id?: any;
   id?: string;
   product: IProduct;
   productQuantity: number;
@@ -53,7 +54,7 @@ export interface IOrderItem {
 }
 
 export interface IProduct {
-  _id?: ObjectID;
+  _id?: any;
   id?: string;
   user: IUser;
   productName: string;
@@ -66,7 +67,7 @@ export interface IProduct {
   isDeleted?: boolean;
 }
 export interface IUser {
-  _id?: ObjectID;
+  _id?: any;
   id?: string;
   name: string;
   email?: string;
@@ -84,7 +85,7 @@ export interface IUser {
 }
 
 export interface IConsignee {
-  _id?: ObjectID;
+  _id?: any;
   id?: string;
   user: IUser;
   consigneeName: string;
@@ -96,7 +97,7 @@ export interface IConsignee {
 }
 
 export interface IManifest {
-  _id?: ObjectID;
+  _id?: any;
   id?: string;
   name: string;
   comments: string;
@@ -128,6 +129,9 @@ export class Order extends DataItem implements IOrder {
   @Type(() => OrderItem)
   orderItems: OrderItem[];
   comments?: string;
+  @Type(() => Date)
+  updateTime?: Date;
+  isPaidUp?: boolean;
   isDeleted?: boolean;
   agent?: string;
 
@@ -223,6 +227,11 @@ export interface BulkActionPayload{
   applyChange: any;
 }
 
+export interface ChangeActionPayload{
+  id:string;
+  type:ChangeTypes;
+  payload: any;
+}
 export type Environment = "production" | "development";
 
 export interface OAuthToken{

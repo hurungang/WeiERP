@@ -14,6 +14,7 @@ import {
     ADD_ORDER,
 } from '../actions/orderActions'
 import { GENERAL_ERROR, GENERAL_SUCCESS } from "../actions/appActions";
+import { plainToClass } from "class-transformer";
 
 export const INITIAL_ORDER_STATE : OrderState = {
 	currentOrder:null,
@@ -28,7 +29,7 @@ let orderReducer : Reducer<OrderState> = (state : OrderState = INITIAL_ORDER_STA
 	if(isType(action, GENERAL_ERROR)){
 		//
 		let {alerts} = newState;
-		let error:Error = action.payload;
+		let error:Error = plainToClass(Error,action.payload);
 		alerts.push(error);
 		newState = Object.assign({},state,{
 			alerts: alerts,

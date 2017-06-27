@@ -127,9 +127,15 @@ describe("MessageAnalyst Util", () => {
       let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
       chai.assert.equal(textSection.category, MessageSectionCategory.CommodityNameAndQuantity);
     })
-    it("calc commodity name and quantity similarity correctly 3", () => {
+    it("calc commodity name and quantity similarity correctly 5 - short", () => {
       let test: string = "VC泡腾";
       let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
+      chai.assert.equal(textSection.category, MessageSectionCategory.CommodityName);
+    })
+    it("calc commodity name and quantity similarity correctly 5 - no chinese", () => {
+      let test: string = "A23段";
+      let textSection = new TextSection(test,commonConfig.MESSAGE_ANALYST_CONFIG.ORDER_PATTERNS);
+      console.log(textSection);
       chai.assert.equal(textSection.category, MessageSectionCategory.CommodityName);
     })
     it("calc address similarity correctly", () => {

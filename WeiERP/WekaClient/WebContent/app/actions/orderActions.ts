@@ -9,6 +9,7 @@ import { plainToClass } from "class-transformer"
 import config from '../configs/config'
 import { GENERAL_ERROR, GENERAL_SUCCESS } from "./appActions";
 import DataUtils from "../utils/dataUtils"
+import { IOrder } from "WekaServer/model/models";
 
 export const LOAD_ORDER_LIST = (id: string, token:string) => {
   return dispatch => {
@@ -45,6 +46,13 @@ export const SHOW_ORDER_BY_ID = actionCreator<string>('SHOW_ORDER_BY_ID');
 export const CLOSE_CURRENT_ORDER = actionCreator<string>('CLOSE_CURRENT_ORDER');
 export const ADD_ORDER = actionCreator<Order>('ADD_ORDER');
 
+export const SPLIT_ORDER = (newOrder: IOrder, oldOrder: IOrder, token:string) => {
+  return dispatch => {
+    dispatch(SAVE_ORDER(newOrder,token));
+    dispatch(SAVE_ORDER(oldOrder,token));
+  }
+}
+
 export const BULK_CHANGE_ORDERS = (payload:BulkActionPayload, token:string) => {
   return dispatch => {
     dispatch(ORDER_PROCEEDING());
@@ -70,7 +78,7 @@ export const BULK_CHANGE_ORDERS = (payload:BulkActionPayload, token:string) => {
   }
 }
 
-export const SAVE_ORDER = (order: Order, token: string) => {
+export const SAVE_ORDER = (order: IOrder, token: string) => {
   return dispatch => {
     dispatch(ORDER_PROCEEDING());
     const request = axios.post(config.runtime.api.order,order,DataUtils.buildJWTAxiosData(token));
@@ -96,7 +104,7 @@ export const SAVE_ORDER = (order: Order, token: string) => {
   }
 };
 
-export const SPLIT_ORDER = (order: Order, token: string) => {
+export const CHANGE_ORDER = (order: IOrder, token: string) => {
   return dispatch => {
     dispatch(ORDER_PROCEEDING());
     const request = axios.put(config.runtime.api.order,order,DataUtils.buildJWTAxiosData(token));
@@ -104,9 +112,9 @@ export const SPLIT_ORDER = (order: Order, token: string) => {
       .then(response => {
         let result: APIResult = response.data as APIResult;
         if(result.successful){
-          let savedOrder: Order = plainToClass(Order,result.payload as Order);
+          let orderList: DataList<Order> = new DataList<Order>(Order, result.payload);
 
-          dispatch(SAVE_ORDER_RECEIVED(savedOrder));
+          dispatch(LOAD_ORDER_LIST_RECEIVED(orderList));
         }else{
           let error: Error = { errorCode: ClientErrorCode.ORDER_API_ERROR,serverErrorCode: result.errorCode, errorDetail: result.errorMessage };
           dispatch(GENERAL_ERROR(error));

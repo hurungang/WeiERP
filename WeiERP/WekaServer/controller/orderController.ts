@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { APIResult, BulkActionPayload, Consignee, IOrder, IProduct, OAuthToken } from '../model/models';
+import { APIResult, BulkActionPayload, Consignee, IOrder, IProduct, OAuthToken, ChangeActionPayload } from '../model/models';
 import { IOrderModel, OrderDAO, IProductModel, ProductDAO, ConsigneeDAO } from '../model/schemas';
 import { IController, Controller } from './controller';
 import * as StringSimilarity from 'string-similarity'
@@ -42,6 +42,7 @@ export default class OrderController extends Controller implements IController {
   public change(req: express.Request, res: express.Response, next: express.Next) {
     this.safeHandle(req, res, next,
       (req: express.Request, res: express.Response, next: express.Next, result: APIResult) => {
+          let change : ChangeActionPayload = req.body;
           result = this.unauthorizedRequest(result);
           this.handleResult(res, next, result);
       });
@@ -150,6 +151,8 @@ export default class OrderController extends Controller implements IController {
       })
       .then(()=>{
           let query = { '_id': newOrder.id?newOrder.id:new ObjectID() };
+          delete newOrder._id;
+          newOrder.updateTime = new Date();
           return OrderDAO.findOneAndUpdate(query, newOrder, { upsert: true, new: true })
             .populate("user").populate("orderItems.product");
       })

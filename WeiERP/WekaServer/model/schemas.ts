@@ -7,7 +7,7 @@ let orderItemSchema: mongoose.Schema = new mongoose.Schema({
   productCost: Number,
   productOrderPrice: Number,
   isDeleted: Boolean,
-});
+},{ versionKey: false });
 
 let orderSchema: mongoose.Schema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
@@ -28,8 +28,10 @@ let orderSchema: mongoose.Schema = new mongoose.Schema({
   orderItems: [orderItemSchema],
   comments: String,
   agent: String,
+  updateTime: Date,
+  isPaidUp: Boolean,
   isDeleted: Boolean,
-});
+},{ versionKey: false });
 
 let consigneeSchema: mongoose.Schema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
@@ -39,7 +41,7 @@ let consigneeSchema: mongoose.Schema = new mongoose.Schema({
   createTime: Date,
   isAgent: Boolean,
   isDeleted: Boolean,
-})
+},{ versionKey: false })
 
 let productSchema: mongoose.Schema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
@@ -52,7 +54,7 @@ let productSchema: mongoose.Schema = new mongoose.Schema({
   createTime: Date,
   stock: Number,
   isDeleted: Boolean,
-});
+},{ versionKey: false });
 
 let userSchema: mongoose.Schema = new mongoose.Schema({
   name: String,
@@ -68,7 +70,7 @@ let userSchema: mongoose.Schema = new mongoose.Schema({
   consignees: [consigneeSchema],
   products: [productSchema],
   isDeleted: Boolean,
-});
+},{ versionKey: false });
 
 let manifestSchema: mongoose.Schema = new mongoose.Schema({
   name: String,
@@ -76,7 +78,7 @@ let manifestSchema: mongoose.Schema = new mongoose.Schema({
   createTime: Date,
   shipTime: Date,
   isDeleted: Boolean,
-})
+},{ versionKey: false })
 
 
 orderItemSchema.virtual('id').get(function(){return this._id.toHexString()});

@@ -18,6 +18,7 @@ import {APP_TOGGLE_MENU,
 import {Reducer,AppState} from './reducerTypes';
 import config from '../configs/config'
 import { Error, User, Success } from '../models/modelTypes';
+import { plainToClass } from "class-transformer";
 
 const defaultLanguage = config.localization.defaultLanguage;
 
@@ -36,7 +37,7 @@ let appReducer : Reducer<AppState> = (state : AppState = INITIAL_APP_STATE, acti
 	if(isType(action, GENERAL_ERROR)){
 		//
 		let {alerts} = newState;
-		let error:Error = action.payload;
+		let error:Error = plainToClass(Error,action.payload);
 		alerts.push(error);
 		newState = Object.assign({},state,{
 			alerts: alerts,

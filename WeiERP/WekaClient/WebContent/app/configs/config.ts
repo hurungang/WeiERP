@@ -1,6 +1,6 @@
 import { Config, Language, Localization, OrderItem, ErrorCode } from '../models/modelTypes';
 import * as moment from 'moment';
-import { ClientErrorCode } from "../models/enums";
+import { ClientErrorCode, SuccessCode } from "../models/enums";
 import TextFormater from "../utils/textFormater";
 import { StatusCode } from "WekaServer/model/enums";
 import * as dateFormater from 'dateformat'
@@ -105,9 +105,10 @@ Chinese.textPackage.orderExportHeader = {
     consigneeName: Chinese.textPackage.order.consigneeName,
     consigneeAddress: Chinese.textPackage.order.consigneeAddress,
     consigneePhone: Chinese.textPackage.order.consigneePhone,
-    orderItems:  {label: Chinese.textPackage.order.orderItems, callback: (value: OrderItem[]) => value.reduce((valueString:string,orderItem:OrderItem)=>{
-        return `${valueString} \r\n ${orderItem.product.productName} - [${orderItem.productQuantity}]`;
-    },"")
+    orderItems: {
+        label: Chinese.textPackage.order.orderItems, callback: (value: OrderItem[]) => value.reduce((valueString: string, orderItem: OrderItem) => {
+            return `${valueString} \r\n ${orderItem.product.productName} - [${orderItem.productQuantity}]`;
+        }, "")
     },
     status: { label: Chinese.textPackage.order.status, callback: (value) => Chinese.textPackage.order.statuses[value] },
     createTime: { label: Chinese.textPackage.order.createTime, callback: (value) => dateFormater(value, Chinese.timeFormat) },
@@ -116,7 +117,12 @@ Chinese.textPackage.orderExportHeader = {
 Chinese.textPackage.orderHeader = {
     //id: Chinese.textPackage.order.id,
     consigneeName: Chinese.textPackage.order.consigneeName,
-    consigneeAddress: Chinese.textPackage.order.consigneeAddress,
+    orderItems: {
+        label: Chinese.textPackage.order.orderItems, callback: (value: OrderItem[]) => value.reduce((valueString: string, orderItem: OrderItem) => {
+            return `${valueString} \r\n ${orderItem.product.productName} - [${orderItem.productQuantity}]`;
+        }, "")
+    },
+    //consigneeAddress: Chinese.textPackage.order.consigneeAddress,
     consigneePhone: Chinese.textPackage.order.consigneePhone,
     status: { label: Chinese.textPackage.order.status, callback: (value) => Chinese.textPackage.order.statuses[value] },
     createTime: { label: Chinese.textPackage.order.createTime, callback: (value) => dateFormater(value, Chinese.timeFormat) },
@@ -163,7 +169,7 @@ Chinese.textPackage.errorMessage = {
     [ClientErrorCode.ORDER_API_ERROR]: "订单接口错误",
     [ClientErrorCode.USER_INVALID_ERROR]: "用户验证失败,请检查用户名密码",
     [ClientErrorCode.USER_API_ERROR]: "用户接口错误",
-    [ErrorCode.OrderBulkUpdateFailed]: "订单批量更新时发生内部错误",
+    [ErrorCode[ErrorCode.OrderBulkUpdateFailed]]: "订单批量更新时发生内部错误",
     [ErrorCode.OrderCreateAssigneeFailed]: "订单操作中创建收货人存档时发生内部错误",
     [ErrorCode.OrderCreateProductFailed]: "订单操作中创建商品存档时发生内部错误",
     [ErrorCode.OrderDeleteFailed]: "订单删除时发生内部错误",
@@ -177,7 +183,10 @@ Chinese.textPackage.errorMessage = {
     [ErrorCode.UserGetFailed]: "查询用户时发生内部错误",
     [ErrorCode.UserListFailed]: "批量查询用户时发生内部错误",
     [ErrorCode.UserUpdateFailed]: "更新用户信息时发生内部错误",
-    [ErrorCode.UnauthorizedRequest]:"用户无权进行此操作",
+    [ErrorCode.UnauthorizedRequest]: "用户无权进行此操作",
+    [SuccessCode.ORDER_SAVE_SUCCESS]: "订单保存成功",
+    [SuccessCode.ORDER_DELETE_SUCCESS]: "订单删除成功",
+    [SuccessCode.ORDER_CHANGE_SUCCESS]: "订单变动成功",
 }
 
 Chinese.textPackage.timeRangePicker = {

@@ -156,6 +156,38 @@ describe("OrderAssembler Util", () => {
       chai.assert.strictEqual(orderAssembler.order.orderItems[0].product.productName, "VC泡腾片");
       chai.assert.strictEqual(orderAssembler.order.consigneeAddress, "成都市温江区鱼凫路339号静水香榭");
     })
+    it("assemble the right order item when the quantity is before the commodity", () => {
+      let test: string = "3瓶 VC泡腾片 成都市温江区鱼凫路339号静水香榭 姓名：杨冰洁。     电话13551320222。";
+      let orderAssembler = new OrderAssembler(test);
+      //console.log(orderAssembler.messageAnalyst.result.rawTextSections);
+      chai.assert.strictEqual(orderAssembler.order.rawMessage, test);
+      chai.assert.strictEqual(orderAssembler.order.consigneeName, "杨冰洁");
+      chai.assert.strictEqual(orderAssembler.order.consigneePhone, "13551320222");
+      chai.assert.strictEqual(orderAssembler.order.orderItems.length, 1);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].productQuantity, 3);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].product.productName, "VC泡腾片");
+      chai.assert.strictEqual(orderAssembler.order.consigneeAddress, "成都市温江区鱼凫路339号静水香榭");
+    })
+    it("assemble the right order item for short message - 1", () => {
+      let test: string = "张颖 a23段 12罐";
+      let orderAssembler = new OrderAssembler(test);
+      console.log(orderAssembler.messageAnalyst.result.rawTextSections);
+      chai.assert.strictEqual(orderAssembler.order.rawMessage, test);
+      chai.assert.strictEqual(orderAssembler.order.consigneeName, "张颖");
+      chai.assert.strictEqual(orderAssembler.order.orderItems.length, 1);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].productQuantity, 12);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].product.productName, "a23段");
+    })
+    it("assemble the right order item for short message - 2", () => {
+      let test: string = "张颖 12 a2三段";
+      let orderAssembler = new OrderAssembler(test);
+      console.log(orderAssembler.messageAnalyst.result.rawTextSections);
+      chai.assert.strictEqual(orderAssembler.order.rawMessage, test);
+      chai.assert.strictEqual(orderAssembler.order.consigneeName, "张颖");
+      chai.assert.strictEqual(orderAssembler.order.orderItems.length, 1);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].productQuantity, 12);
+      chai.assert.strictEqual(orderAssembler.order.orderItems[0].product.productName, "a2三段");
+    })
   })
 
 }

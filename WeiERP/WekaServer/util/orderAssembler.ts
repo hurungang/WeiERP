@@ -57,13 +57,15 @@ export default class OrderAssembler {
                 tempOrderItems.push(tempOrderItem);
             }
         }
+        let n=0;
         for (let i = 0; i < commodities.length; i++) {
             let tempProduct: Product = new Product();
             tempProduct.productName = commodities[i].text;
             let tempQuantity = 1;
-            for (let commodityQuantity of commodityQuantities) {
-                if (commodityQuantity.index == commodities[i].index + 1) {
-                    tempQuantity = parseInt(commodityQuantity.text);
+            for (let j = n; j<commodityQuantities.length; j++) {
+                if (commodityQuantities[j].index == commodities[i].index + 1 ||commodityQuantities[j].index == commodities[i].index - 1) {
+                    tempQuantity = parseInt(commodityQuantities[j].text);
+                    n++;
                 }
             }
             let tempOrderItem: OrderItem = new OrderItem();
