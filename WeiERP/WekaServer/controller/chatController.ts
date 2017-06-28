@@ -260,11 +260,18 @@ export default class ChatController extends Controller {
     let globalOAuthTokens: Map<string, OAuthToken> = req.app.get("GlobalOAuthTokens");
     newOrder
       .save()
-      .then((order: IOrderModel) => {
-        result.payload = order;
+      .then((savedOrder: IOrderModel) => {
+        if(savedOrder){
+          return OrderDAO.populate(savedOrder,"user orderItems.product");
+        }else{
+          return Promise.reject("save failed");
+        }
+      })
+      .then((savedOrder: IOrderModel) => {
+        result.payload = savedOrder;
 
-        globalOAuthTokens.set(DataUtil.encrypt(order.user.referenceID), { token: DataUtil.encrypt(order.user.referenceID), user: order.user, expiredAfter: moment().add(30, "m") });
-        res.reply(messageConfig.ORDER_REPLY(order));
+        globalOAuthTokens.set(DataUtil.encrypt(savedOrder.user.referenceID), { token: DataUtil.encrypt(savedOrder.user.referenceID), user: savedOrder.user, expiredAfter: moment().add(30, "m") });
+        res.reply(messageConfig.ORDER_REPLY(savedOrder));
       })
       .catch((err: string) => {
         result = this.internalError(result, ErrorCode.ChatSaveOrderFailed, err);
